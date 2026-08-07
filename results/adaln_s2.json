@@ -1,0 +1,22 @@
+{
+  "arm": "adaln",
+  "seed": 2,
+  "epochs_run": 50,
+  "n_params_total": 349535874,
+  "n_params_injection": 25331200,
+  "minutes": 214.7,
+  "best_ckpt": "C:\\Users\\aliso\\Desktop\\big-files\\injection-routing\\runs\\adaln_s2\\best.ckpt",
+  "val": {
+    "val/loss": 0.15330471098423004,
+    "val/Accuracy": 0.9241230487823486,
+    "val/Boundary_mIoU": 0.3643350601196289,
+    "val/Class_Accuracy_0": 0.9608839154243469,
+    "val/Class_Accuracy_1": 0.8873621225357056,
+    "val/F1_Score": 0.9263027906417847,
+    "val/IoU_0": 0.9184102416038513,
+    "val/IoU_1": 0.8101766109466553,
+    "val/Pixel_Accuracy": 0.9394837617874146,
+    "val/mIoU": 0.8642934560775757,
+    "val/mIoU_Micro": 0.8858740329742432
+  }
+}

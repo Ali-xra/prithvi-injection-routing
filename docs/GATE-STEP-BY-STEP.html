@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8">
+<title>دریچه — گام به گام با عدد</title>
+<style>
+ body{font-family:"Segoe UI",Tahoma,sans-serif;background:#0e1116;color:#e6e8ec;
+      margin:0;padding:1.6em;line-height:1.95;font-size:16px}
+ .wrap{max-width:60em;margin:0 auto}
+ h1{font-size:1.6em;margin:0 0 .1em}
+ .sub{color:#858b98;font-size:.92em;margin-bottom:1.6em}
+ h2{font-size:1.18em;margin:2.2em 0 .5em;color:#8fc0ff;
+    border-right:4px solid #2f6fbf;padding-right:.6em}
+ p{margin:.75em 0;text-align:justify}
+ .stage{background:#151922;border:1px solid #242a36;border-radius:14px;
+        padding:1.2em 1.4em;margin:1.2em 0}
+ .nav{display:flex;gap:.5em;align-items:center;margin-bottom:1em;flex-wrap:wrap}
+ button{font-family:inherit;font-size:.95em;padding:.45em 1.1em;border-radius:8px;
+        border:1px solid #333a48;background:#1b2029;color:#cfd4de;cursor:pointer}
+ button:hover{background:#232935}
+ button:disabled{opacity:.35;cursor:default}
+ .step-no{background:#2f6fbf;color:#fff;border-radius:20px;padding:.15em .9em;
+          font-size:.88em;margin-left:.6em}
+ .title{font-size:1.12em;color:#ffd9a8;font-weight:bold;margin:.3em 0 .5em}
+ .math{direction:ltr;text-align:left;font-family:Consolas,monospace;font-size:.93em;
+       background:#0a0d12;border:1px solid #242a36;border-radius:7px;
+       padding:.7em 1em;margin:.7em 0;color:#9fd6a0;white-space:pre-wrap;overflow-x:auto}
+ .why{background:#141c2b;border-right:4px solid #3a6fb0;border-radius:8px;
+      padding:.7em 1em;margin:.7em 0;font-size:.95em}
+ .warn{background:#241a1a;border:1px solid #4a2b2b;border-right:4px solid #b95050;
+       border-radius:9px;padding:.9em 1.2em;margin:1.1em 0}
+ .ok{background:#152318;border:1px solid #26402c;border-right:4px solid #3f9f5f;
+     border-radius:9px;padding:.9em 1.2em;margin:1.1em 0}
+ svg{width:100%;height:auto;display:block;margin:.4em 0}
+ table{border-collapse:collapse;width:100%;margin:.9em 0;font-size:.9em}
+ th,td{border:1px solid #2a2f3b;padding:.35em .6em;text-align:right}
+ th{background:#1b2029}
+ code{background:#1b2029;padding:.06em .3em;border-radius:4px;direction:ltr;
+      display:inline-block;font-size:.9em}
+ .bar{height:10px;background:#2f6fbf;border-radius:3px;display:inline-block;
+      vertical-align:middle}
+ @media print{body{background:#fff;color:#111}
+  .stage,.math,.why,.warn,.ok{background:#fff;border-color:#bbb;color:#111}
+  button{display:none}}
+</style></head><body><div class="wrap">
+
+<h1>دریچه — گام به گام، با عدد واقعی</h1>
+<p class="sub">جواب دقیق چهار سؤال: از کجا می‌فهمد؟ چطور تنظیمش می‌کند؟ چطور اضافه
+می‌کند؟ به کدام عدد اضافه می‌شود؟<br>
+هر گام یک عمل ریاضی است — نه استعاره. اعداد نمونه‌اند مگر جایی که «اندازه‌گیری‌شده»
+نوشته باشم.</p>
+
+<h2>قبل از هر چیز: کل مسیر در یک خط</h2>
+
+<div class="math">g = W2 · SiLU( W1 · mean(patch_tokens) + b1 ) + b2      # یک عدد
+loc = sincos(lon, lat)                                  # ۱۹۲ عدد ثابت
+x[b, t, d] += g[b] * loc[b, d]        برای t = 0..64 ، d = 0..191</div>
+
+<p>همین. سه خط. بقیهٔ این صفحه توضیح می‌دهد هر کدام <b>یعنی چه</b>.</p>
+
+<h2>گام‌به‌گام</h2>
+
+<div class="stage">
+ <div class="nav">
+  <button id="prev" onclick="go(-1)">◀ قبلی</button>
+  <button id="next" onclick="go(1)">بعدی ▶</button>
+  <span class="step-no" id="sno"></span>
+  <span id="stitle" style="color:#9aa1ae;font-size:.9em"></span>
+ </div>
+ <div id="body"></div>
+</div>
+
+<h2>و حالا سؤالی که هنوز جواب نگرفته: «از کجا می‌فهمد؟»</h2>
+
+<p>جواب کوتاه: <b>هیچ‌کس به آن نگفته.</b> وزن‌های <code>W1</code> و <code>W2</code>
+با آموزش پیدا می‌شوند، دقیقاً مثل بقیهٔ وزن‌های شبکه. مکانیزمش این است:</p>
+
+<div class="stage">
+<svg viewBox="0 0 820 260" xmlns="http://www.w3.org/2000/svg">
+ <defs><marker id="fw" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+   <path d="M0,0 L0,6 L7,3 z" fill="#4a8ad8"/></marker>
+  <marker id="bw" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+   <path d="M0,0 L0,6 L7,3 z" fill="#e08080"/></marker></defs>
+
+ <text x="410" y="20" fill="#8fc0ff" font-size="13" text-anchor="middle">رو به جلو</text>
+ <g fill="#1c2430" stroke="#38414f">
+  <rect x="30" y="34" width="120" height="42" rx="7"/>
+  <rect x="200" y="34" width="120" height="42" rx="7"/>
+  <rect x="370" y="34" width="120" height="42" rx="7"/>
+  <rect x="540" y="34" width="120" height="42" rx="7"/>
+  <rect x="700" y="34" width="90" height="42" rx="7"/></g>
+ <g fill="#cfd4de" font-size="11.5" text-anchor="middle">
+  <text x="90" y="60">تصویر</text><text x="260" y="60">g = ۰٫۳۱</text>
+  <text x="430" y="53">مکان × g</text><text x="430" y="70">به توکن‌ها</text>
+  <text x="600" y="60">۶ بلوک</text><text x="745" y="60">پیش‌بینی</text></g>
+ <g stroke="#4a8ad8" stroke-width="2" marker-end="url(#fw)" fill="none">
+  <path d="M154,55 L196,55"/><path d="M324,55 L366,55"/>
+  <path d="M494,55 L536,55"/><path d="M664,55 L696,55"/></g>
+
+ <rect x="640" y="100" width="150" height="40" rx="7" fill="#2a1a1a" stroke="#5a3030"/>
+ <text x="715" y="118" fill="#e8a0a0" font-size="11.5" text-anchor="middle">خطا</text>
+ <text x="715" y="134" fill="#b98080" font-size="10" text-anchor="middle">
+   Forest ولی گفت Pasture</text>
+ <path d="M745,80 L745,96" stroke="#e08080" stroke-width="2" marker-end="url(#bw)"/>
+
+ <text x="410" y="172" fill="#e08080" font-size="13" text-anchor="middle">
+   رو به عقب — گرادیان</text>
+ <g stroke="#e08080" stroke-width="2" marker-end="url(#bw)" fill="none"
+    stroke-dasharray="6 4">
+  <path d="M700,150 L560,150"/><path d="M530,150 L450,150"/>
+  <path d="M410,150 L290,150"/><path d="M260,150 L260,84"/></g>
+
+ <text x="410" y="205" fill="#9aa1ae" font-size="11.5" text-anchor="middle">
+   «اگر g کمی بزرگ‌تر بود، خطا کمتر می‌شد» → ∂L/∂g منفی</text>
+ <text x="410" y="228" fill="#9aa1ae" font-size="11.5" text-anchor="middle">
+   → وزن‌های gate_net طوری جابه‌جا می‌شوند که برای <b>تصویرهای شبیه این</b>
+   خروجی بزرگ‌تری بدهند</text>
+ <text x="410" y="250" fill="#7fd6a0" font-size="11.5" text-anchor="middle">
+   و این در ۶۲ گام × ۳۰ دور، ۱۸۶۰ بار تکرار می‌شود</text>
+</svg>
+</div>
+
+<div class="why"><b>نکتهٔ کلیدی که همه‌چیز را روشن می‌کند:</b> گرادیان به
+<code>gate_net</code> نمی‌گوید «این عکس گنگ است». می‌گوید «<b>برای این ورودی</b>،
+خروجی بزرگ‌تر خطا را کم می‌کرد». <code>gate_net</code> هیچ مفهومی از «گنگی»
+ندارد — فقط یاد می‌گیرد کدام الگو در بردار میانگینِ تصویر با «سود بردن از مکان»
+همبستگی دارد.<br><br>
+<b>و دقیقاً به همین دلیل است که ادعای ما رد شد.</b> ما فرض کرده بودیم آن الگو
+«عدم‌قطعیت» خواهد بود. اندازه‌گیری گفت الگویی که پیدا کرد چیز دیگری است — چیزی
+که با <i>اطمینان</i> همبستگی مثبت دارد.</div>
+
+<h2>سه چیزی که دریچه <u>نیست</u></h2>
+
+<table>
+<tr><th>تصور غلط</th><th>واقعیت</th></tr>
+<tr><td>«دریچه انتخاب می‌کند مکان وارد شود یا نه»</td>
+    <td>مکان <b>همیشه</b> وارد می‌شود. دریچه فقط ضریبش را عوض می‌کند. اگر
+    <code>g = 0</code> شود مکان خاموش می‌شود، ولی هرگز صفر نشد — کمینهٔ
+    اندازه‌گیری‌شده ۰٫۲۲ است.</td></tr>
+<tr><td>«دریچه برای هر بُعد یک ضریب می‌سازد»</td>
+    <td>نه. <b>یک عدد</b> برای کل بردار ۱۹۲تایی. اگر برای هر بُعد یک ضریب
+    می‌ساخت، می‌شد چیزی شبیه FiLM — که بازوی دیگری است.</td></tr>
+<tr><td>«دریچه برای هر توکن فرق می‌کند»</td>
+    <td>نه. یک <code>g</code> برای کل تصویر. همان عدد به هر ۶۵ توکن اعمال
+    می‌شود. تفاوت بین توکن‌ها صفر است.</td></tr>
+</table>
+
+<h2>و آنچه واقعاً اندازه گرفتیم</h2>
+
+<div class="ok"><b>مقدار اولیه:</b> ۰٫۱ (عمداً برابر با بازوی <code>add</code>)<br>
+<b>دامنهٔ بعد از آموزش:</b> [۰٫۱۴ ، ۱٫۳۰] — حدود <b>نُه برابر</b> در پهن‌ترین
+بذر و حدود سه برابر در بذر میانه. پس مدل واقعاً از آزادی‌اش استفاده می‌کند و
+دریچه بی‌کار نیست.
+<br><br>🔴 <b>تصحیح ۶ اوت:</b> قبلاً اینجا [۰٫۲۲ ، ۲٫۵۲] و «ده برابر» نوشته بود.
+آن بیشینه از <b>۱۴۲ چیپ تقریباً سیاه</b> می‌آمد (سنجش ۲۱). خودِ یافته سرِ جایش
+است — همبستگی ۰٫۹۰− با حذف آن چیپ‌ها به ۰٫۸۷− می‌رسد — ولی عددِ دامنه باد کرده بود.</div>
+
+<div class="warn"><b>ولی جهتش برعکس ادعاست.</b> همبستگی <code>g</code> با اطمینان
+مدل به تصویر، در هر <b>پنج</b> بذر مثبت است؛ میانگین <b>r = +۰٫۱۱۸</b>.
+پیش‌ثبت جهت منفی را پیش‌بینی کرده بود. هر پنج بذر هم‌جهت‌اند، پس این نویز نیست.</div>
+
+<div class="warn"><b>و نمره‌اش:</b> دریچه ۷۷٫۰۲ در برابر <code>add</code> ۷۷٫۳۵ در
+امتحان تمیز. اختلاف ۰٫۳۳، آستانه ۰٫۹۶. یعنی <b>۹٬۳۱۳ پارامتر اضافه هیچ
+نخرید</b> — و از عدد یک‌پارامتری کمی هم پایین‌تر افتاد.</div>
+
+<h2>سؤالی که هنوز باز است</h2>
+
+<p>اگر دریچه ده برابر تغییر می‌کند ولی نمره را بهتر نمی‌کند و مکانیزم ادعایی هم
+غلط است — <b>دارد چه می‌کند؟</b></p>
+
+<p>سه فرضیهٔ آزمون‌نشده: (۱) دارد یک <i>مقیاس‌بندی وابسته به کلاس</i> یاد می‌گیرد
+— مثلاً برای دریا همیشه پایین و برای شهر همیشه بالا، که با اطمینان همبسته است ولی
+علت آن نیست. (۲) دارد نقش <i>منظم‌ساز</i> بازی می‌کند و نویزِ وابسته به ورودی
+تزریق می‌کند. (۳) خروجی‌اش با یک ویژگی سادهٔ تصویر — مثلاً میانگین بازتاب رادار —
+همبسته است و ربطی به کار ندارد.</p>
+
+<p>هیچ‌کدام را نسنجیده‌ایم. <b>و این جواب درست به سؤال «مکانیزمش چیست»
+است: «نمی‌دانم، و اینجا سه چیزی است که برای فهمیدنش می‌شود اندازه گرفت.»</b>
+هر سه با یک اجرای موجود و بدون GPU جدید قابل سنجش‌اند.</p>
+
+<script>
+function cells(vals, x0, y0, w, colFn, lbl){
+  let s='';
+  vals.forEach((v,i)=>{
+    s+=`<rect x="${x0+i*(w+3)}" y="${y0}" width="${w}" height="${w}" rx="3"
+         fill="${colFn(v)}" stroke="#2a3140"/>`;
+    if(w>=30) s+=`<text x="${x0+i*(w+3)+w/2}" y="${y0+w/2+4}" fill="#0e1116"
+         font-size="10" text-anchor="middle">${v}</text>`;
+  });
+  if(lbl) s+=`<text x="${x0-10}" y="${y0+w/2+4}" fill="#9aa1ae" font-size="11"
+       text-anchor="end">${lbl}</text>`;
+  return s;
+}
+const blue=v=>`hsl(212,55%,${45+Math.max(-35,Math.min(35,v*35))}%)`;
+const green=v=>`hsl(140,45%,${45+Math.max(-35,Math.min(35,v*35))}%)`;
+
+const STEPS=[
+{t:"تصویر به ۶۴ توکن تبدیل می‌شود",
+ svg:`<svg viewBox="0 0 800 150">
+  <rect x="20" y="30" width="80" height="80" rx="6" fill="#1c2430" stroke="#38414f"/>
+  <text x="60" y="126" fill="#9aa1ae" font-size="11" text-anchor="middle">۲×۶۴×۶۴</text>
+  <path d="M110,70 L160,70" stroke="#5c6472" stroke-width="2"/>
+  <text x="135" y="58" fill="#6f7787" font-size="10" text-anchor="middle">برش ۸×۸</text>
+  ${[0,1,2,3].map(i=>`<g>${cells([0.4,-0.2,0.9,0.1,-0.6,0.3],180,26+i*22,18,blue)}</g>`).join('')}
+  <text x="330" y="126" fill="#9aa1ae" font-size="11">۶۴ توکن × ۱۹۲ عدد</text>
+ </svg>`,
+ m:`x = stem(img).flatten(2).transpose(1,2)   # (B, 64, 192)`,
+ w:"هر تکهٔ ۸×۸ پیکسل از دو کانال رادار، با یک لایهٔ کانولوشن به بردار ۱۹۲تایی تبدیل می‌شود. این ۱۹۲ عدد «توصیف» آن تکه‌اند. توکن CLS هم جلوی صف اضافه می‌شود و می‌شود ۶۵."},
+
+{t:"میانگین ۶۴ توکن → یک بردار ۱۹۲تایی",
+ svg:`<svg viewBox="0 0 800 170">
+  ${[0,1,2,3].map(i=>`<g opacity="${0.45+i*0.05}">${cells([0.4,-0.2,0.9,0.1,-0.6,0.3],120,18+i*20,16,blue)}</g>`).join('')}
+  <text x="110" y="60" fill="#9aa1ae" font-size="11" text-anchor="end">۶۴ توکن</text>
+  <path d="M240,55 L240,100" stroke="#f0a55e" stroke-width="2"/>
+  <text x="290" y="82" fill="#f0a55e" font-size="12">میانگین ستونی</text>
+  ${cells([0.38,-0.11,0.72,0.05,-0.44,0.27],120,110,34,blue,"خلاصهٔ تصویر")}
+  <text x="360" y="133" fill="#6f7787" font-size="11">… تا ۱۹۲</text>
+ </svg>`,
+ m:`img_summary = x[:, 1:].mean(dim=1)     # (B, 192)`,
+ w:"⚠️ توجه: میانگین روی <b>توکن‌های تصویر</b> گرفته می‌شود، نه روی CLS. کد <code>x[:, 1:]</code> یعنی توکن صفر (CLS) کنار گذاشته می‌شود. دلیلش این است که CLS در ابتدا هنوز چیزی یاد نگرفته و صرفاً یک پارامتر آموخته‌شدنی است — میانگین‌گیری روی آن، اطلاعات تصویر را رقیق می‌کرد."},
+
+{t:"لایهٔ اول gate_net — ۱۹۲ عدد به ۴۸ عدد",
+ svg:`<svg viewBox="0 0 800 200">
+  ${cells([0.38,-0.11,0.72,0.05],120,20,34,blue,"ورودی")}
+  <text x="290" y="42" fill="#6f7787" font-size="11">… ۱۹۲ عدد</text>
+  <g stroke="#3a6fb0" stroke-width="1" opacity=".55">
+   ${[0,1,2,3].map(i=>[0,1,2].map(j=>
+     `<line x1="${137+i*37}" y1="58" x2="${160+j*60}" y2="118"/>`).join('')).join('')}
+  </g>
+  <text x="470" y="90" fill="#8fc0ff" font-size="11">هر خط = یک وزن یادگرفتنی</text>
+  ${cells([0.51,-0.08,0.33],150,118,34,green,"۴۸ خروجی")}
+  <text x="330" y="140" fill="#6f7787" font-size="11">… ۴۸ عدد</text>
+  <text x="120" y="180" fill="#9fd6a0" font-size="12">
+    h[j] = Σ W1[j,i]·in[i] + b1[j]   ← فقط ضرب و جمع</text>
+ </svg>`,
+ m:`nn.Linear(192, 48)      # W1: 48×192 = 9216 وزن  +  48 بایاس`,
+ w:"این «فهمیدن» نیست، ضرب ماتریسی است. هر یک از ۴۸ خروجی، یک <b>جمع وزن‌دار</b> از هر ۱۹۲ ورودی است. آن ۹۲۱۶ وزن در آموزش پیدا می‌شوند — و همان‌جاست که هر «دانشی» که دریچه دارد ذخیره شده."},
+
+{t:"SiLU — خم‌کردن خط",
+ svg:`<svg viewBox="0 0 800 190">
+  <line x1="80" y1="150" x2="620" y2="150" stroke="#3a4150"/>
+  <line x1="350" y1="20" x2="350" y2="170" stroke="#3a4150"/>
+  <path d="M80,152 L200,153 L280,155 L330,150 L350,144 L400,120 L470,80 L560,32 L620,10"
+        stroke="#7fd6a0" stroke-width="2.5" fill="none"/>
+  <path d="M80,150 L350,150 L620,10" stroke="#5c6472" stroke-width="1.5"
+        stroke-dasharray="5 4" fill="none"/>
+  <text x="660" y="30" fill="#7fd6a0" font-size="11">SiLU</text>
+  <text x="660" y="52" fill="#8b8f9a" font-size="11">ReLU (برای مقایسه)</text>
+  <text x="350" y="185" fill="#9aa1ae" font-size="11" text-anchor="middle">
+    ورودی منفی کاملاً صفر نمی‌شود — کمی عبور می‌کند</text>
+ </svg>`,
+ m:`SiLU(z) = z · sigmoid(z)`,
+ w:"بدون این خم، دو لایهٔ خطیِ پشت سر هم دقیقاً معادل <b>یک</b> لایهٔ خطی‌اند و کل <code>gate_net</code> به یک ضرب ساده فرو می‌ریزد. این تابع تنها چیزی است که به دریچه اجازه می‌دهد رفتار غیرخطی داشته باشد — یعنی برای الگوهای مختلف تصویر، جواب‌هایی بدهد که با یک خط قابل توصیف نیستند."},
+
+{t:"لایهٔ دوم — ۴۸ عدد به یک عدد. این همان g است.",
+ svg:`<svg viewBox="0 0 800 170">
+  ${cells([0.51,-0.08,0.33],150,25,34,green,"۴۸ عدد")}
+  <text x="330" y="47" fill="#6f7787" font-size="11">…</text>
+  <g stroke="#8a6430" stroke-width="1.2" opacity=".7">
+   ${[0,1,2].map(i=>`<line x1="${167+i*37}" y1="62" x2="440" y2="96"/>`).join('')}
+  </g>
+  <rect x="410" y="82" width="70" height="34" rx="7" fill="#3a2a16" stroke="#8a6430"/>
+  <text x="445" y="104" fill="#ffd9a8" font-size="14" text-anchor="middle">g = ۰٫۳۱</text>
+  <text x="120" y="150" fill="#9fd6a0" font-size="12">
+    g = Σ W2[i]·h[i] + b2 &nbsp;&nbsp;&nbsp; W2 با صفر شروع می‌شود، b2 = ۰٫۱</text>
+ </svg>`,
+ m:`nn.Linear(48, 1)
+nn.init.zeros_(weight)          # همه صفر
+nn.init.constant_(bias, 0.1)    # همان مقدار شروع بازوی add`,
+ w:"چون <code>W2</code> صفر است، در گام اول آموزش <b>هر</b> تصویری خروجی ۰٫۱ می‌دهد — دقیقاً همان عددی که بازوی <code>add</code> از آن شروع می‌کند. یعنی دو بازو از نقطهٔ یکسان راه می‌افتند و هر تفاوت بعدی محصول یادگیری است، نه شانس مقداردهی."},
+
+{t:"جدا و موازی: مختصات به ۱۹۲ عدد ثابت",
+ svg:`<svg viewBox="0 0 800 180">
+  <rect x="40" y="30" width="130" height="42" rx="7" fill="#16281c" stroke="#2f5c3c"/>
+  <text x="105" y="56" fill="#8fd6a0" font-size="12" text-anchor="middle">
+    ‎۱۰٫۴۱° ، ۴۵٫۸۲°</text>
+  <path d="M176,51 L226,51" stroke="#5c6472" stroke-width="2"/>
+  <text x="330" y="42" fill="#9fd6a0" font-size="11.5">
+    sin و cos با ۹۶ فرکانس مختلف</text>
+  ${cells([0.82,-0.57,0.19,0.95,-0.31,0.44],240,66,30,green)}
+  <text x="440" y="88" fill="#6f7787" font-size="11">… ۱۹۲</text>
+  <text x="105" y="120" fill="#e08080" font-size="12" text-anchor="middle">
+    صفر پارامتر</text>
+  <text x="400" y="150" fill="#9aa1ae" font-size="11.5" text-anchor="middle">
+    یک تابع ریاضی محض — هیچ چیزی در آن یاد گرفته نمی‌شود، در هر شش بازو یکی است</text>
+ </svg>`,
+ m:`loc = sincos_location(coords, 192)   # 22_model.py:30-54`,
+ w:"چرا سینوسی و نه یک لایهٔ یادگرفتنی؟ چون اگر یادگرفتنی بود، بازوها در «چقدر خوب می‌توانند مختصات را بخوانند» با هم فرق می‌کردند — و آن‌وقت مقایسه دربارهٔ <i>مسیر ورود</i> نبود، دربارهٔ <i>ظرفیت رمزگذار</i> بود. این تصمیم، کل آزمایش را معتبر نگه می‌دارد."},
+
+{t:"ضرب: یک عدد در ۱۹۲ عدد",
+ svg:`<svg viewBox="0 0 800 190">
+  <rect x="40" y="40" width="66" height="34" rx="7" fill="#3a2a16" stroke="#8a6430"/>
+  <text x="73" y="62" fill="#ffd9a8" font-size="13" text-anchor="middle">۰٫۳۱</text>
+  <text x="122" y="62" fill="#cfd4de" font-size="16">×</text>
+  ${cells([0.82,-0.57,0.19,0.95],145,40,34,green)}
+  <text x="300" y="62" fill="#6f7787" font-size="11">…</text>
+  <text x="340" y="62" fill="#cfd4de" font-size="16">=</text>
+  ${cells([0.25,-0.18,0.06,0.29],370,40,34,green)}
+  <text x="525" y="62" fill="#6f7787" font-size="11">…</text>
+  <text x="400" y="115" fill="#9aa1ae" font-size="11.5" text-anchor="middle">
+    همان بردار، فقط کوچک‌تر شده — <b>جهتش تغییر نمی‌کند، فقط طولش</b></text>
+  <text x="400" y="145" fill="#f0a55e" font-size="11.5" text-anchor="middle">
+    اگر g = ۲٫۵ بود همین بردار ۲٫۵ برابر بلندتر می‌شد و بیشتر بر تصویر غلبه می‌کرد</text>
+  <text x="400" y="172" fill="#8b8f9a" font-size="11" text-anchor="middle">
+    و این تمام کاری است که «ولوم» می‌کند</text>
+ </svg>`,
+ m:`scaled = g.unsqueeze(1) * loc.unsqueeze(1)    # (B, 1, 192)`,
+ w:"اینجا دقیقاً معلوم می‌شود دریچه چه <b>نمی‌تواند</b> بکند: نمی‌تواند بگوید «بُعد ۱۷ مهم است و بُعد ۹۳ نه». فقط کل بردار را با هم بزرگ یا کوچک می‌کند. برای کنترل بُعد‌به‌بُعد باید ۱۹۲ ضریب می‌ساخت — که می‌شود بازوی دیگری."},
+
+{t:"جمع — و اینجا جواب «به کدام عدد اضافه می‌شود»",
+ svg:`<svg viewBox="0 0 800 240">
+  <text x="120" y="22" fill="#9aa1ae" font-size="11">همان بردار ۱۹۲تایی…</text>
+  ${cells([0.25,-0.18,0.06,0.29],120,30,30,green)}
+  <text x="270" y="52" fill="#6f7787" font-size="11">…</text>
+  <text x="400" y="52" fill="#f0a55e" font-size="12">… به هر ۶۵ توکن، جداگانه</text>
+  ${[0,1,2,3,4].map(i=>`
+    <text x="110" y="${100+i*26}" fill="#6f7787" font-size="10" text-anchor="end">
+      ${['CLS','تکه ۱','تکه ۲','تکه ۳','…'][i]}</text>
+    ${cells([0.4,-0.2,0.9,0.1],120,88+i*26,20,blue)}
+    <text x="235" y="${102+i*26}" fill="#cfd4de" font-size="12">+</text>
+    ${cells([0.25,-0.18,0.06,0.29],250,88+i*26,20,green)}
+    <text x="365" y="${102+i*26}" fill="#cfd4de" font-size="12">=</text>
+    ${cells([0.65,-0.38,0.96,0.39],380,88+i*26,20,blue)}`).join('')}
+  <text x="620" y="150" fill="#9fd6a0" font-size="11.5">
+    عنصر به عنصر، بُعد به بُعد</text>
+ </svg>`,
+ m:`x = x + g.unsqueeze(1) * loc.unsqueeze(1)
+# مثال یک سلول مشخص:
+# توکن ۷، بُعد ۳۳:   0.412  +  0.31 × (-0.720)  =  0.189`,
+ w:"جواب دقیق سؤالت: <b>به هر یک از ۶۵×۱۹۲ = ۱۲٬۴۸۰ عدد</b>. ولی همان بردار ۱۹۲تایی به همهٔ توکن‌ها اضافه می‌شود — یعنی تنها ۱۹۲ عدد مستقل وجود دارد که ۶۵ بار تکرار می‌شوند. این دقیقاً همان محدودیتی است که مقالهٔ DiT دربارهٔ adaLN می‌گوید: «یک تابع یکسان روی همهٔ توکن‌ها»."},
+
+{t:"و بعدش؟ هیچ چیز خاصی.",
+ svg:`<svg viewBox="0 0 800 160">
+  ${cells([0.65,-0.38,0.96,0.39],60,40,24,blue,"")}
+  <text x="60" y="100" fill="#9aa1ae" font-size="11">توکن‌های آغشته به مکان</text>
+  ${[0,1,2,3,4,5].map(i=>`
+    <rect x="${230+i*72}" y="28" width="60" height="52" rx="7"
+          fill="#1c2430" stroke="#38414f"/>
+    <text x="${260+i*72}" y="58" fill="#9aa1ae" font-size="11"
+          text-anchor="middle">بلوک ${i+1}</text>`).join('')}
+  <text x="400" y="105" fill="#8b8f9a" font-size="11" text-anchor="middle">
+    این شش بلوک هیچ خبری از دریچه ندارند — کد داخلشان با بازوی none یکی است</text>
+  <text x="400" y="135" fill="#7fd6a0" font-size="12" text-anchor="middle">
+    → نرمال‌سازی → فقط توکن CLS → ۱۰ عدد → کلاس</text>
+ </svg>`,
+ m:`for blk in self.blocks:  x = blk(x)     # بدون هیچ آرگومان اضافه
+out = self.head(self.norm(x)[:, 0])     # فقط CLS`,
+ w:"نکته‌ای که آسان از دست می‌رود: تزریق <b>فقط یک بار، قبل از بلوک اول</b> اتفاق می‌افتد. از آن به بعد مکان دیگر «حاضر» نیست — فقط ردش در اعداد توکن‌ها مانده و شش بلوک باید آن رد را تا CLS برسانند. بازوی <code>adaln</code> دقیقاً همین را عوض می‌کند: مکان را در هر بلوک دوباره می‌آورد."}
+];
+
+let cur=0;
+function draw(){
+  const s=STEPS[cur];
+  document.getElementById('sno').textContent=`گام ${cur+1} از ${STEPS.length}`;
+  document.getElementById('stitle').textContent='';
+  document.getElementById('body').innerHTML=
+    `<div class="title">${s.t}</div>${s.svg}
+     <div class="math">${s.m}</div><div class="why">${s.w}</div>`;
+  document.getElementById('prev').disabled = cur===0;
+  document.getElementById('next').disabled = cur===STEPS.length-1;
+}
+function go(d){ cur=Math.max(0,Math.min(STEPS.length-1,cur+d)); draw(); }
+draw();
+</script>
+</div></body></html>

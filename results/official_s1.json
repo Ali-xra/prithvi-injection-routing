@@ -1,0 +1,22 @@
+{
+  "arm": "official",
+  "seed": 1,
+  "epochs_run": 50,
+  "n_params_total": 324204676,
+  "n_params_injection": 2,
+  "minutes": 150.2,
+  "best_ckpt": "C:\\Users\\aliso\\Desktop\\big-files\\injection-routing\\runs\\official_s1\\best.ckpt",
+  "val": {
+    "val/loss": 0.15969929099082947,
+    "val/Accuracy": 0.9267263412475586,
+    "val/Boundary_mIoU": 0.3682662844657898,
+    "val/Class_Accuracy_0": 0.9614501595497131,
+    "val/Class_Accuracy_1": 0.8920024633407593,
+    "val/F1_Score": 0.9285063147544861,
+    "val/IoU_0": 0.920628011226654,
+    "val/IoU_1": 0.8154399991035461,
+    "val/Pixel_Accuracy": 0.9412358403205872,
+    "val/mIoU": 0.8680340051651001,
+    "val/mIoU_Micro": 0.8889948725700378
+  }
+}

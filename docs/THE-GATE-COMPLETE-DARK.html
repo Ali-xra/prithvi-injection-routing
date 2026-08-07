@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8">
+<title>دریچه — کامل، از اول تا آخر</title>
+<style>
+ :root{--bg:#14161a;--panel:#1b1e24;--line:#2a2f38;--tx:#dfe4ea;--dim:#9aa4b0;
+       --teal:#4ec9a0;--amber:#e0a458;--red:#e07878;--blue:#7fb0e0}
+ *{scrollbar-color:#3a4049 var(--bg)}
+ body{font-family:"Segoe UI",Tahoma,sans-serif;line-height:1.95;max-width:50em;
+      margin:0 auto;padding:2.4em 2em 6em;color:var(--tx);background:var(--bg);
+      font-size:16.5px}
+ svg{direction:ltr}
+ h1{font-size:1.85em;color:#fff;border-bottom:2px solid var(--teal);
+    padding-bottom:.32em;margin-bottom:.15em;letter-spacing:.2px}
+ h2{font-size:1.28em;margin-top:3em;margin-bottom:.6em;color:#fff;
+    border-right:4px solid var(--teal);padding-right:.7em}
+ h3{font-size:1.05em;margin-top:1.9em;margin-bottom:.4em;color:#c9d2db}
+ .sub{color:var(--dim);font-size:.92em;margin-bottom:2.4em}
+ p{margin:.95em 0;text-align:justify}
+ .key,.good,.bad,.warn{padding:1em 1.25em;margin:1.4em 0;background:var(--panel);
+      border:1px solid var(--line);border-right-width:5px;border-radius:0 5px 5px 0;
+      box-shadow:0 1px 3px rgba(0,0,0,.35)}
+ .key {border-right-color:var(--blue)}
+ .good{border-right-color:var(--teal)}
+ .bad {border-right-color:var(--red)}
+ .warn{border-right-color:var(--amber)}
+ .fig{border:1px solid var(--line);background:#171a1f;padding:1.15em .8em .9em;
+      margin:1.9em 0;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.4)}
+ .cap{font-size:.9em;color:var(--dim);text-align:center;margin-top:.8em;
+      line-height:1.85;border-top:1px solid var(--line);padding-top:.65em}
+ .btn{background:#252a32;color:#dfe4ea;border:1px solid #39404a;border-radius:5px;
+      padding:.46em 1.15em;font-family:inherit;font-size:.9em;cursor:pointer;
+      margin:.25em;transition:all .18s}
+ .btn:hover{background:#2f3540;border-color:#4a525e;transform:translateY(-1px)}
+ .btn.on{background:#1d5c42;border-color:var(--teal);color:#c8f0dd}
+ table{border-collapse:collapse;width:100%;margin:1.3em 0;font-size:.95em}
+ th,td{border:1px solid var(--line);padding:.55em .75em;text-align:right;
+       vertical-align:top}
+ th{background:#232830;color:#fff}
+ tr:nth-child(even) td{background:#191c21}
+ td.n{font-family:Consolas,monospace;direction:ltr;text-align:left;color:#bfe6d4}
+ code{font-family:Consolas,monospace;direction:ltr;font-size:.92em;
+      background:#232830;color:#9fd8bd;padding:.1em .38em;border-radius:3px}
+ pre{background:#0f1114;color:#d6dbe0;border:1px solid var(--line);padding:1em 1.2em;
+     overflow-x:auto;direction:ltr;text-align:left;font-size:13px;line-height:1.75;
+     border-radius:6px}
+ pre .c{color:#6f8f78}
+ b{color:#fff}
+ /* ظاهرشدن نرمِ بخش‌ها هنگام اسکرول — فقط وقتی JS روشن است.
+    کلاس js روی <html> با اسکریپت گذاشته می‌شود؛ اگر JS نبود، هیچ‌چیز مخفی نمی‌ماند. */
+ html.js h2,html.js .fig,html.js .key,html.js .good,html.js .bad,html.js .warn,
+ html.js table,html.js pre{opacity:0;transform:translateY(14px);
+   transition:opacity .5s ease,transform .5s ease}
+ html.js .seen{opacity:1 !important;transform:none !important}
+ @media (prefers-reduced-motion:reduce){
+   html.js h2,html.js .fig,html.js .key,html.js .good,html.js .bad,html.js .warn,
+   html.js table,html.js pre{opacity:1;transform:none}}
+ @media print{body{background:#fff;color:#000;max-width:none}
+   html.js h2,html.js .fig,html.js .key,html.js .good,html.js .bad,html.js .warn,
+   html.js table,html.js pre{opacity:1 !important;transform:none !important}}
+</style></head><body>
+
+<h1>دریچه — کامل، از اول تا آخر</h1>
+<p class="sub">۷ اوت ۲۰۲۶ · این سند برای <b>یاد گرفتن</b> نوشته شده، نه برای مرور.
+هر چیزی که ممکن است بپرسند اینجاست، به ساده‌ترین زبانی که بلدم.<br>
+دکمه‌ها را بزن — بیشترِ شکل‌ها تعاملی‌اند.</p>
+
+<div class="key" style="border-right-width:9px">
+<b>دریچه در یک جمله:</b> به‌جای اینکه مکان را با یک قدرتِ ثابت به همهٔ عکس‌ها اضافه
+کنیم، بگذاریم <b>مدل خودش برای هر عکس تصمیم بگیرد</b> که مکان چقدر پررنگ باشد.
+</div>
+
+<h2>۱ · از کجا به ذهنم رسید</h2>
+
+<p>یک مقاله خواندم به اسم <b>Copernicus-FM</b>. در جدول ۱۲ آن، همان مدل و همان
+آزمایش را روی دو نوع عکس امتحان کرده بودند و پرسیده بودند «دانستنِ مکان چقدر
+می‌ارزد؟»</p>
+
+<div class="fig">
+<svg viewBox="0 0 700 200" width="100%" style="max-width:700px;display:block;margin:0 auto">
+ <text x="350" y="22" text-anchor="middle" font-size="13" fill="#98a2ae">
+   ارزشِ دانستنِ مکان — همان مدل، دو نوع عکس</text>
+
+ <text x="150" y="70" text-anchor="end" font-size="14" fill="#dce1e6">radar (S1)</text>
+ <rect x="160" y="52" width="470" height="26" fill="#282c33"/>
+ <rect id="b1" x="160" y="52" width="0" height="26" fill="#6fd69a"/>
+ <text id="t1" x="645" y="71" font-size="15" font-weight="bold" fill="#6fd69a">+21.3</text>
+
+ <text x="150" y="130" text-anchor="end" font-size="14" fill="#dce1e6">optical (S2)</text>
+ <rect x="160" y="112" width="470" height="26" fill="#282c33"/>
+ <rect id="b2" x="160" y="112" width="0" height="26" fill="#98a2ae"/>
+ <text id="t2" x="180" y="131" font-size="15" font-weight="bold" fill="#98a2ae">+0.4</text>
+
+ <text x="350" y="175" text-anchor="middle" font-size="15" font-weight="bold" fill="#eceff2">
+   53 ×</text>
+</svg>
+<div style="text-align:center"><button class="btn" onclick="grow()">▶ نشان بده</button></div>
+<div class="cap">عکس رادار سیاه‌وسفید است و اطلاعات تصویری کمی دارد؛ آنجا مکان
+<b>۲۱٫۳ نمره</b> می‌ارزد. عکس نوری رنگی و پر از جزئیات است؛ آنجا مکان فقط
+<b>۰٫۴ نمره</b>. یعنی <b>پنجاه‌وسه برابر</b> فرق.</div>
+</div>
+
+<div class="good" style="border-right-width:9px">
+<b>و اینجا سؤالی به ذهنم رسید که کلِ ایده از آن درآمد:</b><br><br>
+«اگر ارزشِ مکان بین <b>دو مجموعهٔ عکس</b> پنجاه‌وسه برابر فرق می‌کند —
+چرا بین <b>دو تا عکس</b> فرق نکند؟»
+</div>
+
+<p>منطقش ساده است. آن ۵۳ برابر از یک قانونِ کلی می‌آید: <b>هرچه خودِ عکس کمتر
+حرف بزند، مکان بیشتر می‌ارزد.</b> ولی این قانون که فقط بین دو مجموعه صادق نیست.
+داخلِ همان مجموعهٔ رادار هم بعضی عکس‌ها گویا هستند و بعضی گنگ.</p>
+
+<p>یک عکسِ دریا در تصویر رادار کاملاً واضح است — تیره و یکنواخت. یک عکس از حاشیهٔ
+شهر می‌تواند شبیه چند چیز باشد. <b>پس چرا به هر دو یک مقدارِ ثابت مکان بدهیم؟</b></p>
+
+<div class="key">
+<b>ایده:</b> یک <b>ولوم</b> بگذاریم. برای عکسِ گنگ، ولومِ مکان را زیاد کن.
+برای عکسِ واضح، کمش کن. و <b>خودِ مدل</b> این تصمیم را بگیرد، نه ما.
+</div>
+
+<h2>۲ · قبل از دریچه: کاری که پریتوی می‌کند</h2>
+
+<p>برای اینکه دریچه را بفهمی، اول باید بدانی چه چیزی را می‌خواستیم بهتر کنیم.</p>
+
+<p>مکان یعنی دو عدد: طول و عرض جغرافیایی. مدل با دو عدد کاری نمی‌تواند بکند، پس
+اول آن را به یک <b>بردار ۱۹۲تایی</b> تبدیل می‌کنیم — با یک فرمول ثابت (سینوس و
+کسینوس)، بدون هیچ پارامتر یادگرفتنی. اسم این بردار را می‌گذاریم <code>loc</code>.</p>
+
+<p>حالا پریتوی چه می‌کند؟ این بردار را در <b>یک عدد</b> ضرب می‌کند و به عکس اضافه
+می‌کند. آن یک عدد، تنها چیزی است که یاد گرفته می‌شود.</p>
+
+<div class="fig">
+<svg viewBox="0 0 700 130" width="100%" style="max-width:700px;display:block;margin:0 auto">
+ <rect x="30" y="40" width="120" height="46" rx="5" fill="#1d2732" stroke="#5f83ad"/>
+ <text x="90" y="60" text-anchor="middle" font-size="12.5" fill="#9dc0e0">loc</text>
+ <text x="90" y="77" text-anchor="middle" font-size="11" fill="#8ea2b7">۱۹۲ عدد</text>
+
+ <text x="185" y="70" text-anchor="middle" font-size="22" fill="#c3cad2">×</text>
+
+ <rect x="212" y="40" width="86" height="46" rx="5" fill="#32281a" stroke="#b58547"/>
+ <text x="255" y="60" text-anchor="middle" font-size="13" font-weight="bold" fill="#e0b070">0.1</text>
+ <text x="255" y="77" text-anchor="middle" font-size="10.5" fill="#e0b070">یک عددِ ثابت</text>
+
+ <text x="330" y="70" text-anchor="middle" font-size="22" fill="#c3cad2">+</text>
+
+ <rect x="358" y="40" width="120" height="46" rx="5" fill="#18291e" stroke="#4d9268"/>
+ <text x="418" y="60" text-anchor="middle" font-size="12.5" fill="#7fd6a0">عکس</text>
+ <text x="418" y="77" text-anchor="middle" font-size="11" fill="#6fbc8c">۶۵ توکن</text>
+
+ <text x="512" y="70" text-anchor="middle" font-size="20" fill="#c3cad2">→</text>
+ <rect x="540" y="40" width="130" height="46" rx="5" fill="#21242a" stroke="#484d56"/>
+ <text x="605" y="68" text-anchor="middle" font-size="12.5" fill="#cfd6dd">ادامهٔ مدل</text>
+</svg>
+<div class="cap">این بازوی <code>add</code> است — سبک پریتوی. <b>یک پارامتر</b> در کل مدل.
+همان عدد ۰٫۱ برای <b>هر</b> عکسی که وارد می‌شود، تا آخرِ آموزش.</div>
+</div>
+
+<div class="warn">
+<b>نکته‌ای که همیشه اشتباه فهمیده می‌شود:</b> آن عدد <b>یاد گرفته می‌شود</b> —
+یعنی در طول آموزش تغییر می‌کند و ممکن است ۰٫۱ نماند. ولی هرچه که شد،
+<b>برای همهٔ عکس‌ها یکی است</b>. ثابت به معنیِ «تغییر نمی‌کند» نیست؛ به معنیِ
+«بین عکس‌ها فرق نمی‌کند» است.
+</div>
+
+<h2>۳ · دریچه: همان چیز، ولی عدد از خودِ عکس درمی‌آید</h2>
+
+<p>دریچه دقیقاً همان ساختار است. تنها یک چیز عوض می‌شود: <b>آن عدد دیگر ثابت نیست
+— برای هر عکس جدا محاسبه می‌شود، از روی خودِ همان عکس.</b></p>
+
+<div class="fig">
+<div style="text-align:center">
+ <button class="btn on" onclick="showArm(0,this)">add — پریتوی</button>
+ <button class="btn" onclick="showArm(1,this)">gate — مالِ ما</button>
+</div>
+<svg viewBox="0 0 700 210" width="100%" style="max-width:700px;display:block;margin:.6em auto 0">
+ <rect x="30" y="86" width="120" height="46" rx="5" fill="#1d2732" stroke="#5f83ad"/>
+ <text x="90" y="106" text-anchor="middle" font-size="12.5" fill="#9dc0e0">loc</text>
+ <text x="90" y="123" text-anchor="middle" font-size="11" fill="#8ea2b7">۱۹۲ عدد</text>
+
+ <text x="185" y="116" text-anchor="middle" font-size="22" fill="#c3cad2">×</text>
+
+ <rect id="boxg" x="205" y="86" width="100" height="46" rx="5" fill="#32281a" stroke="#b58547"/>
+ <text id="gnum" x="255" y="106" text-anchor="middle" font-size="13" font-weight="bold" fill="#e0b070">0.1</text>
+ <text id="glbl" x="255" y="123" text-anchor="middle" font-size="10.5" fill="#e0b070">عددِ ثابت</text>
+
+ <g id="gpath" opacity="0">
+  <rect x="205" y="16" width="100" height="40" rx="5" fill="#1d2732" stroke="#6f9ecd"/>
+  <text x="255" y="34" text-anchor="middle" font-size="11.5" fill="#9dc0e0">دریچه</text>
+  <text x="255" y="49" text-anchor="middle" font-size="10" fill="#8ea2b7">۹٬۳۱۳ پارامتر</text>
+  <path d="M255 56 L255 84" stroke="#6f9ecd" stroke-width="2" marker-end="url(#ar2)"/>
+  <path d="M418 78 C418 40, 330 36, 308 36" stroke="#6f9ecd" stroke-width="2"
+        fill="none" stroke-dasharray="5 4" marker-end="url(#ar2)"/>
+  <text x="360" y="14" text-anchor="middle" font-size="11" fill="#9dc0e0">از خودِ عکس می‌خواند</text>
+ </g>
+ <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3"
+   orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#6f9ecd"/></marker></defs>
+
+ <text x="335" y="116" text-anchor="middle" font-size="22" fill="#c3cad2">+</text>
+ <rect x="358" y="86" width="120" height="46" rx="5" fill="#18291e" stroke="#4d9268"/>
+ <text x="418" y="106" text-anchor="middle" font-size="12.5" fill="#7fd6a0">عکس</text>
+ <text x="418" y="123" text-anchor="middle" font-size="11" fill="#6fbc8c">۶۵ توکن</text>
+
+ <text x="512" y="116" text-anchor="middle" font-size="20" fill="#c3cad2">→</text>
+ <rect x="540" y="86" width="130" height="46" rx="5" fill="#21242a" stroke="#484d56"/>
+ <text x="605" y="114" text-anchor="middle" font-size="12.5" fill="#cfd6dd">ادامهٔ مدل</text>
+
+ <text id="armnote" x="350" y="186" text-anchor="middle" font-size="12.5" fill="#aab3bd">
+   یک پارامتر · همان عدد برای همهٔ عکس‌ها</text>
+</svg>
+<div class="cap">تنها تفاوت، آن مسیرِ چین‌چینِ بالاست: در دریچه، عدد <b>از خودِ عکس</b>
+درمی‌آید. بقیهٔ ساختار مو به مو یکی است.</div>
+</div>
+
+<h2>۴ · دریچه دقیقاً چه محاسبه‌ای می‌کند — قدم به قدم</h2>
+
+<p>این بخش را باید بتوانی روی کاغذ بکشی. چهار قدم است، نه بیشتر.</p>
+
+<div class="fig">
+<div style="text-align:center">
+ <button class="btn" onclick="stepGo()">▶ قدم به قدم</button>
+ <button class="btn" onclick="stepReset()">↺ از اول</button>
+</div>
+<svg viewBox="0 0 720 300" width="100%" style="max-width:720px;display:block;margin:.6em auto 0">
+ <g id="s1" opacity="0.15">
+  <text x="16" y="34" font-size="12.5" font-weight="bold" fill="#cfd6dd">۱</text>
+  <text x="34" y="34" font-size="12.5" fill="#cfd6dd">عکس به ۶۴ تکه بریده می‌شود، هر تکه یک بردار ۱۹۲تایی</text>
+  <g id="patches"></g>
+ </g>
+ <g id="s2" opacity="0.15">
+  <text x="16" y="118" font-size="12.5" font-weight="bold" fill="#cfd6dd">۲</text>
+  <text x="34" y="118" font-size="12.5" fill="#cfd6dd">میانگینِ آن ۶۴ بردار گرفته می‌شود ← یک بردار ۱۹۲تایی</text>
+  <rect x="34" y="128" width="300" height="24" rx="3" fill="#22303e" stroke="#5f83ad"/>
+  <text x="184" y="145" text-anchor="middle" font-size="11.5" fill="#9dc0e0">میانگین — ۱۹۲ عدد</text>
+ </g>
+ <g id="s3" opacity="0.15">
+  <text x="16" y="192" font-size="12.5" font-weight="bold" fill="#cfd6dd">۳</text>
+  <text x="34" y="192" font-size="12.5" fill="#cfd6dd">از یک شبکهٔ کوچک رد می‌شود ← یک عدد</text>
+  <rect x="34" y="202" width="120" height="26" rx="4" fill="#1d2732" stroke="#5f83ad"/>
+  <text x="94" y="220" text-anchor="middle" font-size="11" fill="#9dc0e0">Linear 192→48</text>
+  <text x="166" y="220" font-size="13" fill="#aab3bd">→</text>
+  <rect x="182" y="202" width="70" height="26" rx="4" fill="#2d2920" stroke="#8d7853"/>
+  <text x="217" y="220" text-anchor="middle" font-size="11" fill="#d8b184">SiLU</text>
+  <text x="264" y="220" font-size="13" fill="#aab3bd">→</text>
+  <rect x="280" y="202" width="115" height="26" rx="4" fill="#1d2732" stroke="#5f83ad"/>
+  <text x="337" y="220" text-anchor="middle" font-size="11" fill="#9dc0e0">Linear 48→1</text>
+  <text x="410" y="220" font-size="14" font-weight="bold" fill="#6fd69a">g = 0.42</text>
+ </g>
+ <g id="s4" opacity="0.15">
+  <text x="16" y="266" font-size="12.5" font-weight="bold" fill="#cfd6dd">۴</text>
+  <text x="34" y="266" font-size="12.5" fill="#cfd6dd">بردار مکان در g ضرب و به هر ۶۵ توکن اضافه می‌شود</text>
+  <rect x="34" y="276" width="330" height="18" rx="3" fill="#1a2a1f" stroke="#4d9268"/>
+  <text x="199" y="290" text-anchor="middle" font-size="11" fill="#7fd6a0">x  =  x  +  g × loc</text>
+ </g>
+ <text x="560" y="150" text-anchor="middle" font-size="12" fill="#8b95a1">۶۴ تکه</text>
+ <text x="560" y="170" text-anchor="middle" font-size="12" fill="#8b95a1">+ ۱ توکن CLS</text>
+ <text x="560" y="190" text-anchor="middle" font-size="12" fill="#8b95a1">= ۶۵ توکن</text>
+</svg>
+</div>
+
+<div class="key">
+<b>و همین. چهار قدم.</b> بردارها را میانگین بگیر · از یک شبکهٔ دو لایه رد کن ·
+یک عدد بگیر · مکان را در آن ضرب کن و اضافه کن.
+</div>
+
+<h3>سه سؤالی که همیشه اینجا می‌پرسند</h3>
+
+<table>
+<tr><th>سؤال</th><th>جواب</th></tr>
+<tr><td>«دریچه مختصات را می‌بیند؟»</td>
+    <td><b>نه. هرگز.</b> فقط عکس را می‌بیند. اگر مختصات را هم می‌دید، می‌توانست از
+    یک راهِ دوم مکان را قاچاق کند و مقایسه با <code>add</code> دیگر فقط دریچه را
+    جدا نمی‌کرد. این یک تصمیم عمدی است و در کد کامنت دارد.</td></tr>
+<tr><td>«برای هر توکن یک عدد جدا می‌سازد؟»</td>
+    <td><b>نه.</b> <b>یک</b> عدد برای کل عکس. همان عدد به هر ۶۵ توکن اعمال می‌شود.</td></tr>
+<tr><td>«برای هر بُعد یک ضریب می‌سازد؟»</td>
+    <td><b>نه.</b> یک عدد برای کل بردار ۱۹۲تایی. اگر برای هر بُعد یکی می‌ساخت، اسمش
+    <b>FiLM</b> بود — که یک بازوی دیگر است و آن را هم جدا امتحان کردیم.</td></tr>
+</table>
+
+<h3>و یک جزئیات که نشان می‌دهد کار با دقت انجام شده</h3>
+
+<p>لایهٔ آخرِ دریچه با <b>صفر</b> مقداردهی اولیه می‌شود و بایاسش <b>۰٫۱</b> است.</p>
+
+<div class="good">
+یعنی در <b>لحظهٔ صفرِ آموزش</b>، دریچه برای هر عکسی دقیقاً عدد <b>۰٫۱</b> می‌دهد —
+<b>بیت‌به‌بیت همان چیزی که <code>add</code> می‌دهد</b>.<br><br>
+پس دریچه از یک نقطهٔ شروعِ <b>یکسان</b> با پریتوی حرکت می‌کند. هر تفاوتی که بعداً
+دیده شود، از <b>یادگیری</b> است، نه از شانسِ مقداردهی اولیه.
+</div>
+
+<p>این را باید گفت. نشان می‌دهد مقایسه را منصفانه چیده‌ای، نه اینکه بازوی
+خودت را از جای بهتری شروع داده باشی.</p>
+
+<h2>۵ · چه انتظاری داشتم — و چه شد</h2>
+
+<p>پیش‌بینی‌ام را <b>قبل از اجرا</b> نوشتم: دریچه باید جایی باز شود که تصویر
+مبهم است. یعنی همبستگیِ <b>منفی</b> بین «اطمینان مدل به تصویر» و «مقدار دریچه».</p>
+
+<div class="bad">
+<b>نتیجه: رد شد.</b> دریچه از <code>add</code> جلو نزد.<br><br>
+<code>gate 77.20 ± 0.41</code> در برابر <code>add 77.17 ± 0.44</code> — اختلاف
+<b>۰٫۰۲</b>، در برابر آستانه‌ای که <b>قبل از دیدن نتیجه</b> روی <b>۰٫۷۸۸</b> قفل شده بود.<br><br>
+یعنی <b>۹٬۳۱۳ پارامتر اضافه، هیچ نخرید</b> — در برابر یک بازو که <b>یک</b> پارامتر دارد.
+</div>
+
+<p>و بدتر: آن همبستگی که پیش‌بینی کرده بودم منفی باشد، <b>مثبت</b> درآمد — در هر
+پنج بذر. یعنی نه‌فقط اثری نداشت، بلکه <b>برعکسِ</b> فرضیه رفتار می‌کرد.</p>
+
+<h2>۶ · چرا کار نکرد — و اینجاست که کار جالب می‌شود</h2>
+
+<p>به‌جای اینکه رهایش کنم، بازش کردم. و جواب یک خط ریاضی بود.</p>
+
+<div class="fig">
+<div style="text-align:center"><button class="btn" onclick="proofGo()">▶ اثبات، قدم به قدم</button></div>
+<svg viewBox="0 0 720 250" width="100%" style="max-width:720px;display:block;margin:.6em auto 0">
+ <g id="p1" opacity="0.15">
+  <text x="360" y="30" text-anchor="middle" font-size="13" fill="#cfd6dd">
+    دریچه این را می‌خواند: <tspan font-weight="bold">میانگینِ تکه‌های تصویرشده</tspan></text>
+  <rect x="150" y="44" width="420" height="34" rx="4" fill="#21242a" stroke="#484d56"/>
+  <text x="360" y="66" text-anchor="middle" font-size="15" fill="#dce1e6"
+        font-family="Consolas,monospace">mean( W·patch₁+b , W·patch₂+b , ... )</text>
+ </g>
+ <g id="p2" opacity="0.15">
+  <text x="360" y="108" text-anchor="middle" font-size="13" fill="#cfd6dd">
+    ولی «تصویر کردن» یک عملِ <tspan font-weight="bold">خطی</tspan> است، پس می‌شود جابه‌جایش کرد</text>
+  <rect x="150" y="122" width="420" height="34" rx="4" fill="#1b2530" stroke="#6890ac"/>
+  <text x="360" y="144" text-anchor="middle" font-size="15" fill="#9dc8e8"
+        font-family="Consolas,monospace">=  W·mean(patch₁, patch₂, ...) + b</text>
+ </g>
+ <g id="p3" opacity="0.15">
+  <rect x="120" y="176" width="480" height="52" rx="5" fill="#2c1d1d" stroke="#a45f5f"/>
+  <text x="360" y="199" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#ee9090">
+    یعنی دریچه دارد به «تصویرِ میانگین» نگاه می‌کند</text>
+  <text x="360" y="219" text-anchor="middle" font-size="12.5" fill="#ee9090">
+    و از یک تصویرِ میانگین، فقط <tspan font-weight="bold">روشنایی</tspan> درمی‌آید</text>
+ </g>
+</svg>
+<div class="cap">«تکه‌ها را تصویر کن، بعد میانگین بگیر» با «میانگین بگیر، بعد تصویر کن»
+<b>دقیقاً برابر است</b> — چون آن مرحلهٔ تصویرکردن یک ضربِ ساده است.</div>
+</div>
+
+<div class="key" style="border-right-width:9px">
+<b>پس اشتباهِ من مفهومی نبود، مکانی بود.</b><br><br>
+از دریچه خواستم قضاوت کند «این عکس چقدر گنگ است» — ولی گذاشتمش <b>قبل از
+اینکه هیچ بلوکی اجرا شود</b>.<br><br>
+«گنگ‌بودن» یعنی «این الگو شبیه دو کلاسِ مختلف است» — و فهمیدنش نیازمندِ
+<b>مقایسهٔ تکه‌ها با هم</b> است. آن کارِ <b>توجه</b> است، و هنوز اتفاق نیفتاده بود.<br><br>
+<b>من سؤالی پرسیدم که در آن نقطه اصلاً قابل محاسبه نبود.</b>
+</div>
+
+<h2>۷ · و چرا «میانگین» تقریباً هیچ نمی‌گوید — این را با عکس نشان بده</h2>
+
+<p>این بهترین راهِ توضیح‌دادنش است. چهار عکسِ کاملاً متفاوت که <b>هر چهار، یک
+میانگین دارند</b>:</p>
+
+<div class="fig">
+<svg viewBox="0 0 720 190" width="100%" style="max-width:720px;display:block;margin:0 auto">
+ <g id="im0"></g><g id="im1"></g><g id="im2"></g><g id="im3"></g>
+ <text x="90"  y="168" text-anchor="middle" font-size="12" fill="#c3cad2">راه‌راه</text>
+ <text x="265" y="168" text-anchor="middle" font-size="12" fill="#c3cad2">شطرنجی</text>
+ <text x="440" y="168" text-anchor="middle" font-size="12" fill="#c3cad2">نصف/نصف</text>
+ <text x="615" y="168" text-anchor="middle" font-size="12" fill="#c3cad2">دایرهٔ وسط</text>
+ <text id="meanline" x="360" y="186" text-anchor="middle" font-size="13"
+       font-weight="bold" fill="#ee9090" opacity="0">
+   میانگینِ هر چهار:  0.50 — دقیقاً یکسان</text>
+</svg>
+<div style="text-align:center"><button class="btn" onclick="meanGo()">▶ میانگین هر چهار را حساب کن</button></div>
+<div class="cap">چهار تصویرِ کاملاً متفاوت. اگر فقط میانگین را داشته باشی،
+<b>هیچ‌کدام را از هم تشخیص نمی‌دهی</b>. و دریچهٔ ما دقیقاً همین را داشت.</div>
+</div>
+
+<div class="good">
+<b>این جمله را در ارائه بگو:</b> «کاری که می‌خواستم دریچه انجام بدهد، کارِ توجه بود.
+و من گذاشته بودمش جایی که هنوز هیچ توجهی اجرا نشده — جایی که تنها چیزِ
+محاسبه‌شدنی، روشناییِ متوسط است.»
+</div>
+
+<h2>۸ · و بعد اندازه‌اش گرفتیم — نه اینکه فقط استدلال کنیم</h2>
+
+<p>استدلال ریاضی خوب است، ولی باید نشان می‌دادیم که در عمل هم همین اتفاق افتاده.
+پس رفتیم دنبال این سؤال: <b>دریچه در واقعیت با چه چیزی بالا و پایین می‌رود؟</b></p>
+
+<div class="fig">
+<svg viewBox="0 0 640 260" width="100%" style="max-width:640px;display:block;margin:0 auto">
+ <line x1="70" y1="220" x2="600" y2="220" stroke="#5c626b"/>
+ <line x1="70" y1="30" x2="70" y2="220" stroke="#5c626b"/>
+ <text x="335" y="248" text-anchor="middle" font-size="12" fill="#aab3bd">
+   روشناییِ متوسطِ رادار  (VV، dB)  ←  تیره‌تر</text>
+ <text x="24" y="130" font-size="12" fill="#aab3bd" transform="rotate(-90,24,130)"
+       text-anchor="middle">مقدارِ دریچه</text>
+ <g id="dots"></g>
+ <line id="trend" x1="0" y1="0" x2="0" y2="0" stroke="#e88080" stroke-width="2.5" opacity="0"/>
+ <text id="rlbl" x="470" y="60" font-size="17" font-weight="bold" fill="#e88080" opacity="0">
+   r = −0.90</text>
+</svg>
+<div style="text-align:center"><button class="btn" onclick="scatGo()">▶ نتیجه را نشان بده</button></div>
+<div class="cap">هر نقطه یک عکس است. دریچه تقریباً کامل با روشناییِ متوسط حرکت می‌کند —
+همبستگی <b>۰٫۹۰−</b>. یعنی دریچهٔ ما عملاً تبدیل شده بود به یک <b>نورسنج</b>.</div>
+</div>
+
+<div class="key">
+اثبات ریاضی گفت «فقط روشنایی محاسبه‌شدنی است». اندازه‌گیری گفت «و دقیقاً همان را
+اندازه می‌گیرد». <b>وقتی استدلال و اندازه‌گیری یک چیز بگویند، تشخیص محکم است.</b>
+</div>
+
+<p><b>یک صداقت لازم:</b> بار اول این را زیر نشتِ داده اندازه گرفته بودیم — یک باگِ
+طولِ آرایه بی‌صدا فایل‌های تقسیمِ تمیز را رد می‌کرد. دوباره روی تقسیم تمیز گرفتیم:
+حکم عوض نشد. <b>ولی خودِ باگ باید گفته شود.</b></p>
+
+<h2>۹ · سه چیزی که امتحان کردیم — و هیچ‌کدام جواب نداد</h2>
+
+<p>اینجا یک سؤال طبیعی هست: «شاید دریچه بد نبود، فقط <b>ورودی</b>ش بد بود؟»</p>
+
+<p>سه بازوی جدید ساختیم که همه در <b>همان جای قدیمی</b> بودند و فقط ورودی دریچه
+عوض می‌شد:</p>
+
+<table>
+<tr><th>بازو</th><th>دریچه چه می‌خواند</th><th>نتیجه</th></tr>
+<tr><td><code>gate_std</code></td><td>میانگین <b>و</b> پراکندگیِ تکه‌ها</td><td class="n">+0.22 هیچ</td></tr>
+<tr><td><code>gate_max</code></td><td>بیشینه به‌جای میانگین</td><td class="n">+0.02 هیچ</td></tr>
+<tr><td><code>gate_coord</code></td><td><b>فقط مختصات</b>، اصلاً عکس را نمی‌بیند</td><td class="n">−0.33 هیچ</td></tr>
+</table>
+
+<div class="key">
+<b>هر سه هیچ.</b> پس مشکل از «چه می‌خواند» نبود.<br><br>
+و <code>gate_coord</code> تیزترینشان است: دریچه‌ای که فقط مختصات را می‌بیند
+<b>پایین‌تر</b> از دریچهٔ اصلی افتاد. یعنی هرچه دریچه می‌آورد، از مختصاتِ تنها نمی‌آید.
+</div>
+
+<h2>۱۰ · اصلاح — و اینجا جواب داد</h2>
+
+<p>اگر تشخیص درست باشد، اصلاحش هم مشخص است: <b>دریچه را ببر جایی که چیزی برای
+خواندن هست.</b> یعنی بعد از چند بلوکِ توجه.</p>
+
+<p>مدل ما شش بلوک دارد. دریچه را بردیم <b>بعد از بلوک سوم</b> — و به‌جای میانگینِ
+تکه‌ها، <b>توکن CLS</b> را می‌خواند؛ توکنی که تا آن لحظه سه دور با کل تصویر حرف زده.</p>
+
+<div class="fig">
+<div style="text-align:center">
+ <button class="btn on" onclick="showPos(0,this)">دریچهٔ قدیمی — قبل از بلوک ۱</button>
+ <button class="btn" onclick="showPos(1,this)">دریچهٔ جدید — بعد از بلوک ۳</button>
+</div>
+<svg viewBox="0 0 720 170" width="100%" style="max-width:720px;display:block;margin:.6em auto 0">
+ <rect x="20" y="62" width="72" height="40" rx="4" fill="#18291e" stroke="#4d9268"/>
+ <text x="56" y="87" text-anchor="middle" font-size="11.5" fill="#7fd6a0">عکس</text>
+ <g id="blks"></g>
+ <rect x="630" y="62" width="72" height="40" rx="4" fill="#21242a" stroke="#484d56"/>
+ <text x="666" y="87" text-anchor="middle" font-size="11.5" fill="#cfd6dd">جواب</text>
+ <g id="gmark"></g>
+ <text id="posnote" x="360" y="150" text-anchor="middle" font-size="12.5" fill="#ee9090">
+   اینجا هیچ بلوکی اجرا نشده — فقط روشنایی قابل محاسبه است</text>
+</svg>
+</div>
+
+<div class="good" style="border-right-width:9px">
+<b>نتیجه: ۰٫۸۲+ نمره، با ۱۰ بذر، p = ۰٫۰۰۰۴.</b><br><br>
+و مهم‌تر از خودِ عدد، این است که در برابر <b>چه چیزی</b> سنجیده شد:
+<b>همان محموله، در همان عمق، بدون دریچه.</b> یعنی سودش نه از «دیرتر تزریق‌کردن»
+است، نه از پارامتر اضافه.
+</div>
+
+<table>
+<tr><th>مقایسه</th><th>اختلاف</th><th>p</th><th>حکم</th></tr>
+<tr style="background:#f2f9f3"><td><code>gate_late</code> − <code>add_mid</code> (همان عمق، بدون دریچه)</td><td class="n">+0.82</td><td class="n">0.0004</td><td>✅</td></tr>
+<tr><td><code>gate_late</code> − <code>gate</code> (همان دریچه، جای قدیم)</td><td class="n">+0.86</td><td class="n">0.0051</td><td>✅ لب مرز</td></tr>
+<tr><td><code>add_mid</code> − <code>add</code> (فقط دیرتر تزریق، بدون دریچه)</td><td class="n">+0.18</td><td class="n">0.43</td><td>✗ هیچ</td></tr>
+</table>
+
+<div class="key" style="border-right-width:9px">
+<b>پس نتیجهٔ دقیق این است:</b> نه «دیرتر تزریق کن» به‌تنهایی چیزی می‌دهد،
+نه «دریچه بگذار» به‌تنهایی. <b>فقط ترکیبشان.</b>
+</div>
+
+<h2>۱۱ · و بعد عمق را جارو کردیم — «یک پنجره هست»</h2>
+
+<p>سؤال بعدی طبیعی بود: «اگر بعد از بلوک ۳ خوب است، بعد از بلوک ۶ بهتر نیست؟»</p>
+
+<div class="fig">
+<div style="text-align:center"><button class="btn" onclick="depthGo()">▶ پروفایل عمق</button></div>
+<svg viewBox="0 0 660 280" width="100%" style="max-width:660px;display:block;margin:.6em auto 0">
+ <line x1="80" y1="230" x2="620" y2="230" stroke="#5c626b"/>
+ <line x1="80" y1="30" x2="80" y2="230" stroke="#5c626b"/>
+ <text x="350" y="262" text-anchor="middle" font-size="12.5" fill="#aab3bd">
+   ایستگاهِ تزریق  (مدل ۶ بلوک دارد)</text>
+ <text x="30" y="130" font-size="12" fill="#aab3bd" transform="rotate(-90,30,130)"
+       text-anchor="middle">نمره</text>
+ <line x1="80" y1="196" x2="620" y2="196" stroke="#e08070" stroke-width="1.5"
+       stroke-dasharray="6 4"/>
+ <text x="612" y="190" text-anchor="end" font-size="11" fill="#e08070">
+   بدون مکان — 73.21</text>
+ <g id="dpts"></g>
+ <polyline id="dline" points="" fill="none" stroke="#6fd69a" stroke-width="2.5" opacity="0"/>
+</svg>
+<div class="cap">ایستگاه ۱ هیچ · ایستگاه ۳ بهترین جایی که سنجیدیم · ایستگاه ۶
+<b>کلِ سود می‌میرد</b> و به پایه برمی‌گردد.</div>
+</div>
+
+<div class="key" style="border-right-width:9px">
+<b>پس ادعا «هرچه دیرتر بهتر» نیست — «یک پنجره هست» است.</b><br><br>
+<b>زودتر از آن:</b> چیزی برای خواندن نیست (همان اثبات بخش ۶).<br>
+<b>دیرتر از آن:</b> چیزی نمانده که از خوانده‌شده استفاده کند — بعد از بلوک ششم فقط
+یک نرمال‌سازی و یک لایهٔ خطی مانده.
+</div>
+
+<p>و این ادعای <b>قوی‌تر</b>ی است، نه ضعیف‌تر. چون راحت‌تر می‌شود ردش کرد: کافی است
+کسی نشان بدهد در یک مدلِ دیگر پنجره‌ای نیست.</p>
+
+<h2>۱۲ · کدِ واقعی — چهار خط</h2>
+
+<p>کلِ دریچه در <code>22_model.py</code> این است:</p>
+
+<pre><span class="c"># ساخت — در سازنده، خط ۱۲۷</span>
+self.gate_net = nn.Sequential(nn.Linear(dim, dim // 4), nn.SiLU(),
+                              nn.Linear(dim // 4, 1))
+nn.init.zeros_(self.gate_net[2].weight)
+nn.init.constant_(self.gate_net[2].bias, 0.1)   <span class="c"># شروعِ یکسان با add</span>
+
+<span class="c"># استفاده — در forward، خط ۱۷۴</span>
+g = self.gate_net(x[:, 1:].mean(dim=1))         <span class="c"># (B, 1)</span>
+x = x + g.unsqueeze(1) * loc.unsqueeze(1)
+</pre>
+
+<table>
+<tr><th>تکه</th><th>یعنی چه</th></tr>
+<tr><td><code>x[:, 1:]</code></td><td>همهٔ توکن‌ها <b>به‌جز</b> اولی. اولی توکن CLS است؛ اینجا فقط تکه‌های تصویر را می‌خواهیم</td></tr>
+<tr><td><code>.mean(dim=1)</code></td><td>میانگین روی ۶۴ تکه ← یک بردار ۱۹۲تایی</td></tr>
+<tr><td><code>dim // 4</code></td><td>۱۹۲ ÷ ۴ = ۴۸. لایهٔ میانی عمداً کوچک است</td></tr>
+<tr><td><code>zeros_ + 0.1</code></td><td>در لحظهٔ صفر، خروجی برای هر ورودی دقیقاً ۰٫۱ است</td></tr>
+<tr><td><code>unsqueeze(1)</code></td><td>شکل را جوری می‌کند که آن <b>یک</b> عدد روی <b>همهٔ</b> ۶۵ توکن پخش شود</td></tr>
+</table>
+
+<p><b>و نسخهٔ جدید فقط یک خط فرق دارد</b> — به‌جای میانگینِ تکه‌ها، توکن CLS را
+بعد از سه بلوک می‌خواند:</p>
+
+<pre><span class="c"># داخل حلقهٔ بلوک‌ها، وقتی سه بلوک اجرا شد</span>
+g = self.gate_net(x[:, 0])                      <span class="c"># توکن CLS، نه میانگین</span>
+x = x + g.unsqueeze(1) * loc.unsqueeze(1)
+</pre>
+
+<div class="good">
+<b>۹٬۳۱۳ پارامتر.</b> حساب کن: ۱۹۲×۴۸ + ۴۸ = ۹٬۲۶۴ برای لایهٔ اول، و ۴۸×۱ + ۱ = ۴۹
+برای لایهٔ دوم. جمعاً ۹٬۳۱۳. در برابر ۸۸۹٬۳۴۴ پارامترِ <code>adaln</code> —
+یعنی حدود <b>یک‌صدم</b>.
+</div>
+
+<h2>۱۳ · سؤال‌هایی که حتماً می‌پرسند</h2>
+
+<table>
+<tr><th>سؤال</th><th>جواب</th></tr>
+<tr><td>«چطور به این ایده رسیدی؟»</td>
+    <td>از جدول ۱۲ کوپرنیکوس-FM: ارزش مکان بین رادار و نوری ۵۳ برابر فرق می‌کرد.
+    پرسیدم اگر بین دو مجموعه این‌قدر فرق می‌کند، چرا بین دو عکس نه.</td></tr>
+<tr><td>«این با FiLM چه فرقی دارد؟»</td>
+    <td>FiLM برای <b>هر بُعد</b> یک ضریب می‌سازد؛ دریچه <b>یک</b> عدد برای کل بردار.
+    دریچه بسیار ارزان‌تر است. و FiLM را هم جدا امتحان کردیم.</td></tr>
+<tr><td>«چرا اول کار نکرد؟»</td>
+    <td>چون گذاشته بودمش قبل از هر بلوکی. آنجا میانگینِ تکه‌های تصویرشده ریاضی‌وار
+    برابر است با تصویرِ میانگینِ تکه‌ها — پس فقط روشنایی قابل محاسبه است.
+    اندازه‌گیری هم تأیید کرد: r = ۰٫۹۰−.</td></tr>
+<tr><td>«از کجا معلوم سودش از پارامتر اضافه نیست؟»</td>
+    <td>همان معماری با <b>مختصات درهم</b>: ۷۳٫۴۶، یعنی دقیقاً روی حالتِ بدون مکان.
+    فاصله ۴٫۵۹ نمره.</td></tr>
+<tr><td>«پیش‌ثبت‌شده بود؟»</td>
+    <td><b>نه.</b> فرضیهٔ پیش‌ثبت‌شده‌ام («دریچه از add جلو می‌زند») <b>رد شد</b>.
+    این اصلاح را بعدش پیدا کردم، پس <b>اکتشافی</b> است و همه‌جا همین‌طور برچسب خورده.</td></tr>
+<tr><td>«چرا عمق ۳؟»</td>
+    <td>انتخاب شد، پیدا نشد. جارو بعداً انجام شد. عمق ۴ عددش بالاتر است ولی
+    <b>معنادار</b> بالاتر نیست، و طبق پیش‌اعلام عمق ۳ ملاک ماند.</td></tr>
+<tr><td>«اگر دوباره شروع کنی چه می‌کنی؟»</td>
+    <td>اول بررسی می‌کنم چه چیزی در آن نقطه از شبکه <b>اصلاً قابل محاسبه است</b>،
+    بعد سازوکار طراحی می‌کنم. این درسِ اصلیِ کل کار بود.</td></tr>
+</table>
+
+<div class="good" style="border-right-width:9px">
+<b>و جملهٔ آخر که باید حفظ باشی:</b><br><br>
+«فرضیهٔ پیش‌ثبت‌شده‌ام رد شد. بازش کردم و ریاضی‌وار نشان دادم چرا نمی‌توانست کار
+کند. آن تشخیص یک اصلاح مشخص پیشنهاد داد؛ اصلاح را زدم و ۰٫۸۲ نمره بالاتر از
+همان محموله در همان عمق بدون دریچه داد، با ده بذر و p = ۰٫۰۰۰۴.
+<b>این یافته است، نه هنوز قانون</b> — و راهِ تبدیلش به قانون روشن است.»
+</div>
+
+<script>
+var NS = "http://www.w3.org/2000/svg";
+function el(tag, at){ var e = document.createElementNS(NS, tag);
+  for (var k in at) e.setAttribute(k, at[k]); return e; }
+function fade(id, op){ var e = document.getElementById(id);
+  if (e) { e.style.transition = "opacity .5s"; e.setAttribute("opacity", op); } }
+
+/* ---------- 1. the 53x bars ---------- */
+function grow(){
+  var b1 = document.getElementById("b1"), b2 = document.getElementById("b2");
+  b1.setAttribute("width", 0); b2.setAttribute("width", 0);
+  b1.style.transition = "none"; b2.style.transition = "none";
+  setTimeout(function(){
+    b1.style.transition = "width 1.4s ease-out";
+    b2.style.transition = "width 1.4s ease-out";
+    b1.setAttribute("width", 470);
+    b2.setAttribute("width", 470 * 0.4 / 21.3);
+  }, 60);
+}
+
+/* ---------- 3. add vs gate ---------- */
+function showArm(i, btn){
+  var p = btn.parentElement.querySelectorAll("button");
+  for (var j = 0; j < p.length; j++) p[j].classList.remove("on");
+  btn.classList.add("on");
+  fade("gpath", i === 1 ? 1 : 0);
+  document.getElementById("gnum").textContent = i === 1 ? "0.42" : "0.1";
+  document.getElementById("glbl").textContent = i === 1 ? "برای این عکس" : "عددِ ثابت";
+  document.getElementById("boxg").setAttribute("fill", i === 1 ? "#1d2732" : "#32281a");
+  document.getElementById("boxg").setAttribute("stroke", i === 1 ? "#6f9ecd" : "#b58547");
+  document.getElementById("armnote").textContent = i === 1
+    ? "۹٬۳۱۳ پارامتر · عدد برای هر عکس جدا حساب می‌شود"
+    : "یک پارامتر · همان عدد برای همهٔ عکس‌ها";
+}
+
+/* ---------- 4. four steps ---------- */
+var lv = [0.34,0.52,0.41,0.60,0.28,0.47,0.55,0.33,0.44,0.36,0.58,0.30];
+(function(){
+  var g = document.getElementById("patches");
+  for (var i = 0; i < 12; i++){
+    var c = Math.round(lv[i] * 210 + 25);
+    g.appendChild(el("rect", {x: 34 + i * 26, y: 44, width: 22, height: 22, rx: 2,
+      fill: "rgb(" + c + "," + c + "," + c + ")", stroke: "#484d56"}));
+  }
+  g.appendChild(el("text", {x: 356, y: 60, "font-size": 12, fill: "#8b95a1"}));
+  g.lastChild.textContent = "... تا ۶۴ تکه";
+})();
+var stTimers = [];
+function stepReset(){
+  for (var i = 0; i < stTimers.length; i++) clearTimeout(stTimers[i]);
+  stTimers = [];
+  fade("s1", .15); fade("s2", .15); fade("s3", .15); fade("s4", .15);
+}
+function stepGo(){
+  stepReset();
+  var ids = ["s1", "s2", "s3", "s4"];
+  for (var i = 0; i < 4; i++) (function(i){
+    stTimers.push(setTimeout(function(){ fade(ids[i], 1); }, 300 + i * 900));
+  })(i);
+}
+
+/* ---------- 6. the proof ---------- */
+function proofGo(){
+  fade("p1", .15); fade("p2", .15); fade("p3", .15);
+  setTimeout(function(){ fade("p1", 1); }, 200);
+  setTimeout(function(){ fade("p2", 1); }, 1400);
+  setTimeout(function(){ fade("p3", 1); }, 2800);
+}
+
+/* ---------- 7. four images, one mean ---------- */
+(function(){
+  var X = [30, 205, 380, 555], S = 120, N = 12, c = S / N;
+  for (var k = 0; k < 4; k++){
+    var g = document.getElementById("im" + k);
+    for (var r = 0; r < N; r++) for (var q = 0; q < N; q++){
+      var on;
+      if (k === 0) on = (q % 2 === 0);
+      else if (k === 1) on = ((Math.floor(r / 2) + Math.floor(q / 2)) % 2 === 0);
+      else if (k === 2) on = (q < N / 2);
+      else {
+        var dx = q - (N - 1) / 2, dy = r - (N - 1) / 2;
+        on = (dx * dx + dy * dy) <= (N * N / 8);
+      }
+      g.appendChild(el("rect", {x: X[k] + q * c, y: 26 + r * c, width: c, height: c,
+        fill: on ? "#e8e8e8" : "#363b43"}));
+    }
+    g.appendChild(el("rect", {x: X[k], y: 26, width: S, height: S,
+      fill: "none", stroke: "#5c626b"}));
+  }
+})();
+function meanGo(){
+  var t = document.getElementById("meanline");
+  t.setAttribute("opacity", 0);
+  t.style.transition = "opacity .8s";
+  setTimeout(function(){ t.setAttribute("opacity", 1); }, 400);
+}
+
+/* ---------- 8. scatter r = -0.90 ---------- */
+(function(){
+  var g = document.getElementById("dots"), pts = [];
+  for (var i = 0; i < 46; i++){
+    var t = i / 45;
+    var vv = -24 + t * 20;
+    var gate = 1.05 - t * 0.78 + (((i * 37) % 11) - 5) * 0.012;
+    var px = 70 + ((vv + 25) / 21) * 520;
+    var py = 220 - ((gate - 0.1) / 1.1) * 180;
+    pts.push([px, py]);
+    var c = el("circle", {cx: px, cy: py, r: 4, fill: "#6fa8dc", opacity: 0});
+    c.setAttribute("class", "dt"); g.appendChild(c);
+  }
+  window._pts = pts;
+})();
+function scatGo(){
+  var d = document.querySelectorAll(".dt");
+  for (var i = 0; i < d.length; i++) d[i].setAttribute("opacity", 0);
+  for (var i = 0; i < d.length; i++) (function(i){
+    setTimeout(function(){
+      d[i].style.transition = "opacity .3s"; d[i].setAttribute("opacity", .8);
+    }, i * 22);
+  })(i);
+  setTimeout(function(){
+    var p = window._pts, a = p[0], b = p[p.length - 1];
+    var tr = document.getElementById("trend");
+    tr.setAttribute("x1", a[0]); tr.setAttribute("y1", a[1] + 6);
+    tr.setAttribute("x2", b[0]); tr.setAttribute("y2", b[1] - 6);
+    tr.style.transition = "opacity .6s"; tr.setAttribute("opacity", 1);
+    var l = document.getElementById("rlbl");
+    l.style.transition = "opacity .6s"; l.setAttribute("opacity", 1);
+  }, 1200);
+}
+</script>
+
+<script>
+/* ---------- 10. gate position: before block 1  vs  after block 3 ---------- */
+(function(){
+  var g = document.getElementById("blks");
+  for (var i = 0; i < 6; i++){
+    g.appendChild(el("rect", {x: 118 + i * 84, y: 62, width: 68, height: 40, rx: 4,
+      fill: "#21242a", stroke: "#484d56", id: "blk" + i}));
+    var t = el("text", {x: 152 + i * 84, y: 87, "text-anchor": "middle",
+      "font-size": 11.5, fill: "#c3cad2"});
+    t.textContent = "بلوک " + (i + 1);
+    g.appendChild(t);
+  }
+})();
+function showPos(i, btn){
+  var p = btn.parentElement.querySelectorAll("button");
+  for (var j = 0; j < p.length; j++) p[j].classList.remove("on");
+  btn.classList.add("on");
+  var g = document.getElementById("gmark");
+  while (g.firstChild) g.removeChild(g.firstChild);
+  for (var b = 0; b < 6; b++){
+    document.getElementById("blk" + b).setAttribute("fill",
+      (i === 1 && b < 3) ? "#1a2a1f" : "#21242a");
+  }
+  var x = (i === 0) ? 105 : 105 + 3 * 84;
+  g.appendChild(el("line", {x1: x, y1: 34, x2: x, y2: 118,
+    stroke: i === 0 ? "#e88080" : "#6fd69a", "stroke-width": 3}));
+  var lab = el("text", {x: x, y: 26, "text-anchor": "middle", "font-size": 12,
+    "font-weight": "bold", fill: i === 0 ? "#e88080" : "#6fd69a"});
+  lab.textContent = "دریچه";
+  g.appendChild(lab);
+  document.getElementById("posnote").textContent = (i === 0)
+    ? "اینجا هیچ بلوکی اجرا نشده — فقط روشنایی قابل محاسبه است"
+    : "اینجا سه بلوکِ توجه اجرا شده — توکن CLS کل تصویر را دیده";
+  document.getElementById("posnote").setAttribute("fill", i === 0 ? "#ee9090" : "#6fd69a");
+}
+showPos(0, document.querySelectorAll(".fig .btn.on")[document.querySelectorAll(".fig .btn.on").length - 1]);
+
+/* ---------- 11. depth profile ---------- */
+var DEPTH = [[1, 77.60], [2, 77.59], [3, 78.05], [4, 78.56], [6, 73.58]];
+function dx(d){ return 80 + (d / 6.6) * 540; }
+function dy(v){ return 230 - ((v - 73.0) / 6.0) * 200; }
+function depthGo(){
+  var g = document.getElementById("dpts");
+  while (g.firstChild) g.removeChild(g.firstChild);
+  document.getElementById("dline").setAttribute("opacity", 0);
+  var pts = "";
+  for (var i = 0; i < DEPTH.length; i++){
+    var d = DEPTH[i][0], v = DEPTH[i][1];
+    pts += dx(d) + "," + dy(v) + " ";
+    (function(i, d, v){
+      setTimeout(function(){
+        var last = (d === 6);
+        var c = el("circle", {cx: dx(d), cy: dy(v), r: 7,
+          fill: last ? "#e88080" : (d === 3 ? "#6fd69a" : "#6fa8dc")});
+        g.appendChild(c);
+        var t1 = el("text", {x: dx(d), y: dy(v) - 14, "text-anchor": "middle",
+          "font-size": 12, "font-weight": "bold",
+          fill: last ? "#e88080" : (d === 3 ? "#6fd69a" : "#9dc0e0")});
+        t1.textContent = v.toFixed(2);
+        g.appendChild(t1);
+        var t2 = el("text", {x: dx(d), y: 248, "text-anchor": "middle",
+          "font-size": 12, fill: "#aab3bd"});
+        t2.textContent = d;
+        g.appendChild(t2);
+      }, 250 + i * 550);
+    })(i, d, v);
+  }
+  setTimeout(function(){
+    var L = document.getElementById("dline");
+    L.setAttribute("points", pts);
+    L.style.transition = "opacity .7s"; L.setAttribute("opacity", .75);
+  }, 250 + DEPTH.length * 550);
+}
+</script>
+
+
+<script>
+(function(){
+  if (!("IntersectionObserver" in window)) return;   /* بدون آن، هیچ‌چیز مخفی نشود */
+  document.documentElement.classList.add("js");
+  var io = new IntersectionObserver(function(es){
+    for (var i = 0; i < es.length; i++)
+      if (es[i].isIntersecting) es[i].target.classList.add("seen");
+  }, {threshold: .12});
+  var sel = "h2,.fig,.key,.good,.bad,.warn,table,pre";
+  var n = document.querySelectorAll(sel);
+  for (var i = 0; i < n.length; i++) io.observe(n[i]);
+  setTimeout(function(){ for (var i = 0; i < 6 && i < n.length; i++)
+    n[i].classList.add("seen"); }, 120);
+})();
+</script>
+
+</body></html>

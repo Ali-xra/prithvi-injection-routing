@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<!-- STEP-04-code.html · بلوک ۴ از ۸ · 2026-08-05 · برای چاپ -->
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>بلوک ۴ — کد، خط به خط</title>
+<style>
+ :root{--ink:#16150f;--mut:#6a665c;--line:#d8d3c8;--ok:#1d6b46;--no:#96261f;--hl:#8a5a12;}
+ *{box-sizing:border-box}
+ body{margin:0;padding:30px 22px 70px;background:#fff;color:var(--ink);
+      font:16px/1.9 Tahoma,"Segoe UI",system-ui,sans-serif;}
+ .wrap{max-width:940px;margin:0 auto}
+ h1{font-size:26px;margin:0 0 3px}
+ h2{font-size:20px;margin:36px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+ h3{font-size:16.5px;margin:22px 0 5px}
+ .sub{color:var(--mut);font-size:13.5px;margin-bottom:22px}
+ p{margin:9px 0}
+ table{width:100%;border-collapse:collapse;margin:13px 0;font-size:14px}
+ th,td{border:1px solid var(--line);padding:7px 10px;text-align:right;vertical-align:top}
+ th{background:#f4f1ea;font-weight:700;font-size:13px}
+ code{background:#efece4;padding:1px 5px;border-radius:3px;font-family:Consolas,monospace;font-size:13.5px}
+ pre{background:#f7f5ef;border:1px solid var(--line);border-radius:5px;padding:11px 14px;
+     overflow-x:auto;font-family:Consolas,monospace;font-size:13px;line-height:1.65;
+     direction:ltr;text-align:left}
+ pre .ln{color:#a09a8e}
+ .box{border:1px solid var(--line);border-right:4px solid #b8b2a5;border-radius:5px;padding:12px 16px;margin:14px 0;background:#faf9f5}
+ .key{border-right-color:var(--hl);background:#fdf8ec}
+ .bad{border-right-color:var(--no);background:#fdf0ef}
+ .good{border-right-color:var(--ok);background:#eff7f2}
+ ul,ol{margin:8px 0;padding-right:23px} li{margin:5px 0}
+ .q{border:1px solid var(--line);border-radius:5px;padding:11px 15px;margin:11px 0;background:#fafaf7}
+ .q b{color:var(--hl)}
+ .src{color:var(--mut);font-size:13px}
+ @media print{
+   body{padding:0;font-size:11pt;line-height:1.6}
+   .wrap{max-width:none}
+   h2,h3{page-break-after:avoid}
+   table,pre,.box,.q{page-break-inside:avoid}
+   .box,.q,pre{background:#fff !important}
+   th{background:#eee !important}
+ }
+</style>
+</head>
+<body><div class="wrap">
+
+<h1>بلوک ۴ — کد، خط به خط</h1>
+<div class="sub">۴ از ۸ · ۵ اوت ۲۰۲۶ · سه فایل، ~۲۵۰ خط · و یک اجرای کامل در ۵ دقیقه</div>
+
+<div class="box">
+<b>تریاژ:</b> از دوازده فایل پایتون، فقط این سه ارزش وقت تو را دارند.
+<code>21_cache</code> · <code>25_analyse</code> · <code>26_curves</code> · <code>28_budget</code>
+مهندسی معمولی‌اند — <b>رد کن</b>. هیچ استادی از آن‌ها سؤال نمی‌کند.
+</div>
+
+<table>
+<tr><th>فایل</th><th>چقدرش</th><th>چرا</th></tr>
+<tr><td><code>22_model.py</code></td><td><b>کامل، ۱۵۹ خط</b></td><td>خودِ سهم علمی. هر سؤال مکانیزمی از اینجا جواب می‌گیرد</td></tr>
+<tr><td><code>23_test_arms.py</code></td><td><b>کامل، ۱۱۲ خط</b></td><td>داستان روشی — چرا به اعدادت می‌شود اعتماد کرد</td></tr>
+<tr><td><code>24_train.py</code></td><td><b>~۴۰ خط از ۲۰۸</b></td><td>فقط شافل و بودجهٔ ثابت. بقیه حلقهٔ آموزش استاندارد است</td></tr>
+</table>
+
+<h2>الف · <code>22_model.py</code> — شش بازو</h2>
+
+<h3>۱ · قرارداد، در خود فایل نوشته شده (خط ۵–۷)</h3>
+<pre>The point of the whole study: the PAYLOAD is identical in every arm (the same
+lon/lat for the same chip). Only the ENTRY POINT changes. Anything that differs
+between arms is therefore attributable to routing, not to information.</pre>
+<p>این سه خط <b>کل طرح آزمایش</b> است. اگر فقط یک چیز از کد بگویی، این باشد.</p>
+
+<h3>۲ · کدگذار مکان (خط ۳۰–۵۴) — بی‌پارامتر و مشترک</h3>
+<pre><span class="ln">41</span>  lon = coords[:, 0] / 180.0 * math.pi
+<span class="ln">42</span>  lat = coords[:, 1] /  90.0 * math.pi
+<span class="ln">43</span>  half = dim // 4                      # 192//4 = 48
+<span class="ln">44</span>  freqs = torch.exp(torch.arange(half) * (-math.log(10000.0) / max(half-1, 1)))
+<span class="ln">48</span>      a = ang[:, None] * freqs[None, :] * 10.0
+<span class="ln">49</span>      out += [torch.sin(a), torch.cos(a)]</pre>
+<p><b>چه می‌کند:</b> دو عدد <code>(lon, lat)</code> را به یک بردار ۱۹۲ بعدی تبدیل می‌کند.
+۲ زاویه × ۲ تابع (sin/cos) × ۴۸ فرکانس = ۱۹۲.</p>
+<p><b>چرا فرکانس‌های مختلف:</b> <code>freqs</code> یک دنبالهٔ هندسی از ۱ تا ۱۰⁻⁴ است.
+فرکانس پایین می‌گوید «شمال یا جنوب اروپا»، فرکانس بالا می‌گوید «این دره یا آن دره».
+مثل ساعتی که عقربهٔ ساعت و دقیقه و ثانیه دارد — هر کدام یک مقیاس.</p>
+<div class="box key">
+<b>چرا بی‌پارامتر؟</b> خط ۳۴–۳۷ خودش جواب داده: اگر کدگذار یادگیرنده بود، بازوها در
+«چقدر خوب می‌توانند مختصات را <b>بخوانند</b>» فرق می‌کردند، نه فقط در «کجا <b>واردش</b>
+می‌کنند» — و مقایسه دیگر مسیریابی را جدا نمی‌کرد.
+</div>
+<div class="box bad">
+⚠️ <b>ضعفی که باید خودت بگویی:</b> آن <code>* 10.0</code> در خط ۴۸ یک <b>عدد جادویی
+بدون توجیه</b> است. جایی مستند نشده چرا ۱۰. چون در همهٔ بازوها یکسان است، مقایسه را
+خراب نمی‌کند — ولی سطح مطلق را ممکن است جابه‌جا کند. <b>ابلیشن نشده.</b>
+</div>
+
+<h3>۳ · بلوک ترنسفورمر (خط ۶۶–۷۵) — و بزرگراه باقیمانده</h3>
+<pre><span class="ln">67</span>  if mod is None:                                  # مسیر بدون تزریق
+<span class="ln">68</span>      a = self.n1(x)
+<span class="ln">69</span>      x = x + self.attn(a, a, a)[0]
+<span class="ln">70</span>      return x + self.mlp(self.n2(x))
+<span class="ln">71</span>  s1, g1, s2, g2 = mod                             # مسیر adaLN
+<span class="ln">72</span>  a = self.n1(x) * (1 + g1.unsqueeze(1)) + s1.unsqueeze(1)
+<span class="ln">73</span>  x = x + self.attn(a, a, a)[0]
+<span class="ln">74</span>  b = self.n2(x) * (1 + g2.unsqueeze(1)) + s2.unsqueeze(1)
+<span class="ln">75</span>  return x + self.mlp(b)</pre>
+<p>آن <code>x = x +</code> یک <b>نوار نقاله</b> است که از ورودی تا خروجی بی‌وقفه می‌رود.
+هر چیزی که رویش بنشیند تا انتها زنده می‌ماند. اصطلاح رایجش <b>residual stream</b> است.</p>
+<div class="box key">
+<b>مقایسهٔ خط ۶۹ با خط ۷۲–۷۳ — کل توضیح مکانیکی اینجاست.</b><br><br>
+در مسیر adaLN، <code>s1</code> و <code>g1</code> فقط <b>ورودی attention</b> را تغییر شکل
+می‌دهند. هیچ‌جا <code>x = x + loc</code> نداریم. یعنی <b>مکان هرگز کپی مستقیمی روی نوار
+نمی‌گذارد</b> — فقط شکل چیزی که attention تولید می‌کند را عوض می‌کند.
+</div>
+
+<h3>۴ · سازنده (خط ۸۷–۱۱۷) — بدنهٔ مشترک، بعد تفاوت بازوها</h3>
+<pre><span class="ln">87</span>  self.stem = nn.Conv2d(in_ch, dim, patch, patch)   # 64x64 -> 8x8=64 tکه
+<span class="ln">88</span>  self.cls  = nn.Parameter(torch.zeros(1, 1, dim))  # توکن ۶۵ام
+<span class="ln">89</span>  self.pos  = nn.Parameter(...)                     # موقعیت داخل تصویر
+<span class="ln">93</span>  self.blocks = nn.ModuleList([Block(dim, heads) for _ in range(depth)])
+<span class="ln">95</span>  self.head = nn.Linear(dim, n_classes)
+<span class="ln">97</span>  # ---- the only thing that differs between arms ----
+<span class="ln">101</span>     self.scale = nn.Parameter(torch.full((1,), 0.1))          # add
+<span class="ln">104</span>     self.loc_proj = nn.Linear(dim, dim)                       # token
+<span class="ln">106</span>     self.to_mod = ModuleList([Sequential(SiLU(), Linear(dim, 4*dim)) ...])  # adaln
+<span class="ln">109</span>     nn.init.zeros_(m[1].weight); nn.init.zeros_(m[1].bias)    # zero-init
+<span class="ln">114</span>     self.gate_net = Sequential(Linear(dim, dim//4), SiLU(), Linear(dim//4, 1))
+<span class="ln">116</span>     nn.init.zeros_(self.gate_net[2].weight)
+<span class="ln">117</span>     nn.init.constant_(self.gate_net[2].bias, 0.1)   # same start as `add`</pre>
+
+<p><b>اشتقاق تعداد پارامترها — این را باید بتوانی روی کاغذ بکشی:</b></p>
+<pre>add    :  یک اسکالر                                        =         1
+token  :  Linear(192->192)  = 192*192 + 192                =    37,056
+gate   :  Linear(192->48)   = 192*48 + 48   =  9,264
+          Linear(48->1)     =  48*1  +  1   =     49        =     9,313
+adaln  :  Linear(192->768)  = 192*768 + 768 = 148,224
+          x 6 block                                        =   889,344</pre>
+<p><b>چرا <code>4*dim</code>؟</b> دو LayerNorm در هر بلوک، هرکدام یک shift و یک scale:
+<code>s1, g1, s2, g2</code>. خط ۱۴۷ همان <code>chunk(4)</code> بازش می‌کند.</p>
+<div class="box good">
+<b>دو مقداردهی اولیهٔ هوشمند:</b><br>
+<b>خط ۱۰۹ (adaln)</b> — وزن صفر یعنی <code>x·(1+0)+0 = x</code>، پس در گام صفر
+<b>دقیقاً</b> برابر <code>none</code> است. از نقطهٔ بدتر شروع نمی‌کند.<br>
+<b>خط ۱۱۶–۱۱۷ (gate)</b> — وزن صفر و بایاس <code>0.1</code> یعنی <code>g = 0.1</code> ثابت،
+که <b>دقیقاً همان <code>add</code></b> است. پس هر اختلافی از <b>یادگیریِ گیت</b> می‌آید،
+نه از نقطهٔ شروع متفاوت.
+</div>
+
+<h3>۵ · forward (خط ۱۱۹–۱۵۲) — جایی که تزریق اتفاق می‌افتد</h3>
+<pre><span class="ln">121</span>  x = self.stem(img).flatten(2).transpose(1, 2)      # (B, 64, 192)
+<span class="ln">122</span>  x = torch.cat([self.cls.expand(B,-1,-1), x], dim=1)# (B, 65, 192)
+<span class="ln">123</span>  x = x + self.pos
+<span class="ln">130</span>  loc = sincos_location(coords, self.dim)            # (B, 192)
+<span class="ln">133</span>  if self.arm == "add":
+<span class="ln">134</span>      x = x + self.scale * loc.unsqueeze(1)          # به همهٔ ۶۵ توکن
+<span class="ln">135</span>  elif self.arm == "gate":
+<span class="ln">139</span>      g = self.gate_net(x[:, 1:].mean(dim=1))        # فقط توکن‌های تصویر
+<span class="ln">141</span>      x = x + g.unsqueeze(1) * loc.unsqueeze(1)
+<span class="ln">142</span>  elif self.arm == "token":
+<span class="ln">143</span>      x = torch.cat([x, self.loc_proj(loc).unsqueeze(1)], dim=1)   # (B, 66, 192)
+<span class="ln">145</span>  for i, blk in enumerate(self.blocks):
+<span class="ln">146</span>      if self.arm in ("adaln", "shuffle"):
+<span class="ln">147</span>          x = blk(x, self.to_mod[i](loc).chunk(4, dim=1))
+<span class="ln">148</span>      else:
+<span class="ln">149</span>          x = blk(x)
+<span class="ln">151</span>  out = self.head(self.norm(x)[:, 0])                # [:, 0] = فقط CLS</pre>
+
+<div class="box key">
+<b>خط ۱۳۹ — چرا گیت <code>x[:, 1:]</code> می‌خواند و نه <code>loc</code>.</b>
+در آن نقطه <code>loc</code> هنوز به <code>x</code> اضافه نشده (خط ۱۴۱ اضافه‌اش می‌کند).
+پس گیت <b>کور به مکان</b> است. اگر نبود، بازوی <code>gate</code> دو مسیر برای مکان داشت و
+مقایسه با <code>add</code> دیگر «دروازهٔ نمونه‌ای» را جدا نمی‌کرد. آزمون T5 همین را
+با <code>0.000e+00</code> تأیید می‌کند.
+</div>
+
+<div class="box key">
+<b>خط ۱۵۱ — <code>[:, 0]</code> کلید کل نتیجه است.</b> فقط CLS به طبقه‌بند می‌رسد.
+<code>add</code> در خط ۱۳۴ مکان را به <b>همهٔ</b> توکن‌ها اضافه می‌کند — از جمله CLS.
+یعنی <b>فاصلهٔ مکان تا تصمیم: صفر لایه.</b> در <code>adaln</code> این مسیر مستقیم وجود ندارد.
+</div>
+
+<h2>ب · <code>23_test_arms.py</code> — چرا به اعدادت می‌شود اعتماد کرد</h2>
+
+<p>سربرگ فایل دلیلش را نوشته: گران‌ترین باگ فاز آتش‌سوزی یک تست هم‌ارزی بود که
+<b>فقط برابری را می‌سنجید</b> و در حالی که ماژول تزریق قطع بود، پاس شد.</p>
+
+<table>
+<tr><th>آزمون</th><th>چه می‌سنجد</th><th>نوع</th></tr>
+<tr><td>T1</td><td><code>none</code> مختصات را کاملاً نادیده می‌گیرد</td><td>باید برابر باشد</td></tr>
+<tr><td><b>T2</b></td><td>هر بازوی تزریقی با عوض شدن مختصات <b>خروجی‌اش عوض شود</b></td><td><b>باید فرق کند</b></td></tr>
+<tr><td>T3</td><td><code>adaln</code> در مقداردهی اولیه = <code>none</code></td><td>باید برابر باشد</td></tr>
+<tr><td><b>T4</b></td><td>هر پارامتر تزریق <b>گرادیان بگیرد</b> و <b>در بهینه‌ساز باشد</b></td><td><b>باید ناصفر باشد</b></td></tr>
+<tr><td>T5</td><td>گیت به تصویر وابسته باشد و به مختصات <b>نباشد</b></td><td>باید برابر باشد</td></tr>
+</table>
+
+<p><b>دو ریزه‌کاری که نشان می‌دهد کسی واقعاً فکر کرده:</b></p>
+<pre><span class="ln">55</span>  # adaln/shuffle are zero-initialised, so randomise the modulator first -
+<span class="ln">56</span>  # otherwise this test would pass trivially by being identity.</pre>
+<p>بدون این، T2 برای adaLN <b>بی‌معنا</b> بود: ماژول صفر است، خروجی عوض نمی‌شود، تست
+می‌گفت «فرق نکرد» و اشتباهاً FAIL می‌داد — یا بدتر، اگر برعکس نوشته بودی، PASS.</p>
+
+<pre><span class="ln">83</span>  # adaLN-zero has exactly zero gradient at step 1 by construction
+<span class="ln">84</span>  # (dL/dloc-encoder = W^T g = 0 while W is zero). Measured: 0.000e+00 at
+<span class="ln">85</span>  # step 1, 1.38e-01 at step 2. So we look at the LAST step.</pre>
+<div class="box good">
+<b>این یکی از بهترین چیزهای پروژه است.</b> یک صفر دیدند، و به‌جای اینکه باگ اعلامش کنند،
+<b>حساب کردند آن صفر باید چه باشد</b>. با وزن صفر، گرادیانِ انکودر شرط ریاضاً صفر است.
+اگر شرط تست «همهٔ گام‌ها» بود، یک رفتار <b>درست</b> باگ شمرده می‌شد.
+<br><br>
+<b>درس:</b> پیش از اینکه یک صفر را خرابی بدانی، حساب کن آن صفر <b>باید</b> چه باشد.
+</div>
+
+<h2>پ · <code>24_train.py</code> — فقط چهل خطی که مهم است</h2>
+
+<h3>۱ · آمار نرمال‌سازی فقط از آموزش (خط ~۴۵)</h3>
+<pre>mu = img[tr].mean(axis=(0,2,3), keepdims=True)
+sd = img[tr].std(axis=(0,2,3), keepdims=True) + 1e-6
+img = (img - mu) / sd</pre>
+<p><code>img[tr]</code> — فقط تکهٔ آموزش. اگر میانگین را از کل داده می‌گرفتی،
+<b>اطلاعات مجموعهٔ ارزیابی وارد آموزش می‌شد</b>. یک نشت کوچک ولی واقعی.</p>
+
+<h3>۲ · شافل با صفر نقطهٔ ثابت (خط ۵۵–۹۰)</h3>
+<pre>perm = torch.randperm(len(c), generator=g)
+for _ in range(64):
+    fixed = (perm == idx).nonzero().flatten()
+    if len(fixed) == 0: break
+    if len(fixed) == 1:  perm[[f, j]] = perm[[j, f]]
+    else:                perm[fixed] = perm[torch.roll(fixed, 1)]
+if (perm == idx).sum(): raise RuntimeError("shuffle left N fixed points")
+if len(torch.unique(perm)) != len(c): raise RuntimeError("not a bijection")</pre>
+<div class="box bad">
+<b>باگ واقعی، اندازه‌گیری‌شده ۱ اوت، seed 3:</b> نسخهٔ قبلی یک بار <code>torch.roll</code>
+می‌زد و امیدوار بود. چرخاندن یک جایگشت <b>هیچ تضمینی</b> برای حذف نقاط ثابت نمی‌دهد.
+assertion گرفتش — وگرنه دو نمونه مختصات <b>درست خودشان</b> را نگه می‌داشتند و کنترل
+بی‌صدا آلوده می‌شد.
+</div>
+<p class="src">«نقطهٔ ثابت» = نمونه‌ای که بعد از شافل، مختصات خودش را گرفته. در جایگشتی که
+هیچ نقطهٔ ثابتی ندارد به آن <b>derangement</b> می‌گویند.</p>
+
+<h3>۳ · شافل فقط روی آموزش (خط ۴۶–۴۸)</h3>
+<pre># destroy the correspondence on the TRAIN split only. Val keeps its true
+# coordinates, so the task itself is unchanged - only what the model could learn.</pre>
+<p>اگر اعتبارسنجی هم شافل می‌شد، <b>معیار انتخاب چک‌پوینت</b> هم خراب می‌شد و دیگر
+نمی‌دانستی چه چیزی را می‌سنجی.</p>
+
+<h3>۴ · بودجهٔ ثابت، بدون توقف زودهنگام</h3>
+<p>هیچ <code>EarlyStopping</code> در فایل نیست، عمداً. درس فاز آتش‌سوزی: توقف زودهنگام
+روی یک معیار نویزی، بخشی از «اثر» را به <b>زمان توقف</b> تبدیل می‌کند.</p>
+
+<h3>۵ · تگ، و درسی که از یک اشتباه آمد</h3>
+<pre>tag = f"{arm}_s{seed}"
+    + ("" if epochs == 30 else f"_e{epochs}")
+    + ("" if split == "official" else f"_{split}")</pre>
+<div class="box key">
+کامنت بالای این خط: «اگر بودجه در تگ نیاید، اجرای ۹۰ epoch روی نتیجهٔ ۳۰ epoch
+می‌نویسد و <b>دو بودجه بی‌صدا قاتی می‌شوند</b> — همان اشتباهی که با split در فاز
+آتش‌سوزی کردیم.» <br>
+و <code>_geo</code> بعداً به همین منطق اضافه شد. <b>نام فایل، بخشی از طرح آزمایش است.</b>
+</div>
+
+<h2>ت · اجرای واقعی — پنج دقیقه</h2>
+
+<pre>cd C:\Users\aliso\Desktop\big-files\loc
+powershell -ExecutionPolicy Bypass -File 32_demo_run.ps1</pre>
+
+<p>دو مرحله: اول مجموعه آزمون (CPU، ~۱ دقیقه)، بعد <b>هر شش بازو با ۲ epoch</b>
+(GPU، ~۳ دقیقه). نتایج به <code>runs\_demo\</code> می‌روند و هرگز با اعداد واقعی
+قاتی نمی‌شوند.</p>
+
+<div class="box">
+<b>سه چیز که باید در خروجی ببینی — بقیه را نگاه نکن:</b>
+<ol>
+<li><code>ALL PASS</code> در انتهای مرحلهٔ ۱، و اینکه T2 و T4 <b>PASS</b> باشند نه فقط T1 و T3</li>
+<li>تعداد پارامتر تزریق: <code>0 / 1 / 37,056 / 9,313 / 889,344</code></li>
+<li>خط <code>shuffle: 16200 coords permuted, 0 fixed points</code></li>
+</ol>
+⚠️ <b>دقت‌ها با ۲ epoch بی‌معنی‌اند. نگاهشان نکن.</b> هدف این است که کدی که روی کاغذ
+خوانده‌ای، کدی باشد که اجرا شدنش را دیده‌ای.
+</div>
+
+<h2>ث · امتحان</h2>
+
+<div class="q"><b>۱.</b> خط ۱۳۴ (<code>add</code>) مکان را به <b>همهٔ ۶۵ توکن</b> اضافه می‌کند.
+اگر فقط به CLS اضافه می‌کرد، چه فرقی می‌کرد؟ <b>بهتر می‌شد یا بدتر — و چرا؟</b></div>
+
+<div class="q"><b>۲.</b> در T2، برای <code>adaln</code> اول وزن‌های مدولاتور را تصادفی می‌کنند.
+<b>اگر این کار را نمی‌کردند، تست چه می‌گفت و چرا آن جواب بی‌معنا بود؟</b></div>
+
+<div class="q"><b>۳.</b> <code>gate</code> در گام صفر دقیقاً برابر <code>add</code> است.
+<b>چرا این طراحی عمدی است و چه چیزی را ممکن می‌کند؟</b></div>
+
+<div class="q"><b>۴.</b> نرمال‌سازی از <code>img[tr]</code> حساب می‌شود، نه از کل داده.
+<b>اگر از کل داده حساب می‌شد، دقیقاً چه نوع نشتی رخ می‌داد؟</b> (به بلوک ۲ وصلش کن.)</div>
+
+<div class="q"><b>۵ — سخت.</b> <code>token</code> دنباله را از ۶۵ به ۶۶ توکن می‌برد، پس
+کمی محاسبهٔ بیشتری هم می‌گیرد. یک داور می‌گوید «پس مقایسه‌ات ناعادلانه است».
+<b>جوابت چیست؟</b> (راهنمایی: ۱.۵٪ بیشتر محاسبه در برابر چه اختلافی در نتیجه؟)</div>
+
+<p class="src">فایل‌ها: <code>experiments/eurosat_s1/22_model.py</code> ·
+<code>23_test_arms.py</code> · <code>24_train.py</code> ·
+اجرا: <code>big-files/loc/32_demo_run.ps1</code></p>
+
+</div></body></html>

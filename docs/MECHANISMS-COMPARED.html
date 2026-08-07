@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8">
+<title>دریچه ≠ adaLN — چهار سازوکار، کنار هم</title>
+<style>
+ body{font-family:"Segoe UI",Tahoma,sans-serif;background:#0e1116;color:#e6e8ec;
+      margin:0;padding:1.7em;line-height:2;font-size:16px}
+ .wrap{max-width:60em;margin:0 auto}
+ h1{font-size:1.55em;margin:0 0 .1em}
+ .sub{color:#858b98;font-size:.92em;margin-bottom:1.6em}
+ h2{font-size:1.18em;margin:2.2em 0 .5em;color:#8fc0ff;
+    border-right:4px solid #2f6fbf;padding-right:.6em}
+ h3{font-size:1.03em;margin:1.4em 0 .3em;color:#c3cbd8}
+ p{margin:.75em 0;text-align:justify}
+ .panel{background:#151922;border:1px solid #242a36;border-radius:12px;
+        padding:1.1em 1.3em;margin:1.1em 0}
+ .warn{background:#241a1a;border:1px solid #4a2b2b;border-right:4px solid #b95050;
+       border-radius:9px;padding:.9em 1.2em;margin:1em 0}
+ .ok{background:#152318;border:1px solid #26402c;border-right:4px solid #3f9f5f;
+     border-radius:9px;padding:.9em 1.2em;margin:1em 0}
+ .big{background:#1a2333;border:1px solid #2c3d57;border-right:5px solid #4a8ad8;
+      border-radius:10px;padding:1em 1.3em;margin:1.1em 0}
+ .math{direction:ltr;text-align:left;font-family:Consolas,monospace;font-size:.9em;
+       background:#0a0d12;border:1px solid #242a36;border-radius:7px;
+       padding:.7em 1em;margin:.6em 0;color:#9fd6a0;white-space:pre-wrap;overflow-x:auto}
+ table{border-collapse:collapse;width:100%;margin:.9em 0;font-size:.9em}
+ th,td{border:1px solid #2a2f3b;padding:.38em .6em;text-align:right}
+ th{background:#1b2029}
+ code{background:#1b2029;padding:.06em .3em;border-radius:4px;direction:ltr;
+      display:inline-block;font-size:.9em}
+ svg{width:100%;height:auto;display:block}
+ button{font-family:inherit;font-size:.93em;padding:.42em .95em;border-radius:8px;
+        border:1px solid #333a48;background:#1b2029;color:#cfd4de;cursor:pointer;
+        margin-left:.4em;margin-bottom:.3em}
+ button:hover{background:#232935} button.on{background:#2f6fbf;border-color:#4a8ad8;color:#fff}
+ @media print{body{background:#fff;color:#111}
+  .panel,.math,.warn,.ok,.big{background:#fff;border-color:#bbb;color:#111}
+  button{display:none}}
+</style></head><body><div class="wrap">
+
+<h1>دریچه ≠ adaLN — و این مهم‌ترین سوءتفاهمی است که باید رفع شود</h1>
+<p class="sub">پرسیدی «مگر adaLN همان جمع با یک وزن برای هر عکس نیست؟» — نه.
+آن <b>دریچهٔ ماست</b>. adaLN کار کاملاً دیگری می‌کند.<br>
+۵ آگوست ۲۰۲۶</p>
+
+<div class="big"><b>تفاوت بنیادی در یک خط:</b><br><br>
+در <code>add</code> و <code>gate</code>، مکان <b>جمع می‌شود</b> — یعنی وارد
+<i>محتوا</i> می‌شود. ضریب، <b>خودِ مکان</b> را بزرگ و کوچک می‌کند و تصویر
+دست‌نخورده می‌ماند.<br><br>
+در <code>FiLM</code> و <code>adaLN</code>، مکان <b>ضرب می‌شود</b> — یعنی هرگز
+به محتوا اضافه نمی‌شود، بلکه <b>ویژگی‌های تصویر</b> را کش می‌دهد و جابه‌جا
+می‌کند. مکان یک <i>دستور خواندن</i> است، نه یک <i>ورودی</i>.</div>
+
+<h2>۱ · چهار سازوکار، روی یک تصویر</h2>
+
+<div class="panel">
+<div style="margin-bottom:.7em">
+ <button class="on" onclick="pick(0,this)">add — پریتوی</button>
+ <button onclick="pick(1,this)">gate — ما</button>
+ <button onclick="pick(2,this)">FiLM</button>
+ <button onclick="pick(3,this)">adaLN</button>
+ <button onclick="pick(4,this)">توجه متقاطع</button>
+</div>
+<svg viewBox="0 0 840 250" xmlns="http://www.w3.org/2000/svg" id="mech"></svg>
+<div id="mtext"></div>
+</div>
+
+<h2>۲ · «ضریب، ابعاد تصویر را عوض می‌کند؟» — نه</h2>
+
+<p>گفتی: «این وزن ظاهراً دارد ابعاد تصویر را بالا پایین می‌کند.» اینجا دو کلمه
+قاتی شده و باید جدا شوند.</p>
+
+<table>
+<tr><th>کلمه</th><th>یعنی چه</th><th>در دریچه چه می‌شود</th></tr>
+<tr><td><b>ابعاد</b> (dimension)</td>
+    <td>تعداد عددهای بردار — اینجا همیشه <b>۱۹۲</b></td>
+    <td><b>هرگز عوض نمی‌شود.</b> نه قبل، نه بعد.</td></tr>
+<tr><td><b>بزرگی</b> (magnitude)</td>
+    <td>طول بردار — یعنی عددهایش چقدر بزرگ‌اند</td>
+    <td><b>این عوض می‌شود</b> — و فقط برای بردار <u>مکان</u></td></tr>
+</table>
+
+<div class="panel">
+<svg viewBox="0 0 840 190" xmlns="http://www.w3.org/2000/svg">
+ <text x="120" y="24" fill="#9aa1ae" font-size="12" text-anchor="middle">بردار مکان</text>
+ <text x="420" y="24" fill="#9aa1ae" font-size="12" text-anchor="middle">×۰٫۳</text>
+ <text x="700" y="24" fill="#9aa1ae" font-size="12" text-anchor="middle">×۲٫۵</text>
+ <g id="magdemo"></g>
+ <text x="420" y="182" fill="#7fd6a0" font-size="12" text-anchor="middle">
+   در هر سه حالت <b>۱۹۲ عدد</b> است — فقط عددها کوچک و بزرگ می‌شوند</text>
+</svg>
+</div>
+
+<div class="ok"><b>و نکتهٔ اصلی:</b> تصویر اصلاً دست نمی‌خورد. اثر «نسبی» است —
+وقتی مکان بزرگ‌تر می‌شود، سهمش در مجموع بیشتر می‌شود و تصویر کم‌رنگ‌تر
+<i>به‌نظر می‌رسد</i>، ولی خودش تغییر نکرده.<br><br>
+پس جواب سؤالت — «می‌شود گفت اهمیت این تصویر را بیشتر کن؟» — این است:
+<b>با این سازوکار نه.</b> دریچه فقط می‌تواند مکان را بلندتر کند، نه تصویر را.
+اگر بخواهی <i>تصویر</i> را وزن بدهی، باید ضریب را روی توکن‌های تصویر بگذاری —
+که دقیقاً کاری است که FiLM و adaLN می‌کنند.</div>
+
+<h2>۳ · «جدولی مثل جدول اتنشن نداشته باشیم؟»</h2>
+
+<p>این سؤال دقیقاً به سازوکار پنجم می‌رسد که ما نزدیم: <b>توجه متقاطع</b>.</p>
+
+<table>
+<tr><th>سازوکار</th><th>ضریب چند تاست</th><th>برای هر توکن فرق می‌کند؟</th></tr>
+<tr><td><code>add</code></td><td>۱ عدد، برای کل مجموعه</td><td>نه</td></tr>
+<tr><td><code>gate</code></td><td>۱ عدد، برای هر تصویر</td><td>نه</td></tr>
+<tr><td><code>FiLM</code></td><td>۳۸۴ عدد (γ و β)، برای هر تصویر</td><td>نه</td></tr>
+<tr><td><code>adaLN</code></td><td>۳۸۴ × ۱۲ نقطه</td><td><b>نه</b> — و DiT خودش این را
+    محدودیت می‌نامد</td></tr>
+<tr style="background:#1a2333"><td><b>توجه متقاطع</b></td>
+    <td>یک وزن برای هر (توکن × متادیتا)</td><td><b>بله</b> — اولین سازوکاری که
+    می‌تواند بگوید «این ناحیه»</td></tr>
+</table>
+
+<div class="ok"><b>پس حدست درست بود.</b> «جدول اتنشن» دقیقاً همان چیزی است که
+لازم است تا مکانیزم بتواند بگوید «این گوشهٔ تصویر مهم‌تر است». هیچ‌کدام از شش
+بازوی ما این توانایی را ندارد. <b>این را نزدیم، و باید در «کارهای آینده» باشد.</b></div>
+
+<h2>۴ · «هر شش بازو مکانی-یکنواخت‌اند» — یعنی چه</h2>
+
+<p>ساده‌ترین تصویرش این است. فرض کن تصویر ۶۴ تکه دارد و متادیتا می‌گوید
+«باد از غرب».</p>
+
+<div class="panel">
+<svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg">
+ <text x="200" y="20" fill="#e08080" font-size="12.5" text-anchor="middle">
+   آنچه شش بازوی ما می‌کنند</text>
+ <g id="uni"></g>
+ <text x="200" y="188" fill="#9aa1ae" font-size="11" text-anchor="middle">
+   همان مقدار، روی هر ۶۴ تکه</text>
+
+ <text x="620" y="20" fill="#7fd6a0" font-size="12.5" text-anchor="middle">
+   آنچه یک تسک مکانی لازم دارد</text>
+ <g id="vary"></g>
+ <text x="620" y="188" fill="#9aa1ae" font-size="11" text-anchor="middle">
+   لبهٔ غربی وزن بیشتر — چون باد از آنجا می‌آید</text>
+</svg>
+</div>
+
+<p>سمت چپ چیزی است که ما ساختیم. سمت راست چیزی است که برای «آتش در جهت باد
+پخش می‌شود» لازم است. <b>هیچ‌کدام از شش بازو نمی‌تواند سمت راست را تولید کند —
+نه به این دلیل که بد پیاده شده‌اند، بلکه چون طراحی‌شان اجازه نمی‌دهد.</b></p>
+
+<div class="warn">و این دقیقاً همان چیزی است که تو دربارهٔ آتش‌سوزی گفتی:
+«صفحهٔ قبل از سوختگی این است، بعد از سوختگی این است، باید آن ناحیه را پیدا کنیم
+و به آن ولوم بدهیم.» <b>درست گفتی. و سازوکار ما جایی برای این حرف ندارد.</b>
+ولوم ما یک عدد برای کل تصویر است، نه یک نقشه.</div>
+
+<h2>۵ · FiLM — دقیقاً چطور کار می‌کند</h2>
+
+<p>FiLM از یک کار دیگر می‌آید: پرسش‌وپاسخ تصویری. یک تصویر داری و یک سؤال متنی
+(«توپ قرمز سمت چپ چیست؟»). سؤال باید تعیین کند شبکه در تصویر <b>دنبال چه
+بگردد</b> — ولی سؤال خودش یک شیء در تصویر نیست که بشود جمعش کرد.</p>
+
+<div class="math">gamma, beta = MLP(condition)          # هر کدام ۱۹۲ عدد
+feature = feature * (1 + gamma) + beta   # عنصر به عنصر</div>
+
+<p>سه ویژگی که آن را از دریچه جدا می‌کند:</p>
+
+<table>
+<tr><th></th><th>دریچه (ما)</th><th>FiLM</th></tr>
+<tr><td>چه چیزی ضرب می‌شود</td><td><b>مکان</b></td><td><b>ویژگی‌های تصویر</b></td></tr>
+<tr><td>چند ضریب</td><td>۱</td><td>۱۹۲ ضریب + ۱۹۲ جابه‌جایی</td></tr>
+<tr><td>می‌تواند بگوید «بُعد ۱۷ مهم، بُعد ۹۳ نه»</td><td>❌</td><td>✅</td></tr>
+<tr><td>می‌تواند یک بُعد را <b>خاموش</b> کند</td><td>❌ (یا همه یا هیچ)</td>
+    <td>✅ با <code>gamma = −1</code></td></tr>
+</table>
+
+<div class="ok"><b>پس FiLM دقیقاً پلهٔ گمشده است:</b><br>
+<code>add</code> یک عدد ثابت · <code>gate</code> یک عدد به‌ازای تصویر ·
+<b><code>FiLM</code> ۳۸۴ عدد در یک نقطه</b> · <code>adaLN</code> همان ۳۸۴ عدد
+ولی ۱۲ بار.<br><br>
+اگر adaLN با add تفاوتی ندارد، FiLM هم احتمالاً ندارد — ولی «احتمالاً» جواب
+علمی نیست، و این تنها پله‌ای است که <b>بین</b> دو نقطهٔ اندازه‌گیری‌شدهٔ ما
+افتاده. <b>هزینه: ۳ بذر، حدود ۲۰ دقیقه.</b></div>
+
+<h2>۶ · و adaLN در مقالهٔ اصلی روی چه چیزی آزموده شد</h2>
+
+<p>پرسیدی مقالهٔ adaLN چه تسکی داشت، ورودی و خروجی‌اش چه بود، کجا گذاشتش.
+شرح <b>سازوکار</b> — که برای فهم بازوی خودمان لازم است:</p>
+
+<table>
+<tr><td>مقاله</td><td>DiT — Peebles & Xie، ICCV 2023</td></tr>
+<tr><td>تسک</td><td><b>تولید تصویر</b> با مدل انتشار — نه طبقه‌بندی</td></tr>
+<tr><td>ورودی مدل</td><td>تصویر نویزی + <b>گام زمانی t</b> + برچسب کلاس</td></tr>
+<tr><td>خروجی</td><td>نویزی که باید کم شود (نه یک برچسب)</td></tr>
+<tr><td>شرط چیست</td><td><code>t</code> و کلاس — هر دو یک عدد/بردار سراسری</td></tr>
+<tr><td>کجا گذاشته</td><td>روی هر دو <code>LayerNorm</code> در <b>هر</b> بلوک
+    ترنسفورمر، به‌صورت γ و β تولیدشده از شرط</td></tr>
+<tr><td>ابداع خاصش</td><td><b>adaLN-Zero</b> — لایهٔ تولید γ,β با صفر مقداردهی
+    می‌شود تا بلوک در گام اول <i>همانی</i> باشد</td></tr>
+</table>
+
+<div class="warn"><b>⛔ دربارهٔ نتایج و اعداد آن مقاله اینجا حرف نمی‌زنم</b> —
+آن در چت مقالات است و قبلاً هم یک بار عددی را که از حافظه گفته بودم آنجا تصحیح
+کردند. اگر جدول یا عدد از DiT لازم داری، از آن چت بپرس.</div>
+
+<div class="big"><b>و حالا آن چیزی که «نقد» است و باید خودمان واردش کنیم:</b><br><br>
+در DiT، شرط <code>t</code> <b>معنایش با عمق عوض می‌شود</b> — در گام ۱۰۰۰ تصویر
+نویز محض است و در گام ۰ تمیز. هر بلوک واقعاً باید بداند در کدام رژیم است. تکرار
+در هر بلوک، آنجا <b>ضرورت</b> است.<br><br>
+شرط ما یک مختصات ثابت است. روی محور عمق هیچ ساختاری ندارد. همان دو عدد،
+دوازده بار.<br><br>
+<b>و نقدِ عمیق‌تری که تو گفتی و درست است:</b> adaLN فقط «کجا وارد شود» را حل
+نمی‌کند — یک <b>معیار اهمیت</b> هم با خودش می‌آورد، و آن معیار از تسکِ خودش
+(انتشار) آمده. ما آن معیار را بدون بازبینی وارد کردیم. سؤال «متادیتا از کجا
+وارد شود» را پرسیدیم، ولی سؤال <b>«معیار اهمیتِ این سازوکار با تسک من می‌خواند
+یا نه»</b> را نپرسیدیم. <b>این سؤال دوم، خودش یک مقاله است.</b></div>
+
+<script>
+const V=[0.82,-0.57,0.19,0.95,-0.31,0.44,0.7,-0.22];
+const col=(v,h)=>`hsl(${h},50%,${45+Math.max(-32,Math.min(32,v*32))}%)`;
+function row(vals,x,y,w,h){return vals.map((v,i)=>
+ `<rect x="${x+i*(w+3)}" y="${y}" width="${w}" height="${w}" rx="3"
+   fill="${col(v,h)}" stroke="#2a3140"/>`).join('');}
+
+// --- magnitude demo ---
+(function(){
+ let s='';
+ [[1,20],[0.3,300],[2.5,580]].forEach(([k,x])=>{
+  s+=row(V.map(v=>v*k),x,40,22,140);
+  s+=`<text x="${x+100}" y="100" fill="#9aa1ae" font-size="11"
+       text-anchor="middle">۸ تا از ۱۹۲ عدد</text>`;
+  const bar=Math.min(150,Math.abs(k)*55);
+  s+=`<rect x="${x}" y="120" width="${bar}" height="10" rx="3" fill="#4a8ad8"/>`;
+  s+=`<text x="${x+bar+8}" y="130" fill="#8fc0ff" font-size="11">طول</text>`;
+ });
+ document.getElementById('magdemo').innerHTML=s;
+})();
+
+// --- uniform vs varying ---
+(function(){
+ let u='',w='';
+ for(let r=0;r<6;r++)for(let c=0;c<6;c++){
+  u+=`<rect x="${90+c*32}" y="${34+r*22}" width="29" height="19" rx="3"
+       fill="hsl(212,50%,45%)" stroke="#2a3140"/>`;
+  const g=0.15+ (5-c)/5*0.75;
+  w+=`<rect x="${510+c*32}" y="${34+r*22}" width="29" height="19" rx="3"
+       fill="hsl(140,50%,${28+g*38}%)" stroke="#2a3140"/>`;
+ }
+ document.getElementById('uni').innerHTML=u;
+ document.getElementById('vary').innerHTML=w;
+})();
+
+// --- mechanisms ---
+const M=[
+{n:"add — پریتوی",
+ t:`<div class="math">x = x + s * loc          # s یک عدد، ثابت برای همه</div>
+    <p><b>مکان جمع می‌شود.</b> تصویر دست‌نخورده. ضریب <code>s</code> یک پارامتر
+    آزاد است که هیچ ورودی‌ای ندارد — نه تصویر می‌بیند نه مختصات. یک عدد که در
+    آموزش تنظیم می‌شود و برای هر ۲۷ هزار تصویر یکی می‌ماند. <b>۱ پارامتر.</b></p>`,
+ d:(()=>`${row([0.4,-0.2,0.9,0.1],60,60,26,212)}
+   <text x="200" y="80" fill="#cfd4de" font-size="15">+</text>
+   <text x="150" y="45" fill="#6f7787" font-size="11">توکن تصویر</text>
+   <rect x="225" y="62" width="44" height="24" rx="5" fill="#3a2a16" stroke="#8a6430"/>
+   <text x="247" y="79" fill="#ffd9a8" font-size="12" text-anchor="middle">s</text>
+   <text x="285" y="80" fill="#cfd4de" font-size="15">×</text>
+   ${row([0.82,-0.57,0.19,0.95],310,60,26,140)}
+   <text x="400" y="45" fill="#6f7787" font-size="11">مکان</text>
+   <text x="470" y="80" fill="#7fd6a0" font-size="12">← مکان وارد محتوا می‌شود</text>
+   <text x="60" y="140" fill="#8b8f9a" font-size="11">تصویر تغییر نمی‌کند · یک عدد برای همه</text>`)()},
+
+{n:"gate — ما",
+ t:`<div class="math">g = gate_net(mean(patch_tokens))   # ۹٬۳۱۳ وزن → یک عدد
+x = x + g * loc                     # همان مسیر add</div>
+    <p><b>دقیقاً همان add</b>، فقط ضریب برای هر تصویر جدا ساخته می‌شود — از خودِ
+    تصویر. <b>مکان همچنان جمع می‌شود و تصویر همچنان دست‌نخورده است.</b>
+    <b>۹٬۳۱۳ پارامتر.</b></p>`,
+ d:(()=>`${row([0.4,-0.2,0.9,0.1],60,60,26,212)}
+   <text x="200" y="80" fill="#cfd4de" font-size="15">+</text>
+   <rect x="225" y="62" width="44" height="24" rx="5" fill="#3a2a16" stroke="#8a6430"/>
+   <text x="247" y="79" fill="#ffd9a8" font-size="12" text-anchor="middle">g</text>
+   <path d="M120,90 L120,120 L247,120 L247,90" stroke="#f0a55e" stroke-width="2"
+     fill="none" stroke-dasharray="5 4"/>
+   <text x="185" y="138" fill="#f0a55e" font-size="11" text-anchor="middle">
+     از میانگین تصویر ساخته می‌شود</text>
+   <text x="285" y="80" fill="#cfd4de" font-size="15">×</text>
+   ${row([0.82,-0.57,0.19,0.95],310,60,26,140)}
+   <text x="470" y="80" fill="#7fd6a0" font-size="12">← باز هم جمع</text>`)()},
+
+{n:"FiLM",
+ t:`<div class="math">gamma, beta = MLP(loc)              # هر کدام ۱۹۲ عدد
+x = x * (1 + gamma) + beta          # عنصر به عنصر</div>
+    <p><b>اینجا همه‌چیز عوض می‌شود.</b> مکان <u>هرگز جمع نمی‌شود</u>. به‌جایش
+    <b>ویژگی‌های تصویر</b> را کش می‌دهد و جابه‌جا می‌کند. و برای هر یک از ۱۹۲
+    بُعد، ضریب <b>جداگانه</b> دارد — می‌تواند بُعد ۱۷ را دو برابر کند و بُعد ۹۳
+    را خاموش.</p>`,
+ d:(()=>`${row([0.4,-0.2,0.9,0.1],60,60,26,212)}
+   <text x="200" y="80" fill="#cfd4de" font-size="15">×</text>
+   ${row([1.3,0.6,1.1,0.4],225,60,26,45)}
+   <text x="300" y="45" fill="#6f7787" font-size="11">γ از مکان</text>
+   <text x="345" y="80" fill="#cfd4de" font-size="15">+</text>
+   ${row([0.2,-0.1,0.3,0.05],370,60,26,45)}
+   <text x="445" y="45" fill="#6f7787" font-size="11">β از مکان</text>
+   <text x="520" y="80" fill="#e08080" font-size="12">← مکان جمع نمی‌شود،
+     تصویر را <b>تنظیم</b> می‌کند</text>
+   <text x="60" y="145" fill="#8b8f9a" font-size="11">
+     ۳۸۴ عدد به‌ازای هر تصویر — ولی برای هر ۶۵ توکن یکسان</text>`)()},
+
+{n:"adaLN",
+ t:`<div class="math">for i in range(6):                 # هر بلوک
+    s1,g1,s2,g2 = to_mod[i](loc)   # ۴ بردار ۱۹۲تایی
+    a = norm1(x)*(1+g1) + s1       # قبل از توجه
+    b = norm2(x)*(1+g2) + s2       # قبل از MLP</div>
+    <p><b>همان FiLM، ولی ۱۲ بار</b> — دو نقطه در هر یک از شش بلوک، و هر بار با
+    وزن‌های جدا. <b>۸۸۹٬۳۴۴ پارامتر.</b> باز هم مکان جمع نمی‌شود.<br>
+    و باز هم: <b>برای هر ۶۵ توکن یکسان</b> — این را خود DiT محدودیت می‌نامد.</p>`,
+ d:(()=>{let s='';for(let i=0;i<6;i++){
+   s+=`<rect x="${60+i*118}" y="55" width="96" height="60" rx="7"
+        fill="#232734" stroke="#3a3f4b"/>
+       <text x="${108+i*118}" y="90" fill="#9aa1ae" font-size="11"
+        text-anchor="middle">بلوک ${i+1}</text>
+       <path d="M${108+i*118},30 L${108+i*118},50" stroke="#4a8ad8" stroke-width="2"/>
+       <circle cx="${108+i*118}" cy="26" r="5" fill="#4a8ad8"/>
+       <path d="M${88+i*118},30 L${88+i*118},50" stroke="#4a8ad8" stroke-width="2"/>
+       <circle cx="${88+i*118}" cy="26" r="5" fill="#4a8ad8"/>`;}
+   s+=`<text x="420" y="16" fill="#8fc0ff" font-size="11" text-anchor="middle">
+        مکان، دوازده بار</text>
+       <text x="420" y="145" fill="#8b8f9a" font-size="11" text-anchor="middle">
+        شرطِ ما بین بلوک ۱ و بلوک ۶ هیچ فرقی نکرده — همان دو عدد</text>`;
+   return s;})()},
+
+{n:"توجه متقاطع — نزدیم",
+ t:`<div class="math">Q = tokens        K, V = metadata
+x = x + softmax(Q·K^T) · V</div>
+    <p><b>اولین سازوکاری که ضریبش برای هر توکن فرق می‌کند.</b> هر تکهٔ تصویر
+    خودش تصمیم می‌گیرد چقدر به متادیتا نگاه کند — یعنی می‌شود گفت «لبهٔ غربی
+    بیشتر». همان «جدول اتنشن» که پرسیدی.<br>
+    <b>هیچ‌کدام از شش بازوی ما این را ندارد. اجرا نشده.</b></p>`,
+ d:(()=>{let s='';for(let r=0;r<4;r++)for(let c=0;c<8;c++){
+   const v=Math.abs(Math.sin(r*1.7+c*0.9));
+   s+=`<rect x="${240+c*40}" y="${40+r*26}" width="37" height="23" rx="3"
+        fill="hsl(212,55%,${25+v*45}%)" stroke="#2a3140"/>`;}
+   s+=`<text x="200" y="60" fill="#9aa1ae" font-size="11" text-anchor="end">توکن ۱</text>
+       <text x="200" y="112" fill="#9aa1ae" font-size="11" text-anchor="end">توکن ۳</text>
+       <text x="400" y="26" fill="#9aa1ae" font-size="11" text-anchor="middle">
+         متادیتا →</text>
+       <text x="400" y="170" fill="#7fd6a0" font-size="12" text-anchor="middle">
+         هر خانه یک وزن جدا — هر توکن سهم خودش را می‌گیرد</text>`;
+   return s;})()}
+];
+function pick(i,btn){
+ document.querySelectorAll('.panel button').forEach(b=>{
+   if(b.parentElement===btn.parentElement)b.classList.remove('on');});
+ btn.classList.add('on');
+ document.getElementById('mech').innerHTML=M[i].d;
+ document.getElementById('mtext').innerHTML=M[i].t;
+}
+pick(0,document.querySelector('.panel button'));
+</script>
+</div></body></html>

@@ -1,0 +1,123 @@
+{
+  "W  — فقط جوّی": {
+    "n_features": 6,
+    "columns": [
+      "mean_speed_z",
+      "max_speed_z",
+      "dir_sin_z",
+      "dir_cos_z",
+      "precip_7d_log_z",
+      "mean_temp_z"
+    ],
+    "linear": {
+      "auc": 0.6064586754241926,
+      "spearman": 0.34645034548164194,
+      "null_q95": 0.6149562123700054,
+      "null_mean": 0.5012616310892173,
+      "p_value": 0.07960199004975124,
+      "beats_null": false
+    },
+    "forest": {
+      "auc": 0.6469622331691297,
+      "spearman": 0.3028722395339384,
+      "null_q95": 0.5868089764641489,
+      "null_mean": 0.5013957307060756,
+      "p_value": 0.004975124378109453,
+      "beats_null": true
+    }
+  },
+  "G  — جغرافیا و فصل": {
+    "n_features": 4,
+    "columns": [
+      "lat",
+      "lon",
+      "doy_sin",
+      "doy_cos"
+    ],
+    "linear": {
+      "auc": 0.692391899288451,
+      "spearman": 0.42483403332881714,
+      "null_q95": 0.6525041050903119,
+      "null_mean": 0.49802408319649694,
+      "p_value": 0.009950248756218905,
+      "beats_null": true
+    },
+    "forest": {
+      "auc": 0.6945812807881774,
+      "spearman": 0.47898401128643947,
+      "null_q95": 0.6139573070607552,
+      "null_mean": 0.5042460317460318,
+      "p_value": 0.004975124378109453,
+      "beats_null": true
+    }
+  },
+  "W+G — هر دو": {
+    "n_features": 10,
+    "columns": [
+      "mean_speed_z",
+      "max_speed_z",
+      "dir_sin_z",
+      "dir_cos_z",
+      "precip_7d_log_z",
+      "mean_temp_z",
+      "lat",
+      "lon",
+      "doy_sin",
+      "doy_cos"
+    ],
+    "linear": {
+      "auc": 0.6518883415435139,
+      "spearman": 0.4243124237908142,
+      "null_q95": 0.6336070060207991,
+      "null_mean": 0.4922892720306513,
+      "p_value": 0.029850746268656716,
+      "beats_null": true
+    },
+    "forest": {
+      "auc": 0.7162014230979747,
+      "spearman": 0.45548028722395323,
+      "null_q95": 0.6098659003831417,
+      "null_mean": 0.49175013683634367,
+      "p_value": 0.004975124378109453,
+      "beats_null": true
+    }
+  },
+  "univariate_train": {
+    "mean_speed_z": {
+      "rho": -0.12387525174495466,
+      "p": 0.0032391689859115717
+    },
+    "max_speed_z": {
+      "rho": -0.015650709722913863,
+      "p": 0.7109716388814024
+    },
+    "dir_sin_z": {
+      "rho": -0.09321990645197599,
+      "p": 0.02698126924704216
+    },
+    "dir_cos_z": {
+      "rho": 0.16920330187226976,
+      "p": 5.4602674555841845e-05
+    },
+    "precip_7d_log_z": {
+      "rho": -0.30290234858049525,
+      "p": 2.0666827151249123e-13
+    },
+    "mean_temp_z": {
+      "rho": 0.060461823951163784,
+      "p": 0.15193279172889435
+    }
+  },
+  "_summary": {
+    "verdict": "signal",
+    "auc_weather": 0.6469622331691297,
+    "auc_geo": 0.6945812807881774,
+    "auc_both": 0.7162014230979747,
+    "weather_adds_over_geo": 0.021620142309797363,
+    "threshold_pct_burn": 4.038,
+    "n_train": 563,
+    "n_val": 121,
+    "n_permutations": 200,
+    "test_untouched": true
+  }
+}

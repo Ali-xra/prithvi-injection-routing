@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8">
+<title>جمع یا ضرب؟ — ساده، با تصویر</title>
+<style>
+ body{font-family:"Segoe UI",Tahoma,sans-serif;background:#0e1116;color:#e6e8ec;
+      margin:0;padding:1.7em;line-height:2;font-size:16.5px}
+ .wrap{max-width:58em;margin:0 auto}
+ h1{font-size:1.55em;margin:0 0 .1em}
+ .sub{color:#858b98;font-size:.92em;margin-bottom:1.6em}
+ h2{font-size:1.2em;margin:2.3em 0 .5em;color:#8fc0ff;
+    border-right:4px solid #2f6fbf;padding-right:.6em}
+ h3{font-size:1.04em;margin:1.4em 0 .3em;color:#c3cbd8}
+ p{margin:.8em 0;text-align:justify}
+ .panel{background:#151922;border:1px solid #242a36;border-radius:12px;
+        padding:1.1em 1.3em;margin:1.1em 0}
+ .ok{background:#152318;border:1px solid #26402c;border-right:4px solid #3f9f5f;
+     border-radius:9px;padding:.9em 1.2em;margin:1em 0}
+ .warn{background:#241a1a;border:1px solid #4a2b2b;border-right:4px solid #b95050;
+       border-radius:9px;padding:.9em 1.2em;margin:1em 0}
+ .big{background:#1a2333;border:1px solid #2c3d57;border-right:5px solid #4a8ad8;
+      border-radius:10px;padding:1em 1.3em;margin:1.1em 0;font-size:1.02em}
+ table{border-collapse:collapse;width:100%;margin:.9em 0;font-size:.9em}
+ th,td{border:1px solid #2a2f3b;padding:.4em .6em;text-align:right}
+ th{background:#1b2029}
+ code{background:#1b2029;padding:.06em .3em;border-radius:4px;direction:ltr;
+      display:inline-block;font-size:.9em}
+ .ltr{direction:ltr;display:inline-block}
+ svg{width:100%;height:auto;display:block}
+ button{font-family:inherit;font-size:.95em;padding:.45em 1.1em;border-radius:8px;
+        border:1px solid #333a48;background:#1b2029;color:#cfd4de;cursor:pointer;
+        margin-left:.4em;margin-bottom:.35em}
+ button:hover{background:#232935} button.on{background:#2f6fbf;border-color:#4a8ad8;color:#fff}
+ @media print{body{background:#fff;color:#111}
+  .panel,.ok,.warn,.big{background:#fff;border-color:#bbb;color:#111}button{display:none}}
+</style></head><body><div class="wrap">
+
+<h1>جمع یا ضرب؟</h1>
+<p class="sub">ساده‌ترین توضیحی که بلدم، با تصویر متحرک. آخرش یک جواب مشخص هست
+و یک آزمایش ۱۰ دقیقه‌ای که کل نتیجهٔ ما را توضیح می‌دهد.</p>
+
+<h2>۰ · اول یک تصویر ذهنی که همه‌چیز رویش سوار می‌شود</h2>
+
+<p>تصور کن مدل هر عکس را به یک <b>نقطه</b> روی یک نقشه تبدیل می‌کند. عکس‌های
+جنگل یک‌جا جمع می‌شوند، عکس‌های شهر جای دیگر. بعد یک <b>خط</b> می‌کشد و
+می‌گوید: بالای خط جنگل، پایین خط شهر.</p>
+
+<p>حالا ما می‌خواهیم به مدل بگوییم «این عکس در نروژ گرفته شده». این خبر
+می‌تواند فقط دو کار بکند:</p>
+
+<div class="big">
+<b>۱) نقطه‌ها را جابه‌جا کند</b> — همه با هم، به یک سمت. اسمش <b>جمع</b> است.<br>
+<b>۲) نقشه را کش بدهد</b> — یک محور را بلندتر و یکی را کوتاه‌تر. اسمش
+<b>ضرب</b> است.<br><br>
+<b>و این دو تا، دو کار کاملاً متفاوت‌اند.</b> دکمه‌ها را بزن.
+</div>
+
+<div class="panel">
+<div style="margin-bottom:.7em">
+ <button class="on" onclick="sc(0,this)">بدون خبر</button>
+ <button onclick="sc(1,this)">جمع — جابه‌جایی</button>
+ <button onclick="sc(2,this)">ضرب — کش‌آمدن</button>
+</div>
+<svg viewBox="0 0 820 330" xmlns="http://www.w3.org/2000/svg" id="plot"></svg>
+<p id="pnote" style="color:#b9c0cc;margin-top:.6em"></p>
+</div>
+
+<h2>۱ · و حالا معنی‌شان به زبان کار ما</h2>
+
+<table>
+<tr><th></th><th>جمع (add، gate)</th><th>ضرب (FiLM، adaLN)</th></tr>
+<tr><td>روی نقشه چه می‌کند</td><td>همه را <b>جابه‌جا</b> می‌کند</td>
+    <td>محورها را <b>کش می‌دهد</b></td></tr>
+<tr><td>به زبان ساده یعنی</td>
+    <td>«در نروژ، احتمال جنگل ذاتاً بیشتر است»</td>
+    <td>«در نروژ، به زبریِ سطح بیشتر نگاه کن»</td></tr>
+<tr><td>اسم فنی‌اش</td><td><b>پیشین</b> (prior)</td><td><b>انتخاب ویژگی</b></td></tr>
+<tr><td>خط تصمیم را چه می‌کند</td><td>فقط <b>جابه‌جا</b> می‌کند</td>
+    <td>می‌تواند <b>بچرخاند</b></td></tr>
+<tr><td>چند عدد لازم دارد</td><td>۱</td><td>۳۸۴ (γ و β)</td></tr>
+</table>
+
+<div class="ok"><b>و اینجا نکتهٔ اصلی است:</b> «کش‌دادن» کارِ بیشتری بلد است، ولی
+کارِ <i>لازم</i> همیشه بیشتر نیست. اگر خبری که داری فقط می‌گوید «اینجا جنگل
+محتمل‌تر است»، جابه‌جایی کافی است و کش‌دادن چیزی اضافه نمی‌کند — فقط
+۸۸۹ هزار پارامتر خرج می‌کند.</div>
+
+<h2>۲ · و این دقیقاً نتیجهٔ ما را توضیح می‌دهد</h2>
+
+<p>مکان جغرافیایی روی EuroSAT چه خبری می‌دهد؟ نگاه کن به عددی که خودمان
+اندازه گرفتیم:</p>
+
+<div class="panel">
+<svg viewBox="0 0 820 130" xmlns="http://www.w3.org/2000/svg">
+ <text x="230" y="26" fill="#cfd4de" font-size="13" text-anchor="end">
+   مدلی که <b>فقط مکان</b> می‌بیند — هیچ عکسی</text>
+ <rect x="240" y="12" width="440" height="24" rx="5" fill="#151a22" stroke="#2a3140"/>
+ <rect x="240" y="12" width="308" height="24" rx="5" fill="#4a8ad8"/>
+ <text x="560" y="30" fill="#9fc0e8" font-size="13">۶۹٫۹۴٪</text>
+ <text x="410" y="70" fill="#f0a55e" font-size="13" text-anchor="middle">
+   یعنی صرفِ دانستن «کجای اروپا» تقریباً ۷۰٪ کلاس را می‌گوید</text>
+ <text x="410" y="104" fill="#7fd6a0" font-size="13.5" text-anchor="middle">
+   و «کجای اروپا → چه چیزی محتمل‌تر است» دقیقاً تعریفِ یک <b>پیشین</b> است</text>
+</svg>
+</div>
+
+<div class="big"><b>پس فرضیهٔ توضیحی این است:</b> در کار ما، مکان تقریباً هیچ
+کاری جز «تنظیم احتمال کلاس‌ها» نمی‌کند. و برای این کار، <b>جمع کافی است</b>.
+هر مکانیزم گران‌تری هم که بگذاری، همان کار را می‌کند — فقط با هزینهٔ بیشتر.<br><br>
+<b>اگر این درست باشد، نتیجهٔ ما دیگر یک «نول» گنگ نیست؛ یک نتیجهٔ قابل پیش‌بینی
+است.</b> و آن‌وقت جمله‌ات این می‌شود: «مسیرها فرق نکردند، و اینجا
+دلیلش است.»</div>
+
+<h3>و یک آزمایش ۱۰ دقیقه‌ای که این را می‌آزماید — بدون GPU</h3>
+
+<div class="ok"><b>آزمایش «پیشینِ خالص»:</b> مدل تصویری‌مان را برداریم، هیچ
+مکانی به آن ندهیم، و بعد <b>فقط خروجی‌اش را</b> با احتمال کلاس‌ها در همان خوشهٔ
+جغرافیایی وزن‌دار کنیم. یعنی مکان را به‌عنوان یک جدول احتمال از بیرون اعمال
+کنیم، نه از داخل شبکه.<br><br>
+<b>اگر این تقریباً همان ‎+۴ نمره را برگرداند</b> ← ثابت می‌شود کل اثر یک پیشین
+است، و هیچ مکانیزم داخلی نمی‌تواند از آن جلو بزند. <b>این کل نتیجهٔ پروژه را
+از «نفهمیدیم چرا» به «می‌دانیم چرا» می‌برد.</b><br><br>
+<b>اگر کمتر برگرداند</b> ← یعنی مکان چیزی فراتر از پیشین می‌دهد، و آن‌وقت
+جای مکانیزم‌های ضربی باز می‌شود.</div>
+
+<h2>۳ · نردبان کامل — هشت راه، از ارزان به گران</h2>
+
+<p>حالا که جمع و ضرب را می‌شناسی، بقیه فقط پله‌های بین این دو هستند. روی هر
+کدام بزن.</p>
+
+<div class="panel">
+<div style="margin-bottom:.7em" id="lad"></div>
+<svg viewBox="0 0 820 210" xmlns="http://www.w3.org/2000/svg" id="ladsvg"></svg>
+<div id="ladtext"></div>
+</div>
+
+<h2>۴ · ادبیات چه می‌گوید — از سرشماری امروز</h2>
+
+<p>سه مقاله دقیقاً همین سؤال را با محمولهٔ یکسان سنجیده‌اند. اعداد را کنار هم
+بگذار:</p>
+
+<table>
+<tr><th>مقاله · حوزه</th><th>نردبانی که سنجید</th><th>برنده</th></tr>
+<tr><td><b>HyperFusion</b> · MedIA 2025 · MRI مغز + دادهٔ جدولی</td>
+    <td>هایپرشبکه <span class="ltr">0.673</span> &gt; <b>FiLM</b> <span class="ltr">0.658</span>
+        &gt; الحاق <span class="ltr">0.638</span></td>
+    <td>🟢 <b>ضرب از الحاق بهتر</b></td></tr>
+<tr><td><b>Frontiers Radiology</b> · 2025 · CT + نشانهٔ بالینی</td>
+    <td>الحاق <span class="ltr">50.86</span> &gt; جمع <span class="ltr">50.37</span> &gt;
+        <b>توجه متقاطع</b> <span class="ltr">49.84</span> &gt; خودتوجهی <span class="ltr">49.21</span></td>
+    <td>🔴 <b>توجه متقاطع بازنده</b></td></tr>
+<tr><td><b>DiffusionSat</b> · ICLR 2024 · ماهواره‌ای، مولد</td>
+    <td>متادیتای عددی FID <span class="ltr">15.80</span> &gt; همان متادیتا در قالب متن
+        <span class="ltr">24.23</span></td>
+    <td>🟢 <b>عدد از متن بهتر</b></td></tr>
+</table>
+
+<div class="warn"><b>و این سه با هم تناقض دارند — که خودش خبر است.</b> در یک
+حوزه ضرب می‌برد، در دیگری الحاق سادهٔ توجه متقاطع را می‌برد. یعنی
+<b>هیچ برندهٔ سراسری‌ای وجود ندارد</b> و انتخاب مکانیزم به شکلِ محموله بستگی
+دارد — دقیقاً همان چیزی که ما داریم می‌گوییم.</div>
+
+<h2>۵ · «توجه متقاطع را پیاده کنیم؟»</h2>
+
+<p>قبل از سرشماری امروز، جوابم «بله ولی مقالهٔ دوم» بود. حالا یک دادهٔ تازه
+داریم که باید عوضش کند:</p>
+
+<div class="warn"><b>Frontiers Radiology 2025 توجه متقاطع را سنجید و
+<u>بازنده</u> شد</b> — پایین‌تر از الحاق و پایین‌تر از جمع، روی همان محموله.
+تنها مقایسهٔ نقطهٔ ورود بیرون از DiT، و نتیجه‌اش به ضرر پیچیدگی است.</div>
+
+<p>ولی این تمام ماجرا نیست، و اینجا باید دقیق بود:</p>
+
+<table>
+<tr><th>محموله</th><th>توجه متقاطع منطقی است؟</th></tr>
+<tr><td>یک بردار ثابت (مکان، سن، تاریخ)</td>
+    <td>❌ <b>نه.</b> توجه وقتی معنا دارد که چند تکه اطلاعات باشد و مدل باید
+    انتخاب کند. با یک بردار، توجه به یک عملیات گران‌تر از جمع فرو می‌ریزد.</td></tr>
+<tr><td>یک <b>دنباله</b> (کپشن، چند متغیر جوی، سری زمانی)</td>
+    <td>✅ <b>بله</b> — و LHRS-Bot و TUMSyn دقیقاً همین را می‌کنند.</td></tr>
+<tr><td>وقتی می‌خواهی <b>هر ناحیهٔ تصویر</b> سهم خودش را بگیرد</td>
+    <td>✅ <b>بله</b> — و این تنها راهی است که سراغ داریم.</td></tr>
+</table>
+
+<div class="big"><b>جواب نهایی به سؤالت:</b> برای <u>این</u> کار — مکان، یک
+بردار، طبقه‌بندی چیپ — <b>توجه متقاطع را نزن.</b> ادبیات می‌گوید احتمالاً
+می‌بازد، و تحلیل می‌گوید با یک بردار ورودی به یک جمعِ گران فرو می‌ریزد.<br><br>
+برای <u>آتش‌سوزی و سیل</u> — که محموله جهت دارد و برچسب پیکسلی است —
+<b>بله، و آنجا تنها گزینه است.</b> ولی آن مقالهٔ دوم است.</div>
+
+<h2>۶ · FiLM و adaLN چه فرقی دارند؟ (هیچ فرق مفهومی — فقط جا)</h2>
+
+<div class="panel">
+<svg viewBox="0 0 820 200" xmlns="http://www.w3.org/2000/svg">
+ <text x="150" y="22" fill="#8fd6a0" font-size="13" text-anchor="middle">FiLM</text>
+ <rect x="40" y="34" width="220" height="46" rx="8" fill="#16281c" stroke="#2f5c3c"/>
+ <text x="150" y="62" fill="#8fd6a0" font-size="12" text-anchor="middle">
+   یک بار، یک جا</text>
+ <g fill="#232734" stroke="#3a3f4b">
+  <rect x="40" y="100" width="34" height="46" rx="5"/>
+  <rect x="80" y="100" width="34" height="46" rx="5"/>
+  <rect x="120" y="100" width="34" height="46" rx="5"/>
+  <rect x="160" y="100" width="34" height="46" rx="5"/>
+  <rect x="200" y="100" width="34" height="46" rx="5"/>
+  <rect x="240" y="100" width="20" height="46" rx="5"/></g>
+ <path d="M150,84 L150,96" stroke="#8fd6a0" stroke-width="2.5"/>
+ <text x="150" y="168" fill="#8b8f9a" font-size="11" text-anchor="middle">
+   ۳۸۴ عدد · یک نقطه</text>
+
+ <text x="560" y="22" fill="#8fc0ff" font-size="13" text-anchor="middle">adaLN</text>
+ <rect x="450" y="34" width="320" height="46" rx="8" fill="#1a2333" stroke="#2c3d57"/>
+ <text x="610" y="62" fill="#8fc0ff" font-size="12" text-anchor="middle">
+   همان فرمول، ولی دوازده بار</text>
+ <g id="adarow"></g>
+ <text x="610" y="168" fill="#8b8f9a" font-size="11" text-anchor="middle">
+   ۳۸۴ × ۱۲ = ۸۸۹٬۳۴۴ پارامتر · دوازده نقطه</text>
+</svg>
+</div>
+
+<div class="ok"><b>فرمولشان یکی است:</b> <code>x × (1+γ) + β</code>.<br>
+تنها فرق: FiLM یک بار اجرا می‌شود، adaLN داخل <b>هر بلوک</b> و روی <b>هر دو
+نرمال‌سازی</b>. یعنی adaLN = FiLM × ۱۲، با وزن‌های جدا برای هر نقطه.<br><br>
+پس اگر بپرسند «چرا FiLM را نزدید؟» جواب صادقانه این است: <b>نزدیم، و باید
+می‌زدیم</b> — چون تنها پله‌ای است که بین دو نقطهٔ اندازه‌گیری‌شدهٔ ما افتاده.
+۳ بذر، ۲۰ دقیقه.</div>
+
+<h2>۷ · پس چه کنیم — به ترتیب</h2>
+
+<table>
+<tr><th>#</th><th>کار</th><th>چرا</th><th>هزینه</th></tr>
+<tr style="background:#152318"><td>۱</td><td><b>آزمایش «پیشین خالص»</b></td>
+    <td>می‌تواند کل نتیجهٔ پروژه را توضیح دهد. اگر جواب بدهد، همه‌چیز جفت‌وجور
+    می‌شود.</td><td>~۱۰ دقیقه، بدون GPU</td></tr>
+<tr style="background:#152318"><td>۲</td><td><b>FiLM تک‌نقطه‌ای</b></td>
+    <td>تنها پلهٔ گمشدهٔ نردبان. اولین سؤال داور.</td><td>~۲۰ دقیقه</td></tr>
+<tr><td>۳</td><td><code>gate_late</code></td>
+    <td>ادعای خودمان را می‌آزماید (دریچه بعد از بلوک‌ها)</td><td>~۱ ساعت</td></tr>
+<tr><td>۴</td><td>غربال تکه‌های <span class="ltr">−50 dB</span></td>
+    <td>یکی از دو ابهام باقی‌مانده</td><td>~۱۰ دقیقه</td></tr>
+<tr style="opacity:.5"><td>۵</td><td><s>توجه متقاطع</s></td>
+    <td>ادبیات می‌گوید می‌بازد · مقالهٔ دوم</td><td>—</td></tr>
+</table>
+
+<script>
+// ---------- section 0: scatter ----------
+const PTS=[];
+(function(){
+ let s=12345; const rnd=()=>{s=(s*1103515245+12345)&0x7fffffff;return s/0x7fffffff;};
+ for(let i=0;i<45;i++)PTS.push([1.2+rnd()*1.6, 2.6+rnd()*1.5, 0]);   // جنگل
+ for(let i=0;i<45;i++)PTS.push([2.4+rnd()*1.7, 1.0+rnd()*1.4, 1]);   // شهر
+})();
+const NOTE=[
+ "دو دسته عکس روی نقشهٔ درونی مدل. خط، مرز تصمیم است. تا اینجا هیچ خبری از بیرون نداده‌ایم.",
+ "<b>جمع:</b> خبرِ «این نروژ است» همهٔ نقطه‌ها را یک‌جا هُل می‌دهد. مرز جابه‌جا می‌شود ولی <b>شیبش عوض نمی‌شود</b> — یعنی مدل فقط گفته «اینجا جنگل محتمل‌تر است». همین و بس.",
+ "<b>ضرب:</b> محور افقی فشرده و محور عمودی کشیده شده. حالا مرز <b>چرخیده</b> — یعنی مدل گفته «اینجا به این ویژگی بیشتر نگاه کن و به آن یکی کمتر». کارِ بیشتری است، ولی فقط وقتی به درد می‌خورد که خبر واقعاً دربارهٔ <i>ویژگی‌ها</i> باشد نه دربارهٔ <i>احتمال</i>."];
+function sc(m,btn){
+ if(btn){document.querySelectorAll('#plot').length;
+  btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');}
+ const X0=70,Y0=290,SX=170,SY=62;
+ const px=x=>X0+x*SX, py=y=>Y0-y*SY;
+ let s=`<line x1="${X0}" y1="${Y0}" x2="790" y2="${Y0}" stroke="#3a4150"/>
+        <line x1="${X0}" y1="20" x2="${X0}" y2="${Y0}" stroke="#3a4150"/>
+        <text x="430" y="322" fill="#6f7787" font-size="11" text-anchor="middle">
+          ویژگی ۱ (مثلاً روشنایی)</text>
+        <text x="26" y="150" fill="#6f7787" font-size="11"
+          transform="rotate(-90 26 150)" text-anchor="middle">ویژگی ۲ (زبری)</text>`;
+ PTS.forEach(p=>{
+  let x=p[0],y=p[1];
+  if(m===1){x+=0.55;y+=0.62;}
+  if(m===2){x=1.6+(x-1.6)*0.55; y=1.1+(y-1.1)*1.55;}
+  s+=`<circle cx="${px(x)}" cy="${py(y)}" r="5"
+       fill="${p[2]?'#e08a5a':'#4a8ad8'}" opacity=".85">
+       <animate attributeName="r" values="2;5" dur="0.5s" fill="freeze"/></circle>`;
+ });
+ let bx1,by1,bx2,by2;
+ if(m===0){bx1=1.0;by1=1.55;bx2=4.3;by2=2.85;}
+ if(m===1){bx1=1.0;by1=2.30;bx2=4.3;by2=3.60;}
+ if(m===2){bx1=1.0;by1=0.60;bx2=3.4;by2=3.60;}
+ s+=`<line x1="${px(bx1)}" y1="${py(by1)}" x2="${px(bx2)}" y2="${py(by2)}"
+      stroke="#7fd6a0" stroke-width="3"/>`;
+ s+=`<circle cx="640" cy="40" r="6" fill="#4a8ad8"/>
+     <text x="655" y="45" fill="#9fc0e8" font-size="12">جنگل</text>
+     <circle cx="710" cy="40" r="6" fill="#e08a5a"/>
+     <text x="725" y="45" fill="#e8b48a" font-size="12">شهر</text>`;
+ document.getElementById('plot').innerHTML=s;
+ document.getElementById('pnote').innerHTML=NOTE[m];
+}
+sc(0,null);
+
+// ---------- section 3: ladder ----------
+const L=[
+{n:"۱ · جمع با یک عدد ثابت",p:"۱ پارامتر",who:"Prithvi-EO-2.0",
+ f:"x = x + s · loc",
+ t:"یک عدد که برای همهٔ عکس‌های دنیا یکی است. ساده‌ترین کار ممکن. <b>و در آزمایش ما به همهٔ گران‌ترها رسید.</b>",bar:1},
+{n:"۲ · جمع با عددِ هر عکس — «دریچه»",p:"۹٬۳۱۳",who:"ما",
+ f:"g = شبکهٔ کوچک(تصویر)\nx = x + g · loc",
+ t:"همان جمع، ولی ضریب برای هر عکس جدا. ایدهٔ ما. <b>از پلهٔ ۱ جلو نزد.</b>",bar:2},
+{n:"۳ · توکن اضافه",p:"۳۷٬۰۵۶",who:"TerraMind",
+ f:"x = [x ; W·loc]   # ۶۵ → ۶۶",
+ t:"مکان یک عضو مستقل صف می‌شود؛ هر تکه می‌تواند نگاهش کند یا نکند. TerraMind مختصات را حتی به رشتهٔ متنی تبدیل می‌کند و دو توکن می‌سازد.",bar:3},
+{n:"۴ · الحاق به کد موقعیت",p:"کم",who:"SatMAE · MAESTRO",
+ f:"pos = [pos_مکانی ; sincos(زمان)]",
+ t:"به‌جای جمع، <b>کنارِ</b> کد موقعیت می‌چسبانند تا با آن قاتی نشود. SatMAE صریح می‌گوید «الحاق، نه جمع». اثرش کوچک بود: ‎+۰٫۳۸.",bar:3},
+{n:"۵ · FiLM — ضرب، یک بار",p:"۳۸۴ به‌ازای تصویر",who:"Perez 2018 · HyperFusion",
+ f:"γ, β = MLP(loc)\nx = x·(1+γ) + β",
+ t:"اولین پله‌ای که <b>می‌چرخاند</b> نه فقط جابه‌جا می‌کند. برای هر بُعد ضریب جدا. <b>ما نزدیم — و باید بزنیم.</b>",bar:5},
+{n:"۶ · adaLN — همان ضرب، دوازده بار",p:"۸۸۹٬۳۴۴",who:"DiT (ICCV 2023)",
+ f:"در هر بلوک و هر نرمال‌سازی:\nx = norm(x)·(1+γᵢ) + βᵢ",
+ t:"بیان‌گرترین سازوکار منتشرشده. ساخته شده برای شرطی که <b>با عمق عوض می‌شود</b> (گام دیفیوژن). شرط ما ایستاست.",bar:7},
+{n:"۷ · هایپرشبکه — شرط، وزنِ مدل را می‌سازد",p:"زیاد",who:"DOFA · Copernicus-FM · HyperFusion",
+ f:"W = هایپرشبکه(شرط)\nx = W ⊛ img",
+ t:"🔑 <b>پله‌ای که اصلاً نمی‌شناختیم.</b> شرط دیگر داده نیست — <b>وزنِ لایه</b> را می‌سازد. Copernicus-FM نام متغیر را به Llama می‌دهد و از خروجی‌اش کرنل کانولوشن می‌سازد. HyperFusion سنجید: هایپرشبکه <span class='ltr'>0.673</span> &gt; FiLM <span class='ltr'>0.658</span> &gt; الحاق <span class='ltr'>0.638</span>.",bar:9},
+{n:"۸ · توجه متقاطع — هر ناحیه سهم خودش",p:"متغیر",who:"LHRS-Bot · TUMSyn",
+ f:"Q = توکن‌ها ، K,V = متادیتا\nx = x + softmax(QKᵀ)·V",
+ t:"تنها سازوکاری که ضریبش <b>برای هر توکن فرق می‌کند</b>. ولی روی محمولهٔ تک‌برداری، در CT بازنده شد (<span class='ltr'>49.84</span> در برابر الحاق <span class='ltr'>50.86</span>).",bar:10}];
+
+(function(){
+ document.getElementById('lad').innerHTML = L.map((l,i)=>
+  `<button onclick="lad(${i},this)"${i===0?' class="on"':''}>${i+1}</button>`).join('')
+  + '<span style="color:#6f7787;font-size:.9em;margin-right:.6em">← از ارزان به گران</span>';
+})();
+function lad(i,btn){
+ btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));
+ btn.classList.add('on');
+ const l=L[i];
+ let s='';
+ L.forEach((q,j)=>{
+  const h=q.bar*15;
+  s+=`<rect x="${60+j*92}" y="${170-h}" width="70" height="${h}" rx="5"
+       fill="${j===i?'#4a8ad8':'#242a36'}" stroke="#2a3140"/>
+      <text x="${95+j*92}" y="188" fill="${j===i?'#8fc0ff':'#6f7787'}"
+       font-size="12" text-anchor="middle">${j+1}</text>`;
+ });
+ s+=`<text x="410" y="16" fill="#9aa1ae" font-size="12" text-anchor="middle">
+      قدرت بیانِ سازوکار →</text>`;
+ document.getElementById('ladsvg').innerHTML=s;
+ document.getElementById('ladtext').innerHTML=
+  `<h3 style="margin-top:1em">${l.n}</h3>
+   <p style="color:#8b8f9a;margin:.2em 0"><b>${l.who}</b> · ${l.p}</p>
+   <div style="direction:ltr;text-align:left;font-family:Consolas,monospace;
+     font-size:.88em;background:#0a0d12;border:1px solid #242a36;border-radius:7px;
+     padding:.6em .9em;margin:.6em 0;color:#9fd6a0;white-space:pre-wrap">${l.f}</div>
+   <p>${l.t}</p>`;
+}
+lad(0,document.querySelector('#lad button'));
+
+// ---------- adaLN row ----------
+(function(){
+ let s='';
+ for(let i=0;i<6;i++){
+  s+=`<rect x="${455+i*53}" y="100" width="44" height="46" rx="5"
+       fill="#232734" stroke="#3a3f4b"/>`;
+  s+=`<path d="M${467+i*53},84 L${467+i*53},96" stroke="#8fc0ff" stroke-width="2"/>`;
+  s+=`<path d="M${487+i*53},84 L${487+i*53},96" stroke="#8fc0ff" stroke-width="2"/>`;
+ }
+ document.getElementById('adarow').innerHTML=s;
+})();
+</script>
+</div></body></html>

@@ -1,0 +1,26 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv*/
+*.egg-info/
+
+# large data and model artefacts are never committed
+*.tif
+*.tiff
+*.nc
+*.npz
+*.ckpt
+*.pt
+*.pth
+*.safetensors
+data/
+runs/
+lightning_logs/
+checkpoints/
+
+# credentials
+.cdsapirc
+*.key
+*.token
+ACCOUNTS.md
+.env

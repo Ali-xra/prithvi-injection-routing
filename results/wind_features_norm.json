@@ -1,0 +1,45 @@
+{
+  "source": "Open-Meteo Archive API · era5_seamless",
+  "units": {
+    "mean_speed": "m/s",
+    "max_speed": "m/s",
+    "dir_sin": "-",
+    "dir_cos": "-",
+    "precip_7d": "mm",
+    "precip_7d_log": "log1p(mm)",
+    "mean_temp": "degC"
+  },
+  "normalized_from": "train split only",
+  "n_train": 563,
+  "n_total": 804,
+  "stats": {
+    "mean_speed": {
+      "mean": 3.0132238002260654,
+      "std": 1.0531029646312662
+    },
+    "max_speed": {
+      "mean": 6.762362345073829,
+      "std": 2.206429549714616
+    },
+    "dir_sin": {
+      "mean": 0.15657337064515073,
+      "std": 0.6658398319245821
+    },
+    "dir_cos": {
+      "mean": 0.3362762918798927,
+      "std": 0.6473487107787963
+    },
+    "precip_7d": {
+      "mean": 13.03321496340352,
+      "std": 21.828920214731976
+    },
+    "precip_7d_log": {
+      "mean": 1.610167075312478,
+      "std": 1.4509505704501207
+    },
+    "mean_temp": {
+      "mean": 19.39749323105112,
+      "std": 6.938881186542114
+    }
+  }
+}

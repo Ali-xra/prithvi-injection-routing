@@ -1,0 +1,77 @@
+{
+  "device": "NVIDIA GeForce GTX 1070",
+  "results": {
+    "224_8_fp16_baseline": {
+      "img": 224,
+      "batch": 8,
+      "precision": "fp16",
+      "arm": "baseline",
+      "ok": true,
+      "peak_gb": 6.08,
+      "sec_per_step": 1.129
+    },
+    "224_4_fp16_baseline": {
+      "img": 224,
+      "batch": 4,
+      "precision": "fp16",
+      "arm": "baseline",
+      "ok": true,
+      "peak_gb": 6.07,
+      "sec_per_step": 0.674
+    },
+    "224_4_fp16_adaln": {
+      "img": 224,
+      "batch": 4,
+      "precision": "fp16",
+      "arm": "adaln",
+      "ok": true,
+      "peak_gb": 6.55,
+      "sec_per_step": 1.144
+    },
+    "224_2_fp16_adaln": {
+      "img": 224,
+      "batch": 2,
+      "precision": "fp16",
+      "arm": "adaln",
+      "ok": true,
+      "peak_gb": 6.54,
+      "sec_per_step": 0.556
+    },
+    "224_4_fp32_adaln": {
+      "img": 224,
+      "batch": 4,
+      "precision": "fp32",
+      "arm": "adaln",
+      "ok": true,
+      "peak_gb": 6.55,
+      "sec_per_step": 3.901
+    },
+    "512_2_fp16_adaln": {
+      "img": 512,
+      "batch": 2,
+      "precision": "fp16",
+      "arm": "adaln",
+      "ok": true,
+      "peak_gb": 7.0,
+      "sec_per_step": 10.169
+    },
+    "512_1_fp16_adaln": {
+      "img": 512,
+      "batch": 1,
+      "precision": "fp16",
+      "arm": "adaln",
+      "ok": true,
+      "peak_gb": 6.54,
+      "sec_per_step": 1.457
+    }
+  },
+  "chosen": {
+    "img": 512,
+    "batch": 2,
+    "precision": "fp16",
+    "arm": "adaln",
+    "ok": true,
+    "peak_gb": 7.0,
+    "sec_per_step": 10.169
+  }
+}

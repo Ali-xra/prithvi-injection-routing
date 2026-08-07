@@ -1,0 +1,22 @@
+{
+  "arm": "shuffle",
+  "seed": 0,
+  "epochs_run": 50,
+  "n_params_total": 349535874,
+  "n_params_injection": 25331200,
+  "minutes": 214.9,
+  "best_ckpt": "C:\\Users\\aliso\\Desktop\\big-files\\injection-routing\\runs\\shuffle_s0\\best.ckpt",
+  "val": {
+    "val/loss": 0.16115610301494598,
+    "val/Accuracy": 0.9267927408218384,
+    "val/Boundary_mIoU": 0.32877328991889954,
+    "val/Class_Accuracy_0": 0.9576197266578674,
+    "val/Class_Accuracy_1": 0.8959656953811646,
+    "val/F1_Score": 0.9268951416015625,
+    "val/IoU_0": 0.918391227722168,
+    "val/IoU_1": 0.8121367692947388,
+    "val/Pixel_Accuracy": 0.9396739602088928,
+    "val/mIoU": 0.8652639985084534,
+    "val/mIoU_Micro": 0.8862123489379883
+  }
+}

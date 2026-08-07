@@ -1,0 +1,32 @@
+{
+  "linear": {
+    "auc_geo_only": 0.692391899288451,
+    "auc_weather_plus_geo": 0.6518883415435139,
+    "delta_observed": -0.04050355774493708,
+    "null_mean": -0.011439518336070084,
+    "null_sd": 0.01968728348110211,
+    "null_q95": 0.01918445539135189,
+    "p_value": 0.9235880398671097,
+    "significant": false,
+    "seconds": 2.4
+  },
+  "forest": {
+    "auc_geo_only": 0.6945812807881774,
+    "auc_weather_plus_geo": 0.7162014230979747,
+    "delta_observed": 0.021620142309797363,
+    "null_mean": -0.0047719394271119025,
+    "null_sd": 0.03021205910252957,
+    "null_q95": 0.04140667761357415,
+    "p_value": 0.20930232558139536,
+    "significant": false,
+    "seconds": 232.4
+  },
+  "_meta": {
+    "n_train": 563,
+    "n_val": 121,
+    "threshold_pct_burn": 4.038,
+    "n_permutations": 300,
+    "permutation": "block over 6 weather columns; geography untouched",
+    "test_untouched": true
+  }
+}

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8">
+<title>آیا adaLN انتخاب اشتباهی بود؟</title>
+<style>
+ body{font-family:"Segoe UI",Tahoma,sans-serif;background:#0e1116;color:#e6e8ec;
+      margin:0;padding:1.7em;line-height:2;font-size:16px}
+ .wrap{max-width:56em;margin:0 auto}
+ h1{font-size:1.55em;margin:0 0 .1em}
+ .sub{color:#858b98;font-size:.92em;margin-bottom:1.6em}
+ h2{font-size:1.18em;margin:2.2em 0 .5em;color:#8fc0ff;
+    border-right:4px solid #2f6fbf;padding-right:.6em}
+ p{margin:.8em 0;text-align:justify}
+ .panel{background:#151922;border:1px solid #242a36;border-radius:12px;
+        padding:1.1em 1.3em;margin:1.1em 0}
+ .ok{background:#152318;border:1px solid #26402c;border-right:4px solid #3f9f5f;
+     border-radius:9px;padding:.9em 1.2em;margin:1.1em 0}
+ .warn{background:#241a1a;border:1px solid #4a2b2b;border-right:4px solid #b95050;
+       border-radius:9px;padding:.9em 1.2em;margin:1.1em 0}
+ .big{background:#1a2333;border:1px solid #2c3d57;border-right:5px solid #4a8ad8;
+      border-radius:10px;padding:1em 1.3em;margin:1.2em 0}
+ table{border-collapse:collapse;width:100%;margin:.9em 0;font-size:.91em}
+ th,td{border:1px solid #2a2f3b;padding:.38em .6em;text-align:right}
+ th{background:#1b2029}
+ code{background:#1b2029;padding:.06em .3em;border-radius:4px;direction:ltr;
+      display:inline-block;font-size:.9em}
+ svg{width:100%;height:auto;display:block}
+ @media print{body{background:#fff;color:#111}
+  .panel,.ok,.warn,.big{background:#fff;border-color:#bbb;color:#111}}
+</style></head><body><div class="wrap">
+
+<h1>آیا adaLN انتخاب اشتباهی بود؟</h1>
+<p class="sub">جواب کوتاه: <b>نه برای EuroSAT — و اتفاقاً بدون آن، کل نتیجه بی‌ارزش
+بود.</b> ولی یک نقد واقعی به آن وارد است که «یکنواختی» نیست، چیز دیگری است.</p>
+
+<h2>۱ · اول یک تصحیح روی حرف خودم</h2>
+
+<div class="warn">در پیام قبل گفتم «همهٔ بازوها یکنواخت‌اند و شاید خانوادهٔ اشتباهی
+باشد». <b>این را بیش از اندازه کلی گفتم.</b><br><br>
+نقدِ یکنواختی روی تسک‌های <b>قطعه‌بندی</b> (آتش‌سوزی، سیل) وارد است — آنجا برچسب
+پیکسل‌به‌پیکسل است و تکه ۱۵ کیلومتر عرض دارد.<br>
+روی <b>EuroSAT</b> وارد نیست: تکه ۶۴۰ متر است، برچسب یکی برای کل تکه، و شرط
+(یک مختصات) واقعاً سراسری است. <b>اینجا یکنواختی نه ضعف است نه انتخاب بد — با
+شکل مسئله می‌خواند.</b></div>
+
+<h2>۲ · چرا adaLN <u>باید</u> در آزمایش می‌بود</h2>
+
+<p>سؤال ما «بهترین سازوکار کدام است» نبود. سؤال این بود: <b>آیا نقطهٔ ورود اهمیت
+دارد، وقتی همه‌چیز دیگر ثابت است؟</b> برای این سؤال، بازویی لازم داری که
+<i>بیشترین شانس بردن</i> را داشته باشد.</p>
+
+<table>
+<tr><th>ویژگی</th><th>add</th><th>adaLN</th></tr>
+<tr><td>پارامتر تزریق</td><td>۱</td><td><b>۸۸۹٬۳۴۴</b></td></tr>
+<tr><td>چند بار وارد می‌شود</td><td>۱ بار</td><td><b>۱۲ بار</b> (۶ بلوک × ۲ نرم)</td></tr>
+<tr><td>بُعد‌به‌بُعد؟</td><td>نه — یک ضریب</td><td><b>بله</b> — γ و β مستقل</td></tr>
+<tr><td>در گام صفر برابر <code>none</code>؟</td><td>نه</td>
+    <td><b>بله، دقیقاً</b> <code>0.000e+00</code></td></tr>
+</table>
+
+<div class="ok"><b>سه دلیل که حذفش خطا بود:</b><br>
+<b>۱.</b> اگر نبود، اولین سؤال داور این است: «چرا قوی‌ترین سازوکار منتشرشده را
+نیازمودی؟» و جواب نداشتی.<br>
+<b>۲.</b> adaLN-Zero تنها بازویی است که <i>اثباتاً</i> از نقطهٔ صفر شروع می‌کند.
+این آن را بهترین بازو برای یک مقایسهٔ کنترل‌شده می‌کند، نه بدترین.<br>
+<b>۳.</b> نتیجه دقیقاً به‌خاطر حضور آن معنا دارد: <b>«۸۸۹ هزار پارامتر و ۱۲ بار
+تزریق، از ۱ پارامتر و ۱ بار تزریق جلو نزد»</b> حرف است. بدون adaLN، «هیچ مسیری
+بهتر نبود» چیزی نمی‌گفت.</div>
+
+<p>و توجه کن: یافتهٔ ما «<b>adaLN بد است</b>» نیست. «<b>adaLN بهتر نیست</b>» است.
+اگر انتخابش خطا بود، نتیجه بی‌اطلاع می‌شد. نشد — پرمعناترین بازو همان است، چون
+بیشترین جا برای بردن را داشت و نبرد.</p>
+
+<h2>۳ · ولی یک نقد واقعی هست — و «یکنواختی» نیست</h2>
+
+<p>adaLN در DiT برای شرطی ساخته شده که <b>با عمق تغییر می‌کند</b>: گام زمانی
+انتشار. در گام ۱۰۰۰ تصویر تقریباً نویز محض است، در گام ۰ تقریباً تمیز. هر بلوک
+واقعاً باید بداند در کدام رژیم کار می‌کند. <b>تکرار در هر بلوک، آنجا ضرورت است.</b></p>
+
+<div class="panel">
+<svg viewBox="0 0 820 260" xmlns="http://www.w3.org/2000/svg">
+ <text x="410" y="20" fill="#9aa1ae" font-size="13" text-anchor="middle">
+   شرط در DiT: با عمق معنایش عوض می‌شود</text>
+ <g>
+  <rect x="60" y="34" width="100" height="48" rx="7" fill="#2a1f38" stroke="#523d6b"/>
+  <rect x="200" y="34" width="100" height="48" rx="7" fill="#2a2438" stroke="#4c3f66"/>
+  <rect x="340" y="34" width="100" height="48" rx="7" fill="#28293a" stroke="#414a66"/>
+  <rect x="480" y="34" width="100" height="48" rx="7" fill="#25303c" stroke="#3a5570"/>
+  <rect x="620" y="34" width="100" height="48" rx="7" fill="#20384a" stroke="#33637f"/>
+ </g>
+ <g fill="#cfd4de" font-size="11" text-anchor="middle">
+  <text x="110" y="63">t=1000</text><text x="250" y="63">t=750</text>
+  <text x="390" y="63">t=500</text><text x="530" y="63">t=250</text>
+  <text x="670" y="63">t=0</text></g>
+ <text x="410" y="100" fill="#c9a0ff" font-size="11.5" text-anchor="middle">
+   نویز محض ← تصویر تمیز · هر بلوک باید بداند کجای این طیف است</text>
+
+ <text x="410" y="150" fill="#9aa1ae" font-size="13" text-anchor="middle">
+   شرط در کار ما: با عمق هیچ تغییری نمی‌کند</text>
+ <g fill="#16281c" stroke="#2f5c3c">
+  <rect x="60" y="164" width="100" height="48" rx="7"/>
+  <rect x="200" y="164" width="100" height="48" rx="7"/>
+  <rect x="340" y="164" width="100" height="48" rx="7"/>
+  <rect x="480" y="164" width="100" height="48" rx="7"/>
+  <rect x="620" y="164" width="100" height="48" rx="7"/></g>
+ <g fill="#8fd6a0" font-size="11" text-anchor="middle">
+  <text x="110" y="193">۴۵٫۸° ، ۱۰٫۴°</text><text x="250" y="193">۴۵٫۸° ، ۱۰٫۴°</text>
+  <text x="390" y="193">۴۵٫۸° ، ۱۰٫۴°</text><text x="530" y="193">۴۵٫۸° ، ۱۰٫۴°</text>
+  <text x="670" y="193">۴۵٫۸° ، ۱۰٫۴°</text></g>
+ <text x="410" y="232" fill="#e08080" font-size="11.5" text-anchor="middle">
+   همان دو عدد، دوازده بار. یازده بارش چیز تازه‌ای نمی‌گوید.</text>
+</svg>
+</div>
+
+<div class="big"><b>نقد دقیق این است:</b> adaLN ماشین‌آلاتش را روی محور <b>عمق</b>
+خرج می‌کند. شرط ما روی محور عمق هیچ ساختاری ندارد — یک واقعیت ایستا دربارهٔ نمونه
+است. پس ۸۸۹ هزار پارامتر صرف بیان چیزی می‌شود که برای بیانش یک بار کافی بود.<br><br>
+<b>و نتیجهٔ ما دقیقاً همین را نشان می‌دهد.</b> اینکه <code>add</code> با یک پارامتر
+به adaLN می‌رسد، نتیجهٔ عجیبی نیست — نتیجهٔ <i>منسجمی</i> است: برای یک شرط ایستا
+و سراسری، یک پارامتر کافی است.</div>
+
+<h2>۴ · پس جواب نهایی</h2>
+
+<table>
+<tr><th>تسک</th><th>آیا adaLN انتخاب درستی بود؟</th></tr>
+<tr><td><b>EuroSAT-S1</b> (طبقه‌بندی، تکهٔ ۶۴۰ متری، یک برچسب)</td>
+    <td>✅ <b>بله، و لازم بود.</b> شرط سراسری است، بازو سالم پیاده شده، و نتیجه
+    فقط به‌خاطر حضورش معنا دارد.</td></tr>
+<tr><td><b>Burn scars / سیل</b> (قطعه‌بندی، تکهٔ ۱۵ کیلومتری، برچسب پیکسلی)</td>
+    <td>⚠️ <b>احتمالاً نامناسب</b> — ولی آنجا محموله خالی هم بود و تقسیم هم نشت
+    داشت. سه علت هم‌زمان، و <b>ما نمی‌توانیم از هم جدایشان کنیم.</b></td></tr>
+</table>
+
+<div class="warn"><b>و این تمایز را باید نگه داشت:</b> اگر بگویی
+«adaLN برای تسک ما اشتباه بود»، بلافاصله می‌پرسند «پس چرا نتیجه‌ات را بر پایه‌اش
+بنا کردی؟» جملهٔ درست این است:<br><br>
+<i>"adaLN was the right arm to include and the wrong arm to expect a win from —
+for the same reason. It is the most expressive published mechanism, so it makes
+the null informative; and it spends that expressiveness on the depth axis, where
+a static per-sample condition has no structure to exploit."</i></div>
+
+</div></body></html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8">
+<title>شش راه ورود — نمودار زنده</title>
+<style>
+ body{font-family:"Segoe UI",Tahoma,sans-serif;background:#12141a;color:#e8e8ea;
+      margin:0;padding:1.6em;line-height:1.9}
+ h1{font-size:1.5em;margin:0 0 .2em}
+ .sub{color:#8b8f9a;font-size:.9em;margin-bottom:1.4em}
+ .bar{display:flex;gap:.5em;flex-wrap:wrap;margin-bottom:1.2em}
+ button{font-family:inherit;font-size:1em;padding:.5em 1.1em;border-radius:8px;
+        border:1px solid #3a3f4b;background:#1c1f28;color:#cfd3dc;cursor:pointer}
+ button:hover{background:#252935}
+ button.on{background:#2f6fbf;border-color:#4a8ad8;color:#fff}
+ .stage{background:#191c24;border:1px solid #2a2e39;border-radius:12px;
+        padding:1.2em;margin-bottom:1.2em}
+ svg{width:100%;height:auto;display:block}
+ .desc{background:#191c24;border:1px solid #2a2e39;border-radius:12px;padding:1.1em 1.4em}
+ .desc h3{margin:.1em 0 .5em;font-size:1.15em;color:#7fb4ff}
+ .desc p{margin:.5em 0}
+ .desc .formula{direction:ltr;text-align:left;background:#0e1016;border:1px solid #2a2e39;
+   border-radius:6px;padding:.6em .9em;font-family:Consolas,monospace;font-size:.92em;
+   color:#9fd6a0;margin:.7em 0;overflow-x:auto}
+ .cost{color:#f0b775;font-weight:bold}
+ .flow{stroke:#4a8ad8;stroke-width:2.5;fill:none;stroke-dasharray:7 5;
+       animation:dash 1s linear infinite}
+ @keyframes dash{to{stroke-dashoffset:-24}}
+ .pulse{animation:pl 1.4s ease-in-out infinite}
+ @keyframes pl{0%,100%{opacity:.35}50%{opacity:1}}
+ @media print{body{background:#fff;color:#111}.stage,.desc{background:#fff;border-color:#bbb}
+   button{display:none}.flow{animation:none}.pulse{animation:none;opacity:1}}
+</style></head><body>
+
+<h1>شش راه ورود — دقیقاً کجا و چطور</h1>
+<p class="sub">مدل: یک ViT کوچک که خودمان ساختیم — ۲٫۷ میلیون پارامتر، بُعد ۱۹۲،
+<b>۶ بلوک</b>، تکه‌های ۸×۸ روی تصویر ۶۴×۶۴ → ۶۴ تکه + ۱ توکن CLS = ۶۵ توکن.<br>
+روی یک دکمه بزن تا مسیر آن بازو روشن شود.</p>
+
+<div class="bar">
+ <button class="on" onclick="pick('none',this)">هیچ</button>
+ <button onclick="pick('add',this)">جمع (راه پریتوی)</button>
+ <button onclick="pick('token',this)">توکن (راه TerraMind)</button>
+ <button onclick="pick('gate',this)">دریچه (مال ما)</button>
+ <button onclick="pick('adaln',this)">لایه‌ای</button>
+ <button onclick="pick('shuffle',this)">قاتی (کنترل)</button>
+</div>
+
+<div class="stage">
+<svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3"
+          orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#4a8ad8"/></marker>
+  <marker id="ag" markerWidth="9" markerHeight="9" refX="7" refY="3"
+          orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#6b7280"/></marker>
+ </defs>
+
+ <!-- image -->
+ <rect x="20" y="150" width="80" height="80" rx="6" fill="#232734" stroke="#3a3f4b"/>
+ <text x="60" y="185" fill="#cfd3dc" font-size="13" text-anchor="middle">تصویر</text>
+ <text x="60" y="203" fill="#8b8f9a" font-size="11" text-anchor="middle">۲×۶۴×۶۴</text>
+ <path d="M104,190 L140,190" stroke="#6b7280" stroke-width="2" marker-end="url(#ag)"/>
+
+ <!-- tokens -->
+ <text x="200" y="132" fill="#8b8f9a" font-size="11" text-anchor="middle">۶۵ توکن</text>
+ <rect id="tCLS" x="146" y="145" width="26" height="26" rx="4" fill="#3b4457" stroke="#5b6478"/>
+ <text x="159" y="163" fill="#e8e8ea" font-size="10" text-anchor="middle">CLS</text>
+ <g fill="#232734" stroke="#3a3f4b">
+  <rect x="146" y="178" width="26" height="22" rx="3"/>
+  <rect x="146" y="204" width="26" height="22" rx="3"/>
+  <rect x="146" y="230" width="26" height="22" rx="3"/>
+ </g>
+ <text x="159" y="272" fill="#8b8f9a" font-size="11" text-anchor="middle">…۶۴ تکه</text>
+ <rect id="tLOC" x="146" y="284" width="26" height="22" rx="3"
+       fill="#2f6fbf" stroke="#4a8ad8" opacity="0"/>
+ <text id="tLOCt" x="159" y="299" fill="#fff" font-size="9" text-anchor="middle"
+       opacity="0">مکان</text>
+
+ <path d="M178,200 L214,200" stroke="#6b7280" stroke-width="2" marker-end="url(#ag)"/>
+
+ <!-- 6 blocks -->
+ <g id="blocks">
+  <rect x="220" y="150" width="70" height="100" rx="7" fill="#232734" stroke="#3a3f4b"/>
+  <rect x="300" y="150" width="70" height="100" rx="7" fill="#232734" stroke="#3a3f4b"/>
+  <rect x="380" y="150" width="70" height="100" rx="7" fill="#232734" stroke="#3a3f4b"/>
+  <rect x="460" y="150" width="70" height="100" rx="7" fill="#232734" stroke="#3a3f4b"/>
+  <rect x="540" y="150" width="70" height="100" rx="7" fill="#232734" stroke="#3a3f4b"/>
+  <rect x="620" y="150" width="70" height="100" rx="7" fill="#232734" stroke="#3a3f4b"/>
+ </g>
+ <g fill="#8b8f9a" font-size="11" text-anchor="middle">
+  <text x="255" y="205">بلوک ۱</text><text x="335" y="205">۲</text>
+  <text x="415" y="205">۳</text><text x="495" y="205">۴</text>
+  <text x="575" y="205">۵</text><text x="655" y="205">۶</text>
+ </g>
+
+ <path d="M694,200 L726,200" stroke="#6b7280" stroke-width="2" marker-end="url(#ag)"/>
+ <rect x="730" y="165" width="70" height="70" rx="7" fill="#232734" stroke="#3a3f4b"/>
+ <text x="765" y="195" fill="#cfd3dc" font-size="12" text-anchor="middle">فقط CLS</text>
+ <text x="765" y="212" fill="#8b8f9a" font-size="10" text-anchor="middle">← جواب</text>
+ <path d="M804,200 L850,200" stroke="#6b7280" stroke-width="2" marker-end="url(#ag)"/>
+ <text x="872" y="204" fill="#cfd3dc" font-size="12" text-anchor="middle">۱۰ دسته</text>
+
+ <!-- location source -->
+ <rect id="locBox" x="20" y="30" width="110" height="46" rx="7"
+       fill="#1b2a44" stroke="#2f6fbf" opacity="0"/>
+ <text id="locT1" x="75" y="50" fill="#7fb4ff" font-size="12" text-anchor="middle"
+       opacity="0">طول و عرض</text>
+ <text id="locT2" x="75" y="67" fill="#5b7fae" font-size="10" text-anchor="middle"
+       opacity="0">فرمول ثابت ← ۱۹۲ عدد</text>
+
+ <!-- injection paths -->
+ <path id="pAdd" class="flow" d="M134,53 L200,53 L200,140" opacity="0" marker-end="url(#ar)"/>
+ <path id="pTok" class="flow" d="M134,53 L118,53 L118,295 L142,295" opacity="0" marker-end="url(#ar)"/>
+ <path id="pGate" class="flow" d="M134,53 L200,53 L200,140" opacity="0" marker-end="url(#ar)"/>
+ <path id="pGate2" class="flow" d="M240,145 L240,100 L206,100 L206,60" opacity="0"
+       stroke="#f0b775" marker-end="url(#ar)"/>
+ <g id="pAda" opacity="0">
+  <path class="flow" d="M134,53 L255,53 L255,145" marker-end="url(#ar)"/>
+  <path class="flow" d="M255,53 L335,53 L335,145" marker-end="url(#ar)"/>
+  <path class="flow" d="M335,53 L415,53 L415,145" marker-end="url(#ar)"/>
+  <path class="flow" d="M415,53 L495,53 L495,145" marker-end="url(#ar)"/>
+  <path class="flow" d="M495,53 L575,53 L575,145" marker-end="url(#ar)"/>
+  <path class="flow" d="M575,53 L655,53 L655,145" marker-end="url(#ar)"/>
+ </g>
+ <text id="shufT" x="600" y="45" fill="#e07a7a" font-size="13" opacity="0"
+       text-anchor="middle">مختصاتِ یک عکس دیگر</text>
+</svg>
+</div>
+
+<div class="desc" id="desc"></div>
+
+<script>
+const D = {
+ none:{t:"هیچ — پایهٔ مقایسه",p:0,
+  h:"مکان اصلاً وارد نمی‌شود. تصویر به ۶۴ تکه بریده می‌شود، یک توکن CLS جلویش گذاشته می‌شود، شش بلوک روی این ۶۵ توکن کار می‌کنند و آخرش فقط CLS خوانده می‌شود.",
+  f:"out = head(norm(x)[:, 0])",
+  n:"چرا CLS؟ چون آن یک توکنی است که هیچ تکه‌ای از تصویر نیست — جای خالی‌ای است که مدل در طول شش بلوک خلاصهٔ کل تصویر را در آن جمع می‌کند. سرِ طبقه‌بند فقط همان را می‌خواند."},
+
+ add:{t:"جمع — راه رسمی پریتوی · ۱ پارامتر",p:1,
+  h:"مختصات با یک فرمول ثابت به ۱۹۲ عدد تبدیل می‌شود. آن ۱۹۲ عدد در <b>یک عدد یادگرفتنی</b> ضرب می‌شود و <b>به همهٔ ۶۵ توکن، قبل از بلوک اول</b> اضافه می‌شود. همین. کل چیزی که مدل می‌تواند دربارهٔ مکان یاد بگیرد، شدت آن یک عدد است.",
+  f:"x = x + self.scale * loc.unsqueeze(1)      # scale: یک عدد، شروع ۰٫۱",
+  n:"چرا فقط یک پارامتر؟ چون خودِ ترجمهٔ مختصات به ۱۹۲ عدد <b>فرمول است، نه یادگیری</b> — همان سینوس و کسینوس با فرکانس‌های مختلف، بدون هیچ وزن. تنها چیز یادگرفتنی، ولوم کلی است. این ساده‌ترین راه ممکن است و ما دقیقاً برای همین آن را پایهٔ مقایسه گذاشتیم."},
+
+ token:{t:"توکن — راه TerraMind · ۳۷٬۰۵۶ پارامتر",p:1,
+  h:"همان ۱۹۲ عدد از یک لایهٔ خطی رد می‌شود و <b>به‌عنوان توکن شمارهٔ ۶۶ به دنباله اضافه می‌شود</b>. یعنی مکان دیگر «به تصویر اضافه» نمی‌شود؛ خودش یک عضو مستقل صف است و هر تکهٔ تصویر می‌تواند در سازوکار توجه، هر قدر که لازم دید، به آن نگاه کند.",
+  f:"x = torch.cat([x, self.loc_proj(loc).unsqueeze(1)], dim=1)   # ۶۵ → ۶۶",
+  n:"بله — <b>یک توکن، فقط یکی</b>. و این تفاوت اصلی‌اش با «جمع» است: در «جمع» مکان با همان شدت به همهٔ ۶۵ توکن تحمیل می‌شود؛ اینجا هیچ توکنی مجبور نیست نگاهش کند، ولی هر کدام می‌تواند. ۳۷ هزار پارامتر مال همان لایهٔ خطی ۱۹۲×۱۹۲ است."},
+
+ gate:{t:"دریچه — ایدهٔ خودمان · ۹٬۳۱۳ پارامتر",p:1,
+  h:"دقیقاً همان مسیر «جمع» — ولی آن ولوم دیگر یک عدد ثابت برای همه نیست. یک شبکهٔ کوچک <b>میانگین توکن‌های تصویر</b> را می‌خواند و <b>برای هر عکس یک ولوم جدا</b> می‌سازد. ادعا این بود: جایی که تصویر گنگ است، مدل ولوم مکان را بالا می‌برد.",
+  f:"g = self.gate_net(x[:, 1:].mean(dim=1))    # از تصویر، نه از مختصات\nx = x + g.unsqueeze(1) * loc.unsqueeze(1)",
+  n:"🔴 نکتهٔ حیاتی طراحی: دریچه <b>هرگز خود مختصات را نمی‌بیند</b> — فقط تصویر را. اگر مختصات را هم می‌دید، می‌توانست اطلاعات مکان را از یک مسیر دوم قاچاق کند و مقایسه با «جمع» دیگر فقط دربارهٔ دریچه نبود. این را با یک آزمون جدا تأیید کردیم: خروجی دریچه با تغییر مختصات دقیقاً صفر تغییر می‌کند.<br><br>نتیجهٔ بعدی: ولوم واقعاً می‌چرخد (ده برابر بازه) ولی <b>برعکس ادعای ما</b> — وقتی مدل به تصویر مطمئن‌تر است بالاتر می‌رود، نه وقتی گیج است."},
+
+ adaln:{t:"لایه‌ای — سنگین‌ترین · ۸۸۹٬۳۴۴ پارامتر",p:1,
+  h:"مکان یک بار وارد نمی‌شود؛ <b>در هر شش بلوک، دو بار</b> دخالت می‌کند. برای هر بلوک یک شبکهٔ کوچک از روی مکان چهار بردار می‌سازد و آن‌ها جریان داخل بلوک را <b>کش می‌دهند و جابه‌جا می‌کنند</b> — یعنی مکان مقیاس و مبدأ محاسبات را عوض می‌کند، نه اینکه چیزی به آن‌ها اضافه کند.",
+  f:"s1, g1, s2, g2 = self.to_mod[i](loc).chunk(4, dim=1)\na = n1(x) * (1 + g1) + s1        # قبل از توجه\nb = n2(x) * (1 + g2) + s2        # قبل از MLP",
+  n:"از صفر شروع می‌شود: وزن‌های آن شبکه‌ها با صفر مقداردهی شده‌اند، پس در گام اول این بازو <b>دقیقاً</b> با «هیچ» برابر است — اختلاف اندازه‌گیری‌شده صفرِ مطلق. یعنی هر چه بعداً به دست می‌آورد، از یادگیری است نه از تصادف اولیه.<br><br>هزینه‌اش را ببین: <span class='cost'>۸۸۹ هزار پارامتر در برابر ۱ پارامتر</span> — تقریباً یک میلیون برابر. و در امتحان تمیز، همین بازو با آن یک‌پارامتری <b>هیچ تفاوت واقعی نداشت</b>."},
+
+ shuffle:{t:"قاتی — گروه کنترل · ۸۸۹٬۳۴۴ پارامتر",p:1,
+  h:"از نظر معماری <b>مو‌به‌مو همان «لایه‌ای»</b> است — همان ۸۸۹ هزار پارامتر، همان مسیر، همان مقداردهی. تنها فرق: به هر عکس، <b>مختصات یک عکس دیگر</b> داده می‌شود.",
+  f:"# جایگشت بدون نقطهٔ ثابت: هیچ عکسی مختصات خودش را نمی‌گیرد",
+  n:"این قرص شکر است و مهم‌ترین بازوی کل آزمایش. اگر «قاتی» چیزی بالاتر از «هیچ» بگیرد، یعنی سود از <b>ظرفیت اضافه</b> می‌آید نه از <b>محتوای مکان</b> — و همهٔ نتیجه‌ها بی‌ارزش می‌شوند.<br><br>در تقسیم تمیز: قاتی ۷۳٫۱۸، هیچ ۷۳٫۱۸. <b>اختلاف صفر.</b>"}
+};
+
+function pick(k, btn){
+ document.querySelectorAll('.bar button').forEach(b=>b.classList.remove('on'));
+ if(btn) btn.classList.add('on');
+ const on = k!=='none';
+ ['locBox','locT1','locT2'].forEach(i=>document.getElementById(i).setAttribute('opacity', on?1:0));
+ document.getElementById('pAdd').setAttribute('opacity', k==='add'?1:0);
+ document.getElementById('pGate').setAttribute('opacity', k==='gate'?1:0);
+ document.getElementById('pGate2').setAttribute('opacity', k==='gate'?1:0);
+ document.getElementById('pTok').setAttribute('opacity', k==='token'?1:0);
+ document.getElementById('tLOC').setAttribute('opacity', k==='token'?1:0);
+ document.getElementById('tLOCt').setAttribute('opacity', k==='token'?1:0);
+ document.getElementById('pAda').setAttribute('opacity', (k==='adaln'||k==='shuffle')?1:0);
+ document.getElementById('shufT').setAttribute('opacity', k==='shuffle'?1:0);
+ const d = D[k];
+ document.getElementById('desc').innerHTML =
+   '<h3>'+d.t+'</h3><p>'+d.h+'</p>'+
+   (d.f?'<div class="formula">'+d.f.replace(/\n/g,'<br>')+'</div>':'')+
+   '<p>'+d.n+'</p>';
+}
+pick('none', document.querySelector('.bar button'));
+</script>
+</body></html>

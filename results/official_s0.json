@@ -1,0 +1,22 @@
+{
+  "arm": "official",
+  "seed": 0,
+  "epochs_run": 0,
+  "n_params_total": 324204676,
+  "n_params_injection": 2,
+  "minutes": 1.0,
+  "best_ckpt": "",
+  "val": {
+    "val/loss": 0.15724299848079681,
+    "val/Accuracy": 0.9281638860702515,
+    "val/Boundary_mIoU": 0.33214274048805237,
+    "val/Class_Accuracy_0": 0.9661591649055481,
+    "val/Class_Accuracy_1": 0.8901686072349548,
+    "val/F1_Score": 0.931645393371582,
+    "val/IoU_0": 0.9244705438613892,
+    "val/IoU_1": 0.8223860263824463,
+    "val/Pixel_Accuracy": 0.9440404176712036,
+    "val/mIoU": 0.8734282851219177,
+    "val/mIoU_Micro": 0.8940119743347168
+  }
+}

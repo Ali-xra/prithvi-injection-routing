@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<!-- ROUTING-MATRIX.html · v1 · 2026-08-04 · status: draft
+     چیست: ماتریس «جنس دادهٔ غیرتصویری × نقطهٔ ورود به مدل»، با وضعیت هر خانه.
+     چرا: تفکیک صریح «اندازه‌گیری خودمان» از «ادعای ادبیات» از «هنوز کسی نسنجیده».
+     منبع سطرها و استنادها: output/2026-07-28__injection-routing-table__v1.md (پروژهٔ ideas)
+     منبع ✅ها: experiments/eurosat_s1/results/*.json و docs/MEASUREMENTS.md -->
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>ماتریس مسیریابی تزریق</title>
+<style>
+ :root{--bg:#fbfaf8;--ink:#1c1b19;--mut:#6b6862;--line:#ddd9d2;--card:#fff;
+       --ok:#1d7a4c;--okbg:#e4f4ea;--lit:#8a5a12;--litbg:#fbf0dc;
+       --open:#4a4fa8;--openbg:#e8e9f8;--no:#9a2b2b;--nobg:#fbe6e6;}
+ *{box-sizing:border-box}
+ body{margin:0;padding:28px 20px 80px;background:var(--bg);color:var(--ink);
+      font:16px/1.85 Tahoma,"Segoe UI",system-ui,sans-serif;}
+ .wrap{max-width:1080px;margin:0 auto}
+ h1{font-size:27px;margin:0 0 4px;letter-spacing:-.3px}
+ h2{font-size:21px;margin:44px 0 12px;padding-bottom:7px;border-bottom:2px solid var(--line)}
+ h3{font-size:17px;margin:26px 0 6px}
+ .sub{color:var(--mut);font-size:14px;margin-bottom:26px}
+ p{margin:9px 0}
+ table{width:100%;border-collapse:collapse;background:var(--card);margin:14px 0;
+       font-size:14.5px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+ th,td{border:1px solid var(--line);padding:9px 11px;text-align:right;vertical-align:top}
+ th{background:#f2efe9;font-weight:700;font-size:13.5px}
+ td.n{text-align:center;width:34px;color:var(--mut);font-size:13px}
+ .b{display:inline-block;padding:1px 9px;border-radius:11px;font-size:12.5px;font-weight:700;white-space:nowrap}
+ .ok{background:var(--okbg);color:var(--ok)} .lit{background:var(--litbg);color:var(--lit)}
+ .open{background:var(--openbg);color:var(--open)} .no{background:var(--nobg);color:var(--no)}
+ .grid td{text-align:center;padding:8px 4px}
+ .grid th:first-child,.grid td:first-child{text-align:right;width:210px}
+ .grid th{font-size:12.5px;line-height:1.5;padding:8px 5px;text-align:center}
+ .note{background:#fff8e8;border:1px solid #edd9a8;border-radius:7px;padding:13px 16px;margin:16px 0}
+ .warn{background:var(--nobg);border:1px solid #e7bcbc;border-radius:7px;padding:13px 16px;margin:16px 0}
+ .src{color:var(--mut);font-size:13px}
+ code{background:#eeebe4;padding:1px 5px;border-radius:4px;font-size:13.5px;font-family:Consolas,monospace}
+ ul{margin:8px 0;padding-right:22px} li{margin:5px 0}
+ .mine{border-right:3px solid #b9b4aa;padding-right:10px;color:var(--mut);font-size:14px}
+</style>
+</head>
+<body><div class="wrap">
+
+<h1>ماتریس مسیریابی تزریق</h1>
+<div class="sub">جنس دادهٔ غیرتصویری × نقطهٔ ورود به مدل &nbsp;·&nbsp; نسخهٔ ۱ &nbsp;·&nbsp; ۴ اوت ۲۰۲۶ &nbsp;·&nbsp; پیش‌نویس</div>
+
+<div class="warn">
+<b>قاعدهٔ سه‌رنگ — بدون این، جدول تقلب است.</b><br>
+<span class="b ok">✅ اندازه گرفتیم</span> عدد داریم، چند seed داریم، کنترل داریم.<br>
+<span class="b lit">📄 ادبیات گفته</span> استناد داریم، <b>خودمان تکرار نکرده‌ایم</b>.<br>
+<span class="b open">❓ کسی نسنجیده</span> این پیشنهاد پژوهش است، نه ادعا.<br>
+<span class="b no">⛔ ساختاراً نامناسب</span> دلیل معماری دارد که این ترکیب کار نمی‌کند.<br><br>
+هرگز 📄 را به‌جای ✅ جا نزن. یک بار مچت را بگیرند، کل جدول بی‌اعتبار می‌شود.
+</div>
+
+<h2>لیست ۱ — همهٔ دادهٔ غیرتصویری که می‌تواند به مدل داده شود</h2>
+<p>معیار تفکیک دو چیز است، نه اسم متغیر: <b>(الف) آیا داده ساختار مکانیِ هم‌شبکه با تصویر دارد؟</b>
+و <b>(ب) چند بُعد و چند گام زمانی دارد؟</b> با همین دو معیار، همهٔ متادیتای ممکن در هشت جنس جا می‌شود.</p>
+
+<table>
+<tr><th class="n">#</th><th>جنس داده</th><th>مثال‌ها</th><th>شکل</th><th>چرا جنس جداگانه‌ای است</th></tr>
+<tr><td class="n">۱</td><td><b>میدان پیکسلی هم‌شبکه</b></td>
+    <td>ارتفاع (DEM) · شیب · جهت شیب · ماسک ابر · پوشش زمین · فاصله تا جاده · تراکم جمعیت</td>
+    <td>H×W</td>
+    <td>هم‌شکل تصویر است، پس وسوسه می‌کند «یک کانال اضافه‌اش کن» — که تقریباً همیشه جواب غلط است.</td></tr>
+<tr><td class="n">۲</td><td><b>عدد سراسری تک‌گام</b></td>
+    <td>عرض و طول جغرافیایی · تاریخ · سرعت باد · دما · رطوبت · زاویهٔ خورشید · ارتفاع مدار</td>
+    <td>۱ تا ۱۰ عدد</td>
+    <td>هیچ ساختار مکانی ندارد. یک برچسب برای کل تصویر است. <b>سطر کار ما.</b></td></tr>
+<tr><td class="n">۳</td><td><b>دنبالهٔ اعداد سراسری</b></td>
+    <td>منحنی باد ۷ روزه · سری بارش · دمای ماهانه · شاخص خشکسالی در زمان</td>
+    <td>~۱۰ × T</td>
+    <td>ساختار <b>زمانی</b> دارد و مدل از قبل یک محور زمانی دارد که این می‌تواند رویش بنشیند. با سطر ۲ یکی نیست.</td></tr>
+<tr><td class="n">۴</td><td><b>تصویر با فیزیک متفاوت</b></td>
+    <td>رادار SAR · حرارتی · ارتفاع‌سنج لیزری</td>
+    <td>H×W</td>
+    <td>هم‌شکل تصویر است ولی <b>معنای پیکسل‌ها کاملاً متفاوت</b> است — انکودر آموزش‌دیده نمی‌داند چطور بخواندش.</td></tr>
+<tr><td class="n">۵</td><td><b>باند طیفی یا سنسور جدید</b></td>
+    <td>ماهوارهٔ ۱۳ باندی · ابرطیفی EnMAP · سنسوری که در پیش‌آموزش نبوده</td>
+    <td>H×W</td>
+    <td>همان شبکه و همان فیزیک، ولی <b>تعداد و طول‌موج کانال‌ها فرق دارد</b> — لایهٔ ورودی مدل جا نمی‌گیرد.</td></tr>
+<tr><td class="n">۶</td><td><b>دنبالهٔ نمادین</b></td>
+    <td>کپشن متنی · گزارش میدانی · نام متغیر · برچسب رویداد</td>
+    <td>L توکن</td>
+    <td>طولش متغیر است و به <b>یک بردار</b> خلاصه نمی‌شود — که مسیرهای مبتنی بر یک بردار را از کار می‌اندازد.</td></tr>
+<tr><td class="n">۷</td><td><b>از قبل ضمنی در تصویر</b></td>
+    <td>خشکی سوخت (SWIR داردش) · سبزینگی (NDVI داردش) · وجود آب (MNDWI داردش)</td>
+    <td>—</td>
+    <td>افزونه است. تزریقش نه‌تنها کمکی نمی‌کند، بلکه سیگنال مفید را <b>رقیق</b> می‌کند.</td></tr>
+<tr><td class="n">۸</td><td><b>متغیر دسته‌ای گسسته</b><br><span class="src">(افزودهٔ من)</span></td>
+    <td>شناسهٔ سنسور · نوع بوم‌سازگان · فصل به‌صورت برچسب · کشور</td>
+    <td>یک برچسب</td>
+    <td>عدد پیوسته نیست، پس کدگذاری سینوسی معنا ندارد؛ جدول جست‌وجوی امبدینگ می‌خواهد. در فایل اصلی نبود.</td></tr>
+</table>
+<p class="src">سطرهای ۱ تا ۷ از <code>ideas/injection-routing/output/2026-07-28__injection-routing-table__v1.md</code> بخش ۱. سطر ۸ افزودهٔ من است و هیچ شاهدی پشتش نیست.</p>
+
+<h2>لیست ۲ — همهٔ نقاط ورود به مدل</h2>
+<p>مدل یک لولهٔ چندلایه است: تصویر به تکه‌ها بریده می‌شود، هر تکه یک بردار (توکن) می‌شود،
+توکن‌ها از N بلوک ترنسفورمر رد می‌شوند، و در انتها یک «سر» جواب می‌دهد.
+اطلاعات اضافه می‌تواند در <b>هشت نقطهٔ متفاوت</b> از این لوله وارد شود — از بیرونی‌ترین به عمیق‌ترین.</p>
+
+<table>
+<tr><th class="n">#</th><th>نقطهٔ ورود</th><th>مکانیزم در یک جمله</th><th>هزینهٔ پارامتر</th><th>ریسک اصلی</th></tr>
+<tr><td class="n">A</td><td><b>الحاق به کانال ورودی</b></td>
+    <td>داده را به‌عنوان یک کانال تصویری اضافی کنار باندهای اصلی می‌چسبانی.</td>
+    <td>فقط لایهٔ ورودی بزرگ‌تر</td>
+    <td>لایهٔ ورودیِ از پیش آموزش‌دیده را می‌شکنی؛ و برای یک عدد سراسری باید آن را در کل تصویر تکرار کنی که تباه است.</td></tr>
+<tr><td class="n">B</td><td><b>توکن مستقل / انکودر جدا</b></td>
+    <td>داده انکودر خودش را دارد و خروجی‌اش به‌عنوان یک یا چند توکن <b>اضافه</b> به دنباله می‌چسبد.</td>
+    <td>متوسط</td>
+    <td>طول دنباله بیشتر می‌شود؛ ولی attention می‌تواند نمونه‌به‌نمونه تصمیم بگیرد چقدر گوش بدهد.</td></tr>
+<tr><td class="n">C</td><td><b>افزودن به امبدینگ توکن‌ها</b></td>
+    <td>داده به یک بردار هم‌بُعد توکن تبدیل و — با یک ضریب — به <b>همهٔ</b> توکن‌ها اضافه می‌شود.</td>
+    <td>حداقلی (گاهی ۱ عدد)</td>
+    <td>هیچ آزادی بازتفسیری ندارد؛ فقط بلندتر یا آهسته‌تر. <b>مسیر فعلی Prithvi.</b></td></tr>
+<tr><td class="n">D</td><td><b>دروازهٔ وابسته به نمونه</b><br><span class="src">(ابداع ما)</span></td>
+    <td>مثل C، ولی آن ضریب برای <b>هر نمونه جداگانه</b> از خود تصویر پیش‌بینی می‌شود.</td>
+    <td>کم</td>
+    <td>اگر دروازه خودِ متادیتا را هم ببیند، دو مسیر قاطی می‌شود و مقایسه بی‌معنا. باید کور بماند.</td></tr>
+<tr><td class="n">E</td><td><b>تنظیم نرمال‌سازی (adaLN / FiLM)</b></td>
+    <td>داده وارد جریان اصلی <b>نمی‌شود</b>؛ فقط مقیاس و آفستِ نرمال‌سازی هر بلوک را تعیین می‌کند.</td>
+    <td>زیاد (به ازای هر بلوک)</td>
+    <td>کانال «سبک» است نه «محتوا» — می‌گوید چطور پردازش کن، نه این را هم بدان.</td></tr>
+<tr><td class="n">F</td><td><b>توجه متقاطع</b></td>
+    <td>یک لایهٔ attention جدا در هر بلوک که توکن‌های تصویر از آن به دادهٔ کمکی نگاه می‌کنند.</td>
+    <td>خیلی زیاد</td>
+    <td>تنها مسیری که دادهٔ <b>با طول متغیر</b> را می‌پذیرد؛ ولی گران‌ترین است.</td></tr>
+<tr><td class="n">G</td><td><b>hypernetwork</b></td>
+    <td>داده <b>وزن‌های</b> یک لایه (معمولاً لایهٔ ورودی) را تولید می‌کند، نه فعال‌سازی‌ها را.</td>
+    <td>زیاد، ولی خارج از مسیر اصلی</td>
+    <td>قوی‌ترین وقتی خودِ <b>شکل ورودی</b> عوض می‌شود (سنسور جدید)؛ برای یک عدد ساده بیش از حد است.</td></tr>
+<tr><td class="n">H</td><td><b>ادغام دیرهنگام (سر مدل)</b></td>
+    <td>انکودر اصلاً داده را نمی‌بیند؛ فقط در طبقه‌بند/سر نهایی به بردار خروجی چسبانده می‌شود.</td>
+    <td>ناچیز</td>
+    <td>ساده و امن، ولی داده نمی‌تواند بر <b>استخراج ویژگی</b> اثر بگذارد — فقط بر تصمیم آخر.</td></tr>
+</table>
+<p class="src">A، B، C، E، F، G از فایل اصلی (بخش ۲). D از <code>experiments/eurosat_s1/22_model.py:110–117</code>.
+H در طرح قدیمی به‌عنوان «ادغام دیرهنگام · مسیر MERRA-2» بود ولی هرگز اجرا نشد.</p>
+
+<h2>ماتریس — ۸ جنس داده × ۸ نقطهٔ ورود = ۶۴ خانه</h2>
+<table class="grid">
+<tr><th>جنس داده \ نقطهٔ ورود</th>
+    <th>A<br>کانال ورودی</th><th>B<br>توکن مستقل</th><th>C<br>افزودن به توکن‌ها</th><th>D<br>دروازهٔ نمونه‌ای</th>
+    <th>E<br>adaLN</th><th>F<br>توجه متقاطع</th><th>G<br>hyper<br>network</th><th>H<br>ادغام دیرهنگام</th></tr>
+<tr><td>۱ · میدان پیکسلی</td>
+    <td><span class="b open">❓</span></td><td><span class="b lit">📄</span></td><td><span class="b open">❓</span></td><td><span class="b open">❓</span></td>
+    <td><span class="b open">❓</span></td><td><span class="b open">❓</span></td><td><span class="b lit">📄</span></td><td><span class="b open">❓</span></td></tr>
+<tr><td><b>۲ · عدد سراسری تک‌گام</b></td>
+    <td><span class="b open">❓</span></td><td><span class="b ok">✅</span></td><td><span class="b ok">✅</span></td><td><span class="b ok">✅</span></td>
+    <td><span class="b ok">✅</span></td><td><span class="b open">❓</span></td><td><span class="b open">❓</span></td><td><span class="b open">❓</span></td></tr>
+<tr><td>۳ · دنبالهٔ اعداد</td>
+    <td><span class="b open">❓</span></td><td><span class="b open">❓</span></td><td><span class="b open">❓</span></td><td><span class="b open">❓</span></td>
+    <td><span class="b open">❓</span></td><td><span class="b open">❓</span></td><td><span class="b open">❓</span></td><td><span class="b open">❓</span></td></tr>
+<tr><td>۴ · تصویر فیزیک متفاوت</td>
+    <td><span class="b lit">📄−</span></td><td><span class="b lit">📄</span></td><td><span class="b open">❓</span></td><td><span class="b open">❓</span></td>
+    <td><span class="b open">❓</span></td><td><span class="b open">❓</span></td><td><span class="b open">❓</span></td><td><span class="b open">❓</span></td></tr>
+<tr><td>۵ · باند/سنسور جدید</td>
+    <td><span class="b open">❓</span></td><td><span class="b open">❓</span></td><td><span class="b open">❓</span></td><td><span class="b open">❓</span></td>
+    <td><span class="b open">❓</span></td><td><span class="b open">❓</span></td><td><span class="b lit">📄</span></td><td><span class="b open">❓</span></td></tr>
+<tr><td>۶ · دنبالهٔ نمادین</td>
+    <td><span class="b no">⛔</span></td><td><span class="b lit">📄</span></td><td><span class="b open">❓</span></td><td><span class="b open">❓</span></td>
+    <td><span class="b no">⛔</span></td><td><span class="b lit">📄</span></td><td><span class="b open">❓</span></td><td><span class="b open">❓</span></td></tr>
+<tr><td>۷ · از قبل ضمنی</td>
+    <td><span class="b no">⛔</span></td><td><span class="b no">⛔</span></td><td><span class="b no">⛔</span></td><td><span class="b no">⛔</span></td>
+    <td><span class="b no">⛔</span></td><td><span class="b no">⛔</span></td><td><span class="b no">⛔</span></td><td><span class="b no">⛔</span></td></tr>
+<tr><td>۸ · دسته‌ای گسسته</td>
+    <td><span class="b open">❓</span></td><td><span class="b open">❓</span></td><td><span class="b open">❓</span></td><td><span class="b open">❓</span></td>
+    <td><span class="b open">❓</span></td><td><span class="b open">❓</span></td><td><span class="b open">❓</span></td><td><span class="b open">❓</span></td></tr>
+</table>
+<p class="src"><b>۴ خانه ✅ · ۶ خانه 📄 · ۹ خانه ⛔ · ۴۵ خانه ❓.</b> <span class="b lit">📄−</span> یعنی ادبیات این ترکیب را امتحان کرده و <b>بدتر</b> شده.</p>
+
+<h2>خانه‌های پرشده — چه چیزی، با چه شاهدی</h2>
+
+<h3>سطر ۲ × ستون‌های B، C، D، E &nbsp;<span class="b ok">✅ تنها خانه‌های اندازه‌گیری‌شدهٔ ما</span></h3>
+<p>یک ViT کوچک (۲.۷ میلیون پارامتر)، دادهٔ EuroSAT-S1 رادار، ۶ بازو × ۵ seed × ۳۰ epoch.
+<b>محموله در همهٔ بازوها بایت‌به‌بایت یکسان است</b> — همان <code>lon/lat</code>، همان کدگذار سینوسیِ بی‌پارامتر. فقط در ورودی عوض می‌شود.</p>
+<table>
+<tr><th>ستون</th><th>بازو</th><th>دقت</th><th>±</th><th>پارامتر تزریق</th></tr>
+<tr><td>B · توکن مستقل</td><td><code>token</code></td><td><b>89.50</b></td><td>0.34</td><td>37,056</td></tr>
+<tr><td>D · دروازهٔ نمونه‌ای</td><td><code>gate</code></td><td>89.31</td><td>0.21</td><td>9,313</td></tr>
+<tr><td>C · افزودن به توکن‌ها</td><td><code>add</code></td><td>89.06</td><td>0.41</td><td>1</td></tr>
+<tr><td>E · adaLN</td><td><code>adaln</code></td><td>88.49</td><td>0.24</td><td>889,344</td></tr>
+<tr><td>— · بدون تزریق</td><td><code>none</code></td><td>80.95</td><td>0.25</td><td>0</td></tr>
+<tr><td>— · کنترل</td><td><code>shuffle</code></td><td>80.10</td><td>0.28</td><td>889,344</td></tr>
+</table>
+<p>آستانهٔ تشخیص، از دادهٔ ندیده و پیش از مقایسه: <code>0.3735</code>. پنج اختلاف از آن رد شدند.
+<b>یافته:</b> هر مسیری که مکان را به جریان باقیماندهٔ مدل <b>اضافه</b> می‌کند حدود ۸.۵ نمره می‌برد — چه با ۱ پارامتر چه با ۳۷ هزار.
+تنها مسیری که مکان را فقط <b>ضریب تنظیم</b> می‌کند (adaLN) بازنده است، با اختلاف معنادار <code>−0.56</code> نسبت به <code>add</code>.</p>
+<div class="note"><b>و همین سطر روی مدل بزرگ، نتیجهٔ صفر داد.</b> روی Prithvi-EO-2.0-300M و تسک HLS Burn Scars،
+ستون C (مسیر رسمی خودشان، ۲ پارامتر) و ستون E (adaLN، ۲۵.۳ میلیون پارامتر) <b>هیچ‌کدام</b> از آستانهٔ ۰.۰۰۶ mIoU رد نشدند —
+و کنترل shuffle نشان داد دلیلش این است که آنجا <b>محموله خالی بود</b>، نه اینکه مسیرها بی‌اثرند.
+منبع: <code>docs/MEASUREMENTS.md</code>.</div>
+
+<h3>سطر ۷ × همهٔ ستون‌ها &nbsp;<span class="b no">⛔ توصیه: هیچ‌کاری نکن</span></h3>
+<p>این تنها ⛔ی ماست که <b>شاهد اندازه‌گیری‌شدهٔ خودمان</b> را دارد. یک «پروکسی تصویر» ساختیم — ۱۳ عدد ساده که فقط از خود پیکسل‌ها حساب می‌شوند —
+و آن به‌تنهایی از کل بردار متغیرهای جوّی <b>بالاتر</b> امتیاز گرفت. یعنی تصویر از قبل داشتشان.
+افزودن آن‌ها نه‌تنها کمکی نکرد، بلکه چهار بُعد مفید را رقیق کرد. منبع: <code>docs/MEASUREMENTS.md</code>.</p>
+
+<h3>خانه‌هایی که از ادبیات آمده‌اند &nbsp;<span class="b lit">📄 خودمان تکرار نکرده‌ایم</span></h3>
+<table>
+<tr><th>خانه</th><th>ادعا</th><th>استناد ثبت‌شده در فایل اصلی</th></tr>
+<tr><td>۱ × B</td><td>میدان پیکسلی باید توکنایزر مستقل بگیرد، نه کانال</td><td>TerraMind — DEM را مودالیتهٔ مستقل با توکنایزر خودش می‌کند</td></tr>
+<tr><td>۱ × G</td><td>یا hypernetwork با امبدینگ نام متغیر</td><td>Copernicus-FM</td></tr>
+<tr><td>۲ × E</td><td>برای یک بردار شرط، adaLN-Zero از توجه متقاطع و توکن اضافه بهتر است</td><td>DiT — <b>و آزمایش ما این را رد کرد</b></td></tr>
+<tr><td>۴ × A</td><td>SAR به‌عنوان کانال اضافه، نتیجه را <b>بدتر</b> کرد (RMSE از 33.40 به 36.48)</td><td>مقالهٔ Prithvi-EO-2.0</td></tr>
+<tr><td>۴ × B</td><td>خود نویسندگان انکودر جدا پیشنهاد دادند — <b>انجام نشده</b></td><td>مقالهٔ Prithvi-EO-2.0</td></tr>
+<tr><td>۵ × G</td><td>hypernetwork روی وزن لایهٔ ورودی، از روی طول‌موج</td><td>DOFA · Copernicus-FM · SpecAware</td></tr>
+<tr><td>۶ × F</td><td>دنبالهٔ نمادین با توجه متقاطع یا attention مشترک</td><td>Stable Diffusion · Flamingo · MMDiT</td></tr>
+<tr><td>۶ × B</td><td>TerraMind کپشن دارد ولی <b>هیچ ابلیشنی سهم متن را جدا نمی‌کند</b></td><td>TerraMind</td></tr>
+</table>
+
+<div class="note">
+<b>✅ راستی‌آزمایی شد — 2026-08-05.</b> هر سه ادعای معلق، به‌علاوهٔ شش تای دیگر، توسط نشست
+مقالات با نقل مستقیم و شمارهٔ جدول بررسی شدند.
+شاهد: <code>uni/papers-to-read/output/2026-08-04__verification-9-claims__v1.md</code> و
+<code>…__verification-leakage-6__v1.md</code>
+<ul>
+<li><b>۱×B · TerraMind و DEM</b> — ✅ <b>تأیید.</b> بخش 4.1: توکنایزر مختص هر مدالیته
+«for image-like modalities such as S-1, S-2, LULC, NDVI, and DEM». هیچ‌جا DEM کانال الحاقی S-2 نیست.</li>
+<li><b>۱×G · Copernicus-FM</b> — ✅ <b>تأیید.</b> نام متغیر با یک <b>LLM منجمد
+(Llama-3.2-1B)</b> کد می‌شود، سپس MLP+attention آن را به وزن‌های kernel لایهٔ patch-embed
+تبدیل می‌کند. جدول ۱۰: LLM ‏81.0 در برابر random-hash ‏77.7.</li>
+<li><b>سطر ۳ · خلأ سری‌زمانی</b> — ✅ در حد ادبیات بررسی‌شده. TerraFlow فقط زمانِ
+<b>تصویر</b> را با RoPE می‌دهد؛ THOR ‏ERA5-Land را فقط <b>هدف</b> pretext می‌کند نه ورودی.
+⚠️ <b>«هیچ‌کس» نگو</b> — بگو «تا جایی که ما و مرور ۲۰۲۶ دیده‌ایم».</li>
+</ul>
+</div>
+
+<div class="warn">
+<b>⚠️ چهار اصلاح اجباری که از راستی‌آزمایی درآمد:</b>
+<ul>
+<li><b>۴×B</b> — «انکودر جدای SAR انجام نشده» ⚠️ <b>قطعی نیست</b>. و <b>TerraMind از
+همان تیم عملاً همان مسیر است</b>. جملهٔ امن: «برای خودِ Prithvi منتشر نشده؛ آن پیشنهاد
+عملاً در TerraMind دنبال شد.»</li>
+<li><b>۲×E · اعداد DiT</b> — مکانیزم ✅ تأیید، ولی عددهای FID <b>در هیچ متن یا جدولی
+نیستند</b> — خوانش نقاط شکل ۵ هستند. بگو «شکل ۵، در ۴۰۰ هزار گام»، نه «جدول».</li>
+<li><b>Prithvi per-dataset</b> — ادعای «هیچ جدول per-dataset نیست» ❌ <b>رد شد</b>:
+پیوست جدول‌های A1–A4 با mean/std وجود دارد. بگو «جدول اختصاصی ابلیشن TL نیست؛
+per-dataset فقط در پیوست است».</li>
+<li><b>۹ · تزریق در دیکودر</b> — در PDFهای محلی کسی نسنجیده و به‌عنوان ❓ دفاع‌پذیر است،
+ولی برای ادعای «هیچ‌کس» یک جست‌وجوی اختصاصی هنوز انجام نشده.</li>
+</ul>
+</div>
+
+<div class="box" style="border-right-color:#1d7a4c;background:#eff7f2">
+<b>🔑 نقل‌قولی که توضیح مکانیکی ما را مستقیم پشتیبانی می‌کند.</b> خودِ مقالهٔ DiT دربارهٔ adaLN:
+<i>«the only conditioning mechanism that is restricted to apply the <b>same function to all
+tokens</b>»</i> — یعنی نویسندگانش هم می‌دانند این مسیر، محدودترین کانال است. و شرطشان
+<b>گام نویز t و برچسب کلاس c</b> است، یعنی دقیقاً یک سیگنال «سبک»، نه یک کلید جست‌وجو.
+</div>
+
+<h2>خانه‌های خالی که ارزش پر کردن دارند</h2>
+<p>۴۵ خانهٔ ❓ همه هم‌ارزش نیستند. سه‌تای زیر بیشترین ارزش را دارند، به ترتیب:</p>
+<ul>
+<li><b>کل سطر ۳ (دنبالهٔ اعداد سراسری).</b> هیچ ستونی از آن سنجیده نشده و مدل از قبل یک محور زمانی دارد که کاندید طبیعی است.
+تنها سطری است که <b>کاملاً</b> باز است.</li>
+<li><b>سطر ۱ × ستون‌های A در برابر B در برابر G.</b> دو مقاله دو جواب متفاوت می‌دهند و کسی مقایسه‌شان نکرده.</li>
+<li><b>سطر ۲ × ستون F و H.</b> کامل کردن سطری که خودمان چهار خانه‌اش را داریم — ارزان‌ترین کار و بیشترین انسجام.</li>
+</ul>
+
+<div class="note">
+<b>محدودهٔ صادقانهٔ ادعا:</b> از ۶۴ خانه، ۴ خانه با عدد خودمان پر شده — همه در یک سطر، روی یک دیتاست،
+با یک مدل کوچک ۲.۷ میلیونی. این <b>یک پایلوت است، نه یک قاعدهٔ عمومی.</b>
+آنچه می‌شود ادعا کرد این است: «با محمولهٔ کاملاً یکسان، نقطهٔ ورود نتیجه را به‌طور معنادار عوض می‌کند» —
+و نه اینکه این ترتیب روی هر مدل و هر تسکی همان می‌ماند.
+</div>
+
+</div></body></html>

@@ -1,0 +1,22 @@
+{
+  "arm": "baseline",
+  "seed": 1,
+  "epochs_run": 50,
+  "n_params_total": 324204674,
+  "n_params_injection": 0,
+  "minutes": 160.3,
+  "best_ckpt": "C:\\Users\\aliso\\Desktop\\big-files\\injection-routing\\runs\\baseline_s1\\best.ckpt",
+  "val": {
+    "val/loss": 0.15158683061599731,
+    "val/Accuracy": 0.9287216663360596,
+    "val/Boundary_mIoU": 0.3625730276107788,
+    "val/Class_Accuracy_0": 0.9613299369812012,
+    "val/Class_Accuracy_1": 0.896113395690918,
+    "val/F1_Score": 0.929950475692749,
+    "val/IoU_0": 0.9220029711723328,
+    "val/IoU_1": 0.8189789056777954,
+    "val/Pixel_Accuracy": 0.9423472285270691,
+    "val/mIoU": 0.8704909086227417,
+    "val/mIoU_Micro": 0.8909797668457031
+  }
+}

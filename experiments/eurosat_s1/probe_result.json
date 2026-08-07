@@ -1,0 +1,10 @@
+{
+  "image_only": 0.705,
+  "location_only": 0.6994444444444444,
+  "image_plus_location": 0.8701851851851852,
+  "image_plus_shuffled": 0.6998148148148148,
+  "payload_points": 16.518518518518523,
+  "shuffle_control_points": -0.5185185185185182,
+  "n_train": 16200,
+  "n_val": 5400
+}

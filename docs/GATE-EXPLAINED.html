@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8">
+<title>دریچه — کامل، با انیمیشن</title>
+<style>
+ body{font-family:"Segoe UI",Tahoma,sans-serif;background:#0f1218;color:#e6e8ec;
+      margin:0;padding:1.8em;line-height:1.95;font-size:16px}
+ .wrap{max-width:60em;margin:0 auto}
+ h1{font-size:1.6em;margin:0 0 .1em}
+ .sub{color:#858b98;font-size:.92em;margin-bottom:1.8em}
+ h2{font-size:1.2em;margin:2.2em 0 .6em;color:#8fc0ff;
+    border-right:4px solid #2f6fbf;padding-right:.6em}
+ p{margin:.8em 0;text-align:justify}
+ .panel{background:#171b24;border:1px solid #262b36;border-radius:12px;
+        padding:1.1em 1.3em;margin:1.1em 0}
+ .code{direction:ltr;text-align:left;font-family:Consolas,monospace;font-size:.9em;
+       background:#0b0e13;border:1px solid #262b36;border-radius:7px;
+       padding:.7em 1em;margin:.7em 0;color:#9fd6a0;white-space:pre-wrap;overflow-x:auto}
+ .warn{background:#241a1a;border:1px solid #4a2b2b;border-right:4px solid #b95050;
+       border-radius:9px;padding:.9em 1.2em;margin:1.1em 0}
+ .ok{background:#152318;border:1px solid #26402c;border-right:4px solid #3f9f5f;
+     border-radius:9px;padding:.9em 1.2em;margin:1.1em 0}
+ button{font-family:inherit;font-size:.95em;padding:.45em 1em;border-radius:8px;
+        border:1px solid #333a48;background:#1b2029;color:#cfd4de;cursor:pointer}
+ button:hover{background:#232935} button.on{background:#2f6fbf;border-color:#4a8ad8;color:#fff}
+ table{border-collapse:collapse;width:100%;margin:1em 0;font-size:.92em}
+ th,td{border:1px solid #2a2f3b;padding:.4em .65em;text-align:right}
+ th{background:#1b2029}
+ svg{width:100%;height:auto;display:block}
+ .flow{stroke-dasharray:6 4;animation:d 1s linear infinite}
+ @keyframes d{to{stroke-dashoffset:-20}}
+ @media print{body{background:#fff;color:#111}.panel,.code{background:#fff;border-color:#bbb}
+   button{display:none}.flow{animation:none}}
+</style></head><body><div class="wrap">
+
+<h1>دریچه — از صفر تا آخر</h1>
+<p class="sub">ایدهٔ خودمان. اینجا دقیقاً می‌بینی چه چیزی ساخته شد، چطور کار می‌کند،
+چه چیزی را عمداً <b>ندید</b>، و چرا ادعای اصلی‌اش رد شد.</p>
+
+<h2>۱ · مسئله‌ای که دریچه می‌خواست حل کند</h2>
+
+<p>بازوی <b>«جمع»</b> (راه رسمی پریتوی) یک عدد دارد. آن یک عدد — بگذار اسمش را
+<code>s</code> بگذاریم — در بردار مکان ضرب می‌شود و حاصل به همهٔ توکن‌ها اضافه
+می‌شود. <code>s</code> در طول آموزش یاد گرفته می‌شود و بعد <b>برای همیشه ثابت
+است</b>: همان یک عدد برای هر ۲۷ هزار عکس.</p>
+
+<p>ولی همهٔ عکس‌ها یکسان نیستند. یک تکهٔ رادار از وسط دریا کاملاً گویاست — تیره و
+یکنواخت، مدل بدون هیچ کمکی می‌فهمد SeaLake است. یک تکه از حاشیهٔ شهر گنگ است —
+می‌تواند Residential باشد، می‌تواند Industrial. <b>منطقاً</b> مدل باید در حالت دوم
+بیشتر به مکان تکیه کند.</p>
+
+<p>با یک عدد ثابت این ممکن نیست. دریچه دقیقاً همین را عوض می‌کند: به‌جای یک عدد
+برای همه، <b>یک عدد برای هر عکس</b>.</p>
+
+<h2>۲ · ساختمانش — همین است، بیشتر نیست</h2>
+
+<div class="code">self.gate_net = nn.Sequential(
+    nn.Linear(dim, dim // 4),   # 192 → 48
+    nn.SiLU(),
+    nn.Linear(dim // 4, 1),     # 48 → 1
+)
+nn.init.zeros_(self.gate_net[2].weight)
+nn.init.constant_(self.gate_net[2].bias, 0.1)   # شروع دقیقاً مثل «جمع»</div>
+
+<p>یک شبکهٔ دو لایه‌ای که ۱۹۲ عدد می‌گیرد و <b>یک</b> عدد پس می‌دهد.
+۱۹۲×۴۸ + ۴۸ + ۴۸×۱ + ۱ = <b>۹٬۳۱۳ پارامتر</b>. در برابر ۸۸۹ هزار پارامتر بازوی
+لایه‌ای، این تقریباً هیچ است.</p>
+
+<div class="ok"><b>یک ریزه‌کاری که مهم است:</b> لایهٔ آخر با <b>وزن صفر</b> و
+<b>بایاس ۰٫۱</b> مقداردهی شده. یعنی در گام اول آموزش، <code>gate_net</code> برای
+<i>هر</i> تصویری دقیقاً <code>0.1</code> برمی‌گرداند — و <code>0.1</code> همان
+مقدار شروع <code>s</code> در بازوی «جمع» است.<br><br>
+پس دریچه <b>از نقطهٔ دقیقاً یکسان با «جمع» شروع می‌کند</b> و هر تفاوتی که بعداً
+پیدا می‌شود، محصول یادگیری است نه محصول شانسِ مقداردهی اولیه. اگر این کار را
+نمی‌کردیم، مقایسهٔ «دریچه» با «جمع» بی‌معنی بود.</div>
+
+<h2>۳ · جریان محاسبه — انیمیشن</h2>
+
+<div class="panel">
+<div style="margin-bottom:.8em">
+ <button class="on" onclick="setImg(0,this)">دریا / دریاچه</button>
+ <button onclick="setImg(1,this)">جنگل</button>
+ <button onclick="setImg(2,this)">مسکونی</button>
+</div>
+
+<svg viewBox="0 0 880 300" xmlns="http://www.w3.org/2000/svg">
+ <defs><marker id="a1" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+   <path d="M0,0 L0,6 L7,3 z" fill="#4a8ad8"/></marker>
+  <marker id="a2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+   <path d="M0,0 L0,6 L7,3 z" fill="#f0a55e"/></marker></defs>
+
+ <!-- chip -->
+ <rect id="chip" x="20" y="40" width="70" height="70" rx="5" fill="#1c2430" stroke="#38414f"/>
+ <text x="55" y="128" fill="#9aa1ae" font-size="11" text-anchor="middle">تکهٔ ورودی</text>
+ <path d="M94,75 L128,75" stroke="#5c6472" stroke-width="2" marker-end="url(#a1)"/>
+
+ <!-- patch tokens -->
+ <g fill="#212836" stroke="#38414f">
+  <rect x="132" y="40" width="22" height="18" rx="3"/>
+  <rect x="132" y="62" width="22" height="18" rx="3"/>
+  <rect x="132" y="84" width="22" height="18" rx="3"/>
+  <rect x="132" y="106" width="22" height="18" rx="3"/></g>
+ <text x="143" y="140" fill="#9aa1ae" font-size="10" text-anchor="middle">۶۴ توکن</text>
+ <path d="M158,82 L192,82" stroke="#5c6472" stroke-width="2" marker-end="url(#a1)"/>
+
+ <!-- mean -->
+ <circle cx="212" cy="82" r="19" fill="#212836" stroke="#38414f"/>
+ <text x="212" y="87" fill="#cfd4de" font-size="13" text-anchor="middle">میانگین</text>
+ <text x="212" y="118" fill="#6f7787" font-size="10" text-anchor="middle">۱۹۲ عدد</text>
+ <path d="M234,82 L268,82" stroke="#5c6472" stroke-width="2" marker-end="url(#a1)"/>
+
+ <!-- mlp -->
+ <rect x="272" y="52" width="92" height="60" rx="7" fill="#1d2a3d" stroke="#33507a"/>
+ <text x="318" y="76" fill="#8fc0ff" font-size="12" text-anchor="middle">gate_net</text>
+ <text x="318" y="94" fill="#6f8fbb" font-size="10" text-anchor="middle">۱۹۲→۴۸→۱</text>
+ <path d="M368,82 L404,82" stroke="#f0a55e" stroke-width="2.5" marker-end="url(#a2)"/>
+
+ <!-- g value -->
+ <rect id="gbox" x="408" y="58" width="76" height="48" rx="8" fill="#3a2a16" stroke="#8a6430"/>
+ <text x="446" y="80" fill="#f0a55e" font-size="11" text-anchor="middle">g =</text>
+ <text id="gval" x="446" y="98" fill="#ffd9a8" font-size="16" font-weight="bold"
+       text-anchor="middle">۰٫۰۰</text>
+
+ <!-- location -->
+ <rect x="272" y="180" width="92" height="52" rx="7" fill="#16281c" stroke="#2f5c3c"/>
+ <text x="318" y="200" fill="#8fd6a0" font-size="11" text-anchor="middle">مختصات</text>
+ <text x="318" y="218" fill="#5f9a72" font-size="10" text-anchor="middle">سینوسی → ۱۹۲</text>
+ <path d="M368,206 L470,206 L470,120" stroke="#5c6472" stroke-width="2" marker-end="url(#a1)"/>
+
+ <!-- multiply -->
+ <circle cx="446" cy="140" r="15" fill="#212836" stroke="#38414f"/>
+ <text x="446" y="146" fill="#cfd4de" font-size="15" text-anchor="middle">×</text>
+ <path d="M446,110 L446,124" stroke="#f0a55e" stroke-width="2.5"/>
+ <path d="M462,140 L520,140" stroke="#5c6472" stroke-width="2" marker-end="url(#a1)"/>
+
+ <!-- magnitude bar -->
+ <text x="600" y="118" fill="#9aa1ae" font-size="11" text-anchor="middle">شدت تزریق</text>
+ <rect x="524" y="126" width="230" height="26" rx="5" fill="#151a22" stroke="#2a3140"/>
+ <rect id="bar" x="526" y="128" width="10" height="22" rx="3" fill="#4a8ad8"/>
+ <text id="barT" x="770" y="144" fill="#cfd4de" font-size="12">×۰٫۰۰</text>
+
+ <!-- into tokens -->
+ <path d="M600,158 L600,186" stroke="#5c6472" stroke-width="2" marker-end="url(#a1)"/>
+ <text x="600" y="206" fill="#9aa1ae" font-size="11" text-anchor="middle">
+   به هر ۶۵ توکن اضافه می‌شود</text>
+ <text x="600" y="228" fill="#6f7787" font-size="10" text-anchor="middle">
+   x = x + g · loc</text>
+
+ <!-- guard -->
+ <path class="flow" d="M318,180 L318,150 L250,150 L250,120" stroke="#b95050"
+       stroke-width="2" fill="none"/>
+ <text x="196" y="168" fill="#e08080" font-size="11">⛔ این مسیر وجود ندارد</text>
+</svg>
+
+<p id="story" style="margin-top:1em;color:#b9c0cc"></p>
+</div>
+
+<h2>۴ · 🔴 چیزی که دریچه عمداً نمی‌بیند</h2>
+
+<div class="warn"><b>دریچه هرگز خودِ مختصات را نمی‌بیند.</b> فقط میانگین توکن‌های
+<i>تصویر</i> را می‌خواند. آن خط قرمز روی نمودار، مسیری است که <b>وجود ندارد</b> —
+و نبودنش تصادفی نیست.<br><br>
+<b>چرا این‌قدر مهم است؟</b> فرض کن دریچه مختصات را هم می‌دید. آن‌وقت
+<code>g</code> خودش می‌توانست تابعی از مکان باشد، و مکان از <b>دو مسیر</b> وارد
+مدل می‌شد: یک بار در <code>loc</code> و یک بار پنهانی داخل <code>g</code>. آن‌وقت
+اگر دریچه از «جمع» بهتر می‌شد، هیچ‌وقت نمی‌فهمیدیم دلیلش <i>سازوکار دریچه</i>
+بوده یا فقط <i>ظرفیت بیشتر برای خواندن مکان</i>. مقایسه نابود می‌شد.<br><br>
+<b>و فقط ادعا نکردیم — آزمونش کردیم:</b> در <code>23_test_arms.py</code> یک آزمون
+هست که مختصات را عوض می‌کند و می‌سنجد خروجی دریچه چقدر تغییر کرد. نتیجه:
+<code>0.000e+00</code>. صفرِ مطلق، نه «نزدیک صفر».</div>
+
+<h2>۵ · «جمع» در برابر «دریچه» — تفاوت در یک نگاه</h2>
+
+<table>
+<tr><th></th><th>جمع (پریتوی)</th><th>دریچه (ما)</th></tr>
+<tr><td>ولوم</td><td>یک عدد، یاد گرفته می‌شود، بعد ثابت</td>
+    <td>برای هر عکس جدا محاسبه می‌شود</td></tr>
+<tr><td>از کجا می‌آید</td><td>پارامتر مستقیم</td><td>خروجی یک شبکهٔ کوچک روی تصویر</td></tr>
+<tr><td>پارامتر</td><td>۱</td><td>۹٬۳۱۳</td></tr>
+<tr><td>نقطهٔ ورود</td><td colspan="2" style="text-align:center">
+    <b>دقیقاً یکی</b> — قبل از بلوک ۱، روی هر ۶۵ توکن</td></tr>
+<tr><td>مقدار شروع</td><td colspan="2" style="text-align:center">
+    <b>هر دو ۰٫۱</b> — عمداً</td></tr>
+</table>
+
+<p>یعنی دریچه یک بازوی «متفاوت» نیست؛ <b>دقیقاً همان بازوی جمع است با یک تغییر
+واحد</b>. این طراحی خوبی است: وقتی فقط یک چیز فرق می‌کند، هر تفاوتی در نتیجه فقط
+می‌تواند از همان یک چیز باشد.</p>
+
+<h2>۶ · و حالا نتیجه — که ادعای ما را رد کرد</h2>
+
+<p>ادعای پیش‌ثبت‌شده این بود: <b>هر جا مدل به تصویر مطمئن نیست، ولوم بالا می‌رود.</b>
+یعنی همبستگی بین <code>g</code> و اطمینان مدل به تصویر باید <b>منفی</b> باشد.</p>
+
+<p><code>27_gate_mechanism.py</code> این را برای هر پنج تکرار اندازه گرفت:</p>
+
+<div class="panel">
+<svg viewBox="0 0 780 180" xmlns="http://www.w3.org/2000/svg">
+ <line x1="60" y1="120" x2="740" y2="120" stroke="#3a4150" stroke-width="1.5"/>
+ <line x1="400" y1="30" x2="400" y2="130" stroke="#5c6472" stroke-width="1.5"
+       stroke-dasharray="4 4"/>
+ <text x="400" y="150" fill="#9aa1ae" font-size="12" text-anchor="middle">۰</text>
+ <text x="150" y="150" fill="#e08080" font-size="12" text-anchor="middle">
+   منفی ← جهتی که پیش‌بینی کرده بودیم</text>
+ <text x="640" y="150" fill="#7fd6a0" font-size="12" text-anchor="middle">
+   مثبت ← جهتی که واقعاً دیدیم</text>
+ <text x="400" y="22" fill="#9aa1ae" font-size="12" text-anchor="middle">
+   همبستگی ولوم با اطمینان مدل به تصویر</text>
+ <g class="pt">
+  <circle cx="452" cy="120" r="7" fill="#3f9f5f" opacity=".85"/>
+  <circle cx="468" cy="120" r="7" fill="#3f9f5f" opacity=".85"/>
+  <circle cx="440" cy="120" r="7" fill="#3f9f5f" opacity=".85"/>
+  <circle cx="475" cy="120" r="7" fill="#3f9f5f" opacity=".85"/>
+  <circle cx="458" cy="120" r="7" fill="#3f9f5f" opacity=".85"/></g>
+ <text x="458" y="98" fill="#7fd6a0" font-size="12" text-anchor="middle">
+   هر پنج تکرار · میانگین ‎+۰٫۱۱۸</text>
+</svg>
+</div>
+
+<div class="warn"><b>هر پنج تکرار در سمت اشتباه افتادند.</b> ولوم دقیقاً وقتی بالا
+می‌رود که مدل به تصویر <b>مطمئن‌تر</b> است — عکسِ چیزی که ادعا کرده بودیم.<br><br>
+و این «تصادفی نبود، جهت نداشت» نیست: هر پنج تکرار هم‌جهت‌اند. اگر سازوکار
+بی‌ربط بود، انتظار داشتیم بعضی مثبت و بعضی منفی باشند.</div>
+
+<div class="ok"><b>ولی یک چیز را هم باید صادقانه گفت — و من قبلاً اینجا اشتباه
+حدس زده بودم.</b> فکر می‌کردم شاید دریچه اصلاً کار نمی‌کند و همان ۰٫۱ اولیه را
+نگه داشته. غلط بود. دامنهٔ اندازه‌گیری‌شدهٔ ولوم <b>[۰٫۲۲ ، ۲٫۵۲]</b> است — ده
+برابر تفاوت بین کمترین و بیشترین. یعنی مدل واقعاً از این آزادی استفاده می‌کند.<br><br>
+پس حکم درست این است: <b>دریچه کار می‌کند، ولی نه به آن دلیلی که ما گفتیم.</b>
+چه چیزی را واقعاً دنبال می‌کند؟ نمی‌دانیم. این یک سؤال باز است، نه یک شکست.</div>
+
+<h2>۷ · و نمرهٔ نهایی‌اش</h2>
+
+<p>در امتحان تمیز: دریچه ۷۷٫۰۲، جمع ۷۷٫۳۵. اختلاف ۰٫۳۳ — خیلی زیر آستانهٔ ۰٫۹۶.
+یعنی <b>۹٬۳۱۳ پارامتر اضافه، هیچ چیزی نخرید</b>.</p>
+
+<p>این را باید بدون دفاع گفت. ایده منطقی بود، پیاده‌سازی درست بود، آزمون‌هایش پاس
+شد، و <b>جواب نداد</b>. سه نتیجهٔ منفی پشت سر هم دربارهٔ ایدهٔ خودمان: مکانیزمش رد
+شد، برتری‌اش رد شد، و صرفهٔ پارامترش رد شد.</p>
+
+<div class="ok"><b>جملهٔ آمادهٔ ارائه:</b><br>
+<i>"The gate was my own contribution and it failed three ways: it does not beat
+the one-parameter baseline, its parameter cost buys nothing, and the mechanism I
+pre-registered is refuted — the gate correlates positively with image confidence
+in all five seeds, not negatively. It does vary tenfold, so it is doing
+something; I just cannot yet say what."</i></div>
+
+<script>
+// 🔴 این اعداد دیگر ساختگی نیستند. میانگین واقعی ولوم به‌ازای کلاس، از
+//    34_gate_probe.py روی تقسیم geo، میانگین‌گیری‌شده روی ۵ بذر.
+const S=[
+ {n:"دریا / دریاچه",g:0.632,fill:"#16202c",note:"<b>بالاترین ولوم کل مجموعه.</b> و این دقیقاً برعکس چیزی است که هم من هم تو حدس زده بودیم — دریا گویاترین کلاس در تصویر رادار است (تیره و یکنواخت)، پس طبق ادعای ما باید کمترین ولوم را می‌داشت. دارد بیشترین را."},
+ {n:"جنگل",g:0.334,fill:"#1c3324",note:"نزدیک <b>ته</b> جدول. تو حدس زدی جنگل باید پایین بماند — این یکی درست از آب درآمد، ولی نه به دلیلی که فکر می‌کردیم."},
+ {n:"مسکونی (حاشیهٔ شهر)",g:0.322,fill:"#332a1e",note:"<b>پایین‌ترین ولوم کل مجموعه.</b> تو گفتی اینجا باید بالا برود. نمی‌رود — کمترین مقدار را دارد. حدس تو منطقی بود ولی داده خلافش را می‌گوید."}
+];
+function setImg(i,btn){
+ document.querySelectorAll('.panel button').forEach(b=>b.classList.remove('on'));
+ if(btn) btn.classList.add('on');
+ const s=S[i];
+ document.getElementById('chip').setAttribute('fill',s.fill);
+ document.getElementById('gval').textContent=s.g.toFixed(2).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]).replace('.','٫');
+ // 🔴 6 اوت: مقیاس نوار روی ۲٫۵۲ بود. آن بیشینه از ۱۴۲ تکهٔ کاملاً سیاه
+ // می‌آمد (سنجش ۲۱). بیشینهٔ واقعی روی تکه‌های سالم ۱٫۳۰ است.
+ const w=Math.max(8, s.g/1.30*226);
+ const bar=document.getElementById('bar');
+ bar.setAttribute('width',w);
+ bar.setAttribute('fill', s.g>1?'#f0a55e':'#4a8ad8');
+ document.getElementById('barT').textContent='×'+s.g.toFixed(2);
+ document.getElementById('story').innerHTML='<b>'+s.n+':</b> '+s.note;
+}
+setImg(0,document.querySelector('.panel button'));
+</script>
+</div></body></html>

@@ -1,0 +1,50 @@
+{
+  "status": "FROZEN",
+  "frozen_on": "2026-07-29",
+  "note": "بعد از این تاریخ دادهٔ کمکی عوض نمی‌شود. هر تغییری = نسخهٔ v2 جدا.",
+  "conditioning_vector": [
+    "mean_speed_z",
+    "max_speed_z",
+    "dir_sin_z",
+    "dir_cos_z",
+    "precip_7d_log_z",
+    "mean_temp_z",
+    "lat_z",
+    "lon_z",
+    "doy_sin_z",
+    "doy_cos_z"
+  ],
+  "n_dims": 10,
+  "weather_source": "Open-Meteo Archive API · era5_seamless · اعتبارسنجی‌شده در 06",
+  "geo_source": "از samples.csv — مرکز کاشی + روزِ سال (sin/cos)",
+  "normalization": "z-score، فقط از split train",
+  "geo_stats": {
+    "lat": {
+      "mean": 37.896487985790415,
+      "std": 5.613284924740795
+    },
+    "lon": {
+      "mean": -104.9704278312611,
+      "std": 12.986595583907217
+    },
+    "doy_sin": {
+      "mean": -0.09579015756536532,
+      "std": 0.7564258249045717
+    },
+    "doy_cos": {
+      "mean": -0.420511624557937,
+      "std": 0.49174606327116177
+    }
+  },
+  "nodata_mode": "flag",
+  "nodata_threshold_pct": 5.0,
+  "n_flagged_high_nodata": 19,
+  "n_samples": 804,
+  "split_counts": {
+    "train": 563,
+    "val": 121,
+    "test": 120
+  },
+  "why_10_dims": "07: AUC جوّی 0.647 · جغرافیا 0.695 · هر دو 0.716",
+  "known_limitation": "07b: افزودهٔ آب‌وهوا بر جغرافیا از نویز جدا نشد (p=0.209)"
+}
