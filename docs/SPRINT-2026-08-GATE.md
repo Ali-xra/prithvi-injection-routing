@@ -73,3 +73,61 @@ model leaves little for a coarse regional prior to fill.
 **Fix (Run 2):** compute recovery PER SEED against each single model (baseline
 ~73.2, matched to how none/add were measured), report the per-seed mean, and
 save per-seed logits so re-analysis never needs retraining again.
+
+### Incident — queue stalled, fixed (2026-08-07)
+
+The self-driving pipeline stalled a few hours in. Cause: long jobs were launched
+detached with PowerShell `-NoNewWindow`, which keeps the child tied to the
+launching console; when that transient shell exited, the job died. Run 2 of the
+logit-prior died after seed 2, and the runner's q0 (which *waited* for an
+external result file) then waited forever. GPU sat idle.
+
+Three fixes, all committed:
+1. `39_logit_prior.py` is now **resumable** — it reuses any saved
+   `runs/none_geo_logits_s*.npy` instead of retraining (seeds 0-2 were already
+   saved, so only 3-4 retrain).
+2. `queue.json` q0 is now a **script item** the runner runs itself, instead of
+   waiting on an external process. Nothing external to die.
+3. The runner is relaunched **independent of the console** (no `-NoNewWindow`),
+   so it survives.
+
+Note: the venv `Scripts\python.exe` is a launcher shim, so each logical process
+shows as two OS processes (shim + real). Four python.exe with venv paths = one
+runner + one child script, not two runners.
+
+### Run 2 — logit prior, per-seed clean result (2026-08-07)
+
+`39_logit_prior.py`, per-seed single-model baseline (matched to how none/add were
+measured), alpha=1 pre-registered, geo split. This replaces the confounded Run 1.
+
+```
+image-only ViT (mean of 5 single models)   73.21   (= none)
+prior recovered at alpha=1, per seed        +2.46 +1.18 +1.24 +1.13 +2.70
+recovered mean                              +1.74 +/- 0.77
+deranged-coord control                      -10.02   (collapses -> prior is real geography)
+trained gain (add - none)                   +3.96
+fraction of the gain a prior explains       43.99%   -> verdict PARTLY
+alpha sweep (exploratory): peaks +2.46 at alpha 0.5, +1.74 at the fixed alpha 1
+[for the record] Run 1 ensemble baseline (76.07) gave -0.02 = the confound
+```
+
+**Honest reading.** On the real ViT, a regional class prior explains **~44%** of
+the location gain -- not the 86% the weak 12-feature probe (35_prior_test.py)
+suggested, and not the ~0 of the confounded ensemble. So location is **partly a
+prior**; roughly **half** the gain is something a regional prior cannot express.
+
+This does NOT reject the gate -- it cuts the other way. The earlier "the null is
+explained because location is mostly a prior" pillar is now weaker: ~56% of the
+gain is non-prior residual, which is exactly what a content-reading mechanism
+(`gate_late`) could capture and a global additive vector cannot. It raises the
+stakes of the depth12 test rather than lowering them.
+
+Recorded as DIVERGED from the 86% expectation but non-halting (halt_on_divergence
+false): the queue correctly noted it and moved on to depth12.
+
+### depth12 — in progress (as of this check-in)
+
+Running. Only the `none` baseline is in so far: 73.38 (seeds 73.52/73.31/73.30),
+so a 12-block from-scratch ViT does train. The 7 remaining configs (add, and
+add_mid/gate_late at mid 3/6/9) are still to run (~4h). The window verdict will
+be collected at the next check-in.

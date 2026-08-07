@@ -111,8 +111,12 @@ def comb(p_img, p_l, a): return np.log(p_img + eps) + a * np.log(p_l + eps)
 rec, rec_shuf, img_acc, ens_probs = [], [], [], []
 for s in SEEDS:
     t0 = time.time()
-    acc, logits = train_none(s)
-    np.save(RUNS / f"none_geo_logits_s{s}.npy", logits)      # so we never retrain again
+    lp = RUNS / f"none_geo_logits_s{s}.npy"
+    if lp.exists():                                          # resumable: reuse saved logits
+        logits = np.load(lp); print(f"   seed {s}: reused saved logits", flush=True)
+    else:
+        _, logits = train_none(s)
+        np.save(lp, logits)
     p_img = F.softmax(torch.from_numpy(logits), dim=1).numpy()
     ens_probs.append(p_img)
     a_img = acc_of(p_img)

@@ -1,9 +1,8 @@
 [
   {
     "name": "logit_prior",
-    "script": null,
+    "script": "39_logit_prior.py",
     "result": "logit_prior_result.json",
-    "wait_marker": ["design", "per-seed"],
     "headline": "fraction_explained",
     "expected": 86,
     "tol": 40,

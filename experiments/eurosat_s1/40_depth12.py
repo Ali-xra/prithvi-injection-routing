@@ -83,9 +83,21 @@ def train(arm, seed, mid):
         best = max(best, (pred == yva).mean())
     return float(best) * 100
 
+CACHE_F = HERE / "depth12_cache.json"
+
+
 def run_config(arm, mid=None):
-    accs = [train(arm, s, mid if mid is not None else M.MID_AT) for s in SEEDS]
+    mm = mid if mid is not None else M.MID_AT
+    key = f"{arm}@{mm}"
+    cache = json.loads(CACHE_F.read_text()) if CACHE_F.exists() else {}
+    if key in cache:                                    # resumable: reuse a finished config
+        c = cache[key]
+        print(f"   {arm:10s} mid={str(mid):>4}  {c['mean']:6.2f}  (cached)", flush=True)
+        return c["mean"], c["accs"]
+    accs = [train(arm, s, mm) for s in SEEDS]
     m = float(np.mean(accs))
+    cache[key] = {"mean": m, "accs": accs}
+    CACHE_F.write_text(json.dumps(cache, indent=2))
     print(f"   {arm:10s} mid={str(mid):>4}  {m:6.2f}  seeds={[round(a,2) for a in accs]}", flush=True)
     return m, accs
 
