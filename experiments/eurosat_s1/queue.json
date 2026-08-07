@@ -1,0 +1,24 @@
+[
+  {
+    "name": "logit_prior",
+    "script": null,
+    "result": "logit_prior_result.json",
+    "wait_marker": ["design", "per-seed"],
+    "headline": "fraction_explained",
+    "expected": 86,
+    "tol": 40,
+    "halt_on_divergence": false,
+    "note": "per-seed prior on the real ViT. 35's hand-feature probe gave 86%. A large gap here is informative (location is only partly a prior) but does NOT block the depth/readout work, so record and continue."
+  },
+  {
+    "name": "depth12",
+    "script": "40_depth12.py",
+    "result": "depth12_result.json",
+    "headline": "window",
+    "expected": 0.82,
+    "tol": 0.6,
+    "halt_verdicts": ["INVALID-12BLOCK-DID-NOT-LEARN-PAYLOAD", "WINDOW-VANISHED"],
+    "halt_on_divergence": true,
+    "note": "12-block depth window (3 seeds, exploratory). HALT if the window vanishes or a 12-block from-scratch ViT fails to learn the payload -- either changes direction and needs a code rethink before more compute."
+  }
+]

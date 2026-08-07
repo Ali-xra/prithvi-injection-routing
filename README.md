@@ -6,24 +6,22 @@ run on the HLS Burn Scars benchmark.
 
 > ### 📍 Reading order — this README covers phase 1 only
 >
-> Everything below is the **HLS Burn Scars** phase, which ended in a null result.
-> That phase is complete and its conclusions stand as written.
+> Everything below is the **HLS Burn Scars** phase, which ended in a null
+> result. That phase is complete and its conclusions stand as written.
 >
-> A **second phase** followed on **EuroSAT-S1** (Sentinel-1 radar, 10 classes), with a
-> different design: twelve injection arms, a k-means cluster-disjoint split, and a
-> pre-registered threshold of `2·SE` **and** `p < 0.05`. It is not summarised here yet.
+> A **second phase** followed on **EuroSAT-S1** (Sentinel-1 radar, 10 classes)
+> with twelve injection arms, a k-means cluster-disjoint split, and a
+> pre-registered threshold of `2·SE` **and** `p < 0.05`.
 >
 > | where | what |
 > |---|---|
-> | [`experiments/eurosat_s1/`](experiments/eurosat_s1/) | the code for phase 2 |
-> | [`docs/MEASUREMENTS.md`](docs/MEASUREMENTS.md) | every numbered measurement, both phases |
+> | [`experiments/eurosat_s1/`](experiments/eurosat_s1/) | phase 2 code |
+> | [`docs/MEASUREMENTS.md`](docs/MEASUREMENTS.md) | every numbered measurement |
 > | [`docs/PREREG-*.md`](docs/) | thresholds, fixed before each stage ran |
-> | [`docs/THE-GATE-COMPLETE.html`](docs/THE-GATE-COMPLETE.html) | the mechanism, from scratch, with figures |
 > | [`docs/FAILURES.md`](docs/FAILURES.md) | F1–F9, kept in on purpose |
 >
-> The "Honest limitations" section at the bottom — *"No training results yet"* — refers to
-> phase 1 at the time of writing. Training results for both phases now exist; see
-> `MEASUREMENTS.md`.
+> "No training results yet" at the bottom refers to phase 1 at the time of
+> writing. Results for both phases now exist; see `MEASUREMENTS.md`.
 
 ---
 
