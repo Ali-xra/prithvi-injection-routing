@@ -1,0 +1,38 @@
+{
+  "design": "12-block depth window, 3 seeds exploratory, geo split",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "mids": [
+    3,
+    6,
+    9
+  ],
+  "depth": 12,
+  "none": 73.37862161063693,
+  "add": 77.33844278000349,
+  "add_minus_none": 3.9598211693665633,
+  "grid": {
+    "3": {
+      "add_mid": 76.79846716599896,
+      "gate_late": 77.94228647738488,
+      "gate_late_minus_add_mid": 1.1438193113859256
+    },
+    "6": {
+      "add_mid": 77.56488416652151,
+      "gate_late": 78.26743308366719,
+      "gate_late_minus_add_mid": 0.7025489171456769
+    },
+    "9": {
+      "add_mid": 77.07716425709806,
+      "gate_late": 78.5229054171747,
+      "gate_late_minus_add_mid": 1.4457411600766363
+    }
+  },
+  "window": 1.4457411600766363,
+  "peak_mid": 9,
+  "verdict": "WINDOW-PERSISTS",
+  "minutes": 274.5
+}
