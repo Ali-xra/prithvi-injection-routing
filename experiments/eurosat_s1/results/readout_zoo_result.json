@@ -1,0 +1,71 @@
+{
+  "design": "Wave 2 readout zoo, 6-block mid=3, 3 seeds exploratory, geo split",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "depth": 6,
+  "mid": 3,
+  "reference": "gate_late",
+  "reference_real": 78.22098356848399,
+  "arms": {
+    "gate_late": {
+      "real": 78.22098356848399,
+      "real_se": 0.20715976049365747,
+      "shuf": 72.71090982987864,
+      "shuf_se": 0.4656911386756213,
+      "real_minus_shuf": 5.510073738605342,
+      "pooled_se": 0.509689516282988,
+      "must_differ_pass": true,
+      "minus_gate_late": 0.0
+    },
+    "gate_gem": {
+      "real": 78.04679788654705,
+      "real_se": 0.13504852057844755,
+      "shuf": 72.70510364048074,
+      "shuf_se": 0.3081659295062545,
+      "real_minus_shuf": 5.341694246066311,
+      "pooled_se": 0.33645853090519373,
+      "must_differ_pass": true,
+      "minus_gate_late": -0.17418568193693318
+    },
+    "gate_bilinear": {
+      "real": 77.98873599256807,
+      "real_se": 0.20715976049365747,
+      "shuf": 73.06508738315044,
+      "shuf_se": 0.38496393088894415,
+      "real_minus_shuf": 4.923648609417626,
+      "pooled_se": 0.43716403609315496,
+      "must_differ_pass": true,
+      "minus_gate_late": -0.23224757591592038
+    },
+    "gate_attn": {
+      "real": 78.35452592463565,
+      "real_se": 0.1603812032390761,
+      "shuf": 73.5353887243802,
+      "shuf_se": 0.2869808594613566,
+      "real_minus_shuf": 4.8191372002554544,
+      "pooled_se": 0.32875544717858707,
+      "must_differ_pass": true,
+      "minus_gate_late": 0.13354235615166488
+    },
+    "gate_min": {
+      "real": 78.22678975788189,
+      "real_se": 0.17447574988465134,
+      "shuf": 72.90832026940718,
+      "shuf_se": 0.26708471230331554,
+      "real_minus_shuf": 5.318469488474705,
+      "pooled_se": 0.3190235584466392,
+      "must_differ_pass": true,
+      "minus_gate_late": 0.005806189397901562
+    }
+  },
+  "best_arm": "gate_attn",
+  "best_minus_gate_late": 0.13354235615166488,
+  "all_arms_use_location": true,
+  "dead_readouts": [],
+  "verdict": "READOUT-NULL",
+  "note": "N=5 arms compared; apply Bonferroni before any per-arm claim (trap 2).",
+  "minutes": 180.7
+}
