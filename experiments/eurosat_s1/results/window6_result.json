@@ -1,0 +1,50 @@
+{
+  "design": "full 6-block window curve, mid 1..5, 3 seeds exploratory, geo split",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "mids": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "depth": 6,
+  "none": 73.17540498171051,
+  "add": 77.35005515879928,
+  "add_minus_none": 4.174650177088765,
+  "grid": {
+    "1": {
+      "add_mid": 77.32683040120769,
+      "gate_late": 77.69842652267316,
+      "gate_late_minus_add_mid": 0.3715961214654726
+    },
+    "2": {
+      "add_mid": 77.35586134819717,
+      "gate_late": 77.65778319688788,
+      "gate_late_minus_add_mid": 0.3019218486907107
+    },
+    "3": {
+      "add_mid": 77.43714799976776,
+      "gate_late": 78.22098356848399,
+      "gate_late_minus_add_mid": 0.7838355687162277
+    },
+    "4": {
+      "add_mid": 77.40231086338036,
+      "gate_late": 78.67967253091795,
+      "gate_late_minus_add_mid": 1.2773616675375905
+    },
+    "5": {
+      "add_mid": 77.07135806770016,
+      "gate_late": 78.57516112175578,
+      "gate_late_minus_add_mid": 1.5038030540556235
+    }
+  },
+  "window": 1.5038030540556235,
+  "peak_mid": 5,
+  "verdict": "WINDOW-CONFIRMED",
+  "minutes": 210.0
+}

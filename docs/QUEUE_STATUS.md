@@ -12,3 +12,5 @@
 ## queue finished 2026-08-07 22:03 -- all items done
 
 ## queue run started 2026-08-08 00:11
+- **window6**  headline `window` = 1.5038030540556235  (expected 0.82+/-0.6)  verdict=WINDOW-CONFIRMED  -> DIVERGED
+  queue HALTED after window6 -- see DECISION-NEEDED.md
