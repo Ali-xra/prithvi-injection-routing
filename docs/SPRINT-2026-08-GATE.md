@@ -131,3 +131,66 @@ Running. Only the `none` baseline is in so far: 73.38 (seeds 73.52/73.31/73.30),
 so a 12-block from-scratch ViT does train. The 7 remaining configs (add, and
 add_mid/gate_late at mid 3/6/9) are still to run (~4h). The window verdict will
 be collected at the next check-in.
+
+
+### depth12 — FINAL (2026-08-07, T1 depth resolution)
+
+`40_depth12.py`, 12-block from-scratch ViT, geo split, 3 seeds, same recipe as
+the frozen 6-block. Validity gate passed: add − none = **+3.96** (the payload
+does reach a 12-block model). Same-depth comparison gate_late vs add_mid at each
+mid:
+
+```
+                add_mid   gate_late   gate_late − add_mid
+mid = 3          76.80      77.94          +1.14
+mid = 6          77.57      78.27          +0.70
+mid = 9          77.08      78.52          +1.45   <- peak
+window = max                               +1.45   at mid 9
+```
+
+**Verdict: WINDOW-PERSISTS.** The gate advantage does not vanish when the model
+is deepened — it is positive at all three depths and, if anything, larger than
+the 6-block reference (+0.82 at mid 3). The queue flagged this as DIVERGED-high
+(window 1.45 > expected 0.82+0.6) and halted; that is a *confirming* divergence,
+so the decision (logged in DECISION-NEEDED.md, now resolved) was to proceed to
+Wave 2, no code rewrite. This upgrades the "window, not a direction" claim from a
+5-position 6-block model to a model with real depth resolution.
+
+Caveat kept honest: 3 seeds, exploratory. A 5-seed pre-registered confirm at the
+peak depth is still the thing that removes the "exploratory" label.
+
+### Wave 2 — readout zoo (2026-08-07, T2: does HOW the gate reads matter?)
+
+`41_readout_zoo.py`, 6-block mid=3 (the window depth), geo split, 3 seeds. Four
+new readouts vs the CLS-token reference `gate_late`; each with its `--shuffle-
+coords` twin + must-differ test (brief 7.4).
+
+```
+reference gate_late (real)     78.22
+                 real    shuf    vs gate_late   must-differ
+gate_gem        78.05   72.71      -0.17         PASS
+gate_bilinear   77.99   73.07      -0.23         PASS
+gate_attn       78.35   73.54      +0.13         PASS
+gate_min        78.23   72.91      +0.01         PASS
+best new arm: gate_attn  +0.13 vs gate_late  (within 2*SE)
+```
+
+**Verdict: READOUT-NULL** (as pre-expected in CAMPAIGN.md). Every readout —
+generalised-mean, 2nd-order/texture (the "right" quantity for SAR), attention
+pooling, min — lands within noise of the plain CLS read. None beats gate_late by
+more than +0.13 (< 2·SE). So on EuroSAT the *readout* is not what buys the window;
+the entry point / depth is. And the must-differ twins all PASS: real coords beat
+deranged coords by ~5 points in every arm, so these are live location-using arms,
+not dead code that a "must-be-same" test would have waved through.
+
+Paper value: this is the axis-A (readout) completeness leg. Combined with T1
+(depth), the story tightens to "it's a **window** (where you read/inject), not a
+**recipe** (how you pool) and not a **direction** (inject-later alone is nothing)."
+Note kept: N=5 arms compared — apply Bonferroni before any single-arm claim
+(trap 2); here it doesn't matter because the result is a null.
+
+Queue status after Wave 2: **COMPLETE**, GPU idle. Next per CAMPAIGN.md is either
+Wave 1's cheap finish (5-seed pre-reg confirm at the peak depth + the 6-block
+add_mid curve at mid 2/4/5) or Wave 3 (T3: a second dataset / region-selective
+task — the high-upside one). Wave 3 needs a fresh dataset build and a decision, so
+it is not auto-started.
